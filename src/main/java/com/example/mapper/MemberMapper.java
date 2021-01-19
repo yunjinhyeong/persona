@@ -5,14 +5,18 @@ import java.util.Map;
 
 import com.example.domain.MemberVo;
 
+// ���̹�Ƽ������ Mapper �������̽��� ������ ������ ��!
 public interface MemberMapper {
 
+	// ������ �޼ҵ尡 �Ű������� 2�� �̻� ��������
+	// @Param �ֳ����̼� ������ �̸��� �����ؾ� ��
 	
 	//@Select("SELECT * FROM member WHERE id = #{id}")
 	MemberVo getMemberById(String id);
 	
 	//@Select("SELECT * FROM member ORDER BY id")
-	List<MemberVo> getAllMembers();	
+	List<MemberVo> getAllMembers();
+	
 	
 	void addMember(MemberVo memberVo);
 	
@@ -20,7 +24,7 @@ public interface MemberMapper {
 	String userCheck(String id);
 	
 	//@Select("SELECT COUNT(*) FROM member WHERE id = #{id}")
-	int getCountById(String id);	
+	int getCountById(String id);
 	
 	int getCountByEmail(String email);
 	
@@ -30,12 +34,14 @@ public interface MemberMapper {
 	void deleteById(String id);
 	
 	//@Delete("DELETE FROM member")
-	void deleteAll();	
+	void deleteAll();
+	
 	
 //	@Select("SELECT gender, count(*) as cnt "
 //			+ "FROM member "
 //			+ "GROUP BY gender ")
-	List<Map<String, Object>> getGenderPerCount();	
+	List<Map<String, Object>> getGenderPerCount();
+	
 	
 	
 	List<Map<String, Object>> getAgeRangePerCount();

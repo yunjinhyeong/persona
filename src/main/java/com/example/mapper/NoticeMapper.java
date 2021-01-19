@@ -60,7 +60,7 @@ public interface NoticeMapper {
 	NoticeVo getNoticeAndAttaches(int num);
 	
 	
-	// �Ű����� Ÿ���� �÷����� ���� @Param���� �̸��� ����ؾ� ��!
+	
 	List<NoticeVo> getNoticesByNums(@Param("numList") List<Integer> numList);
 	
 	

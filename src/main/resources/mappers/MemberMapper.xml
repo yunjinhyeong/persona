@@ -31,7 +31,7 @@
 	
 	<update id="update">
 		UPDATE member 
-		SET name = #{name}, yy = #{yy}, mm = #{mm}, dd = #{dd}, gender = #{gender}, email = #{email} 
+		SET name = #{name}, age = #{age}, gender = #{gender}, email = #{email}, address = #{address}, tel = #{tel} 
 		WHERE id = #{id} 
 	</update>
 	

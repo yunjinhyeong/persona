@@ -34,17 +34,24 @@ public class MemberController {
 	
 	@Autowired
 	private MemberService memberService;
+	
+//	
+//	public void setMemberService(MemberService memberService) {
+//		this.memberService = memberService;
+//	}
+
 
 	//	@RequestMapping(value = "/join", method = RequestMethod.GET)
 	@GetMapping("/loginjoin")
-	public void loginjoin() {
-		log.info("GET - loginjoin() 호출됨");
+	public void join() {
+		log.info("GET - join() 호출됨");
+//		return "member/join";   // 메소드 리턴타입이 String일 경우
 	}
 	
 	
 	@PostMapping("/join")
 	public String join(MemberVo memberVo) {
-		log.info("POST - loginjoin() 호출됨");
+		log.info("POST - join() 호출됨");
 		
 		// 회원가입 날짜 설정
 		memberVo.setRegDate(new Timestamp(System.currentTimeMillis()));
@@ -54,7 +61,8 @@ public class MemberController {
 		memberService.addMember(memberVo);
 		
 		return "redirect:/member/loginjoin";
-	}	
+	}
+	
 	
 	@GetMapping("/joinIdDupCheck")
 	public String joinIdDupCheck(String id, Model model) {
@@ -70,7 +78,7 @@ public class MemberController {
 	} // joinIdDupCheck
 	
 	
-	@GetMapping(value = "/ajax/joinIdDupChk", produces = { MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE })
+	@GetMapping(value = "/ajax/joinIdDupChk", produces = { MediaType.APPLICATION_XML_VALUE, MediaType.APPLICATION_JSON_VALUE })
 	@ResponseBody // 리턴 객체를 JSON 문자열로 변환해서 응답을 줌
 	public Map<String, Boolean> ajaxJoinIdDupChk(String id) {
 		
@@ -100,6 +108,12 @@ public class MemberController {
 		}
 		
 		return map;
+	}
+	
+	
+	@GetMapping("/login")
+	public void login() {
+//		return "member/login";
 	}
 	
 	@PostMapping("/login")

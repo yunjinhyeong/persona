@@ -1,5 +1,9 @@
 package com.example.interceptor;
 
+import java.io.PrintWriter;
+import java.util.HashMap;
+import java.util.Map;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -8,10 +12,12 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.google.gson.Gson;
+
 
 //회원 로그인 체크 용도의 인터셉터 클래스 정의
 @Component
-public class MemberLoginCheckInterceptor implements HandlerInterceptor {
+public class AjaxLoginCheckInterceptor implements HandlerInterceptor {
 
 	@Override
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
@@ -23,12 +29,25 @@ public class MemberLoginCheckInterceptor implements HandlerInterceptor {
 		// 로그인 안했을때는 로그인 화면으로 리다이렉트 이동시킴
 		String id = (String) session.getAttribute("id");
 		
-		if (id == null) {
-			response.sendRedirect("/member/login");
-			return false; // false를 리턴하면 컨트롤러 메소드 실행 안함
+		if (id != null) {
+			return true; // true를 리턴하면 컨트롤러 메소드 실행함
 		}
 		
-		return true; // true를 리턴하면 컨트롤러 메소드 실행함
+		Map<String, Object> map = new HashMap<>();
+		map.put("isLogin", false);
+		
+		Gson gson = new Gson();
+		String strJson = gson.toJson(map);
+		
+		response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR); // 500
+		
+		response.setContentType("application/json; charset=UTF-8");
+		PrintWriter out = response.getWriter();
+		out.println(strJson);
+		out.flush();
+		out.close();
+		
+		return false;
 	}
 
 	@Override

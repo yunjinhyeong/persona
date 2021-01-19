@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.example.domain.NoticeVo;
 import com.example.domain.PageDto;
@@ -148,6 +149,87 @@ public class NoticeController {
 		return "center/content";
 	} // content
 	
+	
+	@GetMapping("/delete")
+	public String delete(int num, String pageNum, RedirectAttributes rttr) {
+		// 글번호에 해당하는 글 한개 삭제하기
+		noticeService.deleteNoticeByNum(num);
+		
+		// 글목록 페이지로 리다이렉트 이동시키기
+		rttr.addAttribute("pageNum", pageNum);
+		
+		return "redirect:/notice/list";
+		//return "redirect:/notice/list?pageNum=" + pageNum;
+	} // delete
+	
+	
+	@GetMapping("/modify")
+	public String modify(int num, @ModelAttribute("pageNum") String pageNum, Model model) {
+		// 글번호 num에 해당하는 글내용 VO로 가져오기
+		NoticeVo noticeVo = noticeService.getNoticeByNum(num);
+		
+		model.addAttribute("noticeVo", noticeVo);
+		//model.addAttribute("pageNum", pageNum);
+		
+		return "center/modifyForm";
+	} // GET - modify
+	
+	
+	@PostMapping("/modify")
+	public String modify(NoticeVo noticeVo, String pageNum, RedirectAttributes rttr) {
+		
+		noticeService.updateBoard(noticeVo);
+		
+		rttr.addAttribute("num", noticeVo.getNum());
+		rttr.addAttribute("pageNum", pageNum);
+		
+		// 수정된 글의 상세보기 화면으로 리다이렉트 이동
+		return "redirect:/notice/content";
+	} // POST - modify
+	
+	
+	@GetMapping("/replyWrite")
+	public String replyWrite(
+			@ModelAttribute("reRef") String reRef, 
+			@ModelAttribute("reLev") String reLev, 
+			@ModelAttribute("reSeq") String reSeq, 
+			@ModelAttribute("pageNum") String pageNum, 
+			Model model) {
+		
+//		model.addAttribute("reRef", reRef);
+//		model.addAttribute("reLev", reLev);
+//		model.addAttribute("reSeq", reSeq);
+//		model.addAttribute("pageNum", pageNum);
+		
+		return "center/replyWriteForm";
+	} // GET - replyWrite
+	
+	
+	@PostMapping("/replyWrite")
+	public String replyWrite(NoticeVo noticeVo, String pageNum, 
+			HttpServletRequest request, RedirectAttributes rttr) {
+		// reRef, reLev, reSeq 는 동일한 NoticeVo객체에 저장되지만
+		// 답글 자체의 정보가 아니고 답글을 다는 대상글에 대한 정보임에 주의!!
+		
+		//insert될 글번호 가져오기
+		int num = mySqlService.getNextNum("notice");
+		noticeVo.setNum(num);
+		
+		//ip  regDate  readcount  값 저장
+		noticeVo.setIp(request.getRemoteAddr());
+		noticeVo.setRegDate(new Timestamp(System.currentTimeMillis()));
+		noticeVo.setReadcount(0);  // 조회수
+		
+		// 답글 insert하기
+		noticeService.updateAndAddReply(noticeVo);
+		
+		// 리다이렉트용 속성값을 설정
+		rttr.addAttribute("num", noticeVo.getNum());
+		rttr.addAttribute("pageNum", pageNum);
+		
+		// 글내용 상세보기 화면으로 리다이렉트 이동
+		return "redirect:/notice/content";
+	} // POST - replyWrite
 	
 	
 }

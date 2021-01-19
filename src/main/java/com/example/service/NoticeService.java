@@ -61,6 +61,12 @@ public class NoticeService {
 		noticeMapper.deleteNoticeByNum(num);
 	}
 	
+	@Transactional
+	public void deleteNoticeAndAttaches(int num) {
+		noticeMapper.deleteNoticeByNum(num);
+		attachMapper.deleteAttachesByNoNum(num);
+	}
+	
 	public void deleteAll() {
 		noticeMapper.deleteAll();
 	}
@@ -114,6 +120,17 @@ public class NoticeService {
 		for (AttachVo attachVo : attachList) {
 			attachMapper.insertAttach(attachVo);
 		}
+	}
+	
+	@Transactional
+	public void updateNoticeAndAddAttachesAndDeleteAttaches(NoticeVo noticeVo, List<AttachVo> attaches, List<Integer> delFileNums) {
+		noticeMapper.updateBoard(noticeVo);
+		
+		for (AttachVo attachVo : attaches) {
+			attachMapper.insertAttach(attachVo);
+		}
+		
+		attachMapper.deleteAttachesByNums(delFileNums);
 	}
 	
 }
