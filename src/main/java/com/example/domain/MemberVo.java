@@ -2,20 +2,26 @@ package com.example.domain;
 
 import java.sql.Timestamp;
 
-import lombok.Data;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
 
-@Data
+@NoArgsConstructor
+@Getter
+@Setter
+@ToString
 public class MemberVo {
 	
 	private String id;
 	private String passwd;
 	private String name;
-	private Integer age;
+	private Integer yy;
+	private Integer mm;
+	private Integer dd;
 	private String gender;
 	private String email;
 	private Timestamp regDate;
-	private String address;
-	private String tel;
 }
 
 

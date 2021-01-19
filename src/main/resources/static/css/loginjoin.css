@@ -1,0 +1,291 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+section {
+    position: relative;
+    min-height: 100vh;
+    background: #555;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+}
+section .loginjoinbox{
+    position: relative;
+}
+section .loginjoinbox .square {
+    position: absolute;
+    backdrop-filter: blur(5px);
+    box-shadow: 0 25px 45px rgba(0,0,0,0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-right: 1px solid rgba(255, 255, 255, 0.2);
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 10px;
+    animation: animate 10s linear infinite;
+    animation-delay: calc(-1s * var(--i));
+}
+@keyframes animate {
+    0%,100% {
+        transform: translateY(-40px);
+    }
+    50% {
+        transform: translateY(40px);
+    }
+}
+section .loginjoinbox .square:nth-child(1) {
+    top: -350px;
+    right: -60px;
+    width: 100px;
+    height: 100px;
+    z-index: 2;
+}
+section .loginjoinbox .square:nth-child(2) {
+    top: 50px;
+    right: -1280px;
+    width: 120px;
+    height: 120px;
+    z-index: 2;
+}
+section .loginjoinbox .square:nth-child(3) {
+    top: 50px;
+    right: -16px;
+    width: 150px;
+    height: 150px;
+    z-index: 2;
+}
+section .loginjoinbox .square:nth-child(4) {
+    bottom: -400px;
+    left: 200px;
+    width: 100px;
+    height: 100px;
+    z-index: 2;
+}
+section .loginjoinbox .square:nth-child(5) {
+    top: -300px;
+    left: 1180px;
+    width: 150px;
+    height: 150px;
+    z-index: 2;
+}
+section .loginjoin {
+    position: relative;
+    width: 1200px;
+    height: 700px;
+    background: #fff;
+    box-shadow: 0 20px 70px rgba(0,0,0,0.1);
+    overflow: hidden;
+}
+section .loginjoin .user{
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+}
+section .loginjoin .user .imgBx {
+    position: relative;
+    width: 50%;
+    height: 90%;
+    background: #ff0;
+    transition: 0.5s;
+}
+section .loginjoin .user .imgBx img{
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+section .loginjoin .user .formBx {
+    position: relative;
+    width: 50%;
+    height: 100%;
+    background: #fff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px 40px 60px 40px;
+    transition: 0.5s;
+    flex-direction: column;
+}
+section .loginjoin .user .formBx form h2 {
+    font-size: 18px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    text-align: center;
+    width: 100%;
+    margin-bottom: 10px;
+    color: #555;
+}
+section .loginjoin .user .formBx form input {
+    position: relative;
+    width: 100%;
+    padding: 10px;
+    background: #f5f5f5;
+    color: #333;
+    border: none;
+    outline: none;
+    box-shadow: none;
+    margin: 8px 0;
+    font-size: 14px;
+    letter-spacing: 1px;
+    font-weight: 300;
+}
+section .loginjoin .user .formBx form span {
+    color: #808080;
+    font-size: 12px;
+}
+section .loginjoin .user .formBx form input[type="checkbox"] {    
+    width: 10%;
+}
+section .loginjoin .user .formBx form input[type="submit"] {
+    width: 100%;
+    border: 1px solid #677eff;
+    border-radius: 30px;
+    background: #677eff;
+    color: #fff;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 500;
+    letter-spacing: 1px;
+    transition: 0.5s;
+}
+section .loginjoin .user .formBx .genderGroup {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+section .loginjoin .user .formBx .genderGroup input {
+    max-width: 50px;
+}
+section .loginjoin .user .formBx form .signup {
+    position: relative;
+    margin-top: 20px;
+    font-size: 12px;
+    letter-spacing: 1px;
+    columns: #555;
+    text-transform: uppercase;
+    font-weight: 300;
+}
+section .loginjoin .user .formBx form .signup a {
+    font-weight: 600;
+    text-decoration: none;
+    color: #677eff;
+}
+section .loginjoin .user .formBx h2 {
+    font-size: 18px;
+    margin: 80px 0 10px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    text-align: center;
+    width: 100%;
+    margin-bottom: 10px;
+    color: #555;
+}
+section .loginjoin .user .formBx .sci {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+section .loginjoin .user .formBx .sci li {
+    list-style: none;
+    width: 50px;
+    height: 50px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 50%;
+    margin: 0 7px;
+    cursor: pointer;
+}
+section .loginjoin .user .formBx .sci li:hover {
+    background: #ff4584;
+}
+section .loginjoin .user .formBx .sci li img {
+    transform: scale(0.5);
+    width: 70px;
+}
+section .loginjoin .singupBx {
+    pointer-events: none;
+}
+section .loginjoin.active .singupBx {
+    pointer-events: initial;
+}
+
+section .loginjoin .singupBx .formBx {
+    left: 100%;
+}
+section .loginjoin.active .singupBx .formBx {
+    left: 0;
+}
+section .loginjoin .singupBx .imgBx {
+    left: -100%;
+}
+section .loginjoin.active .singupBx .imgBx {
+    left: 0;
+}
+section .loginjoin .singinBx .formBx {
+    left: 0;
+}
+section .loginjoin.active .singinBx .formBx {
+    left: 100%;
+}
+section .loginjoin .singinBx .imgBx {
+    left: 0;
+}
+section .loginjoin.active .singinBx .imgBx {
+    left: -100%;
+}
+section .loginjoin .user .formBx .userBrith {
+    display: table;
+    width: 100%;
+}
+section .loginjoin .user .formBx .userYear {
+    display: table-cell;
+    width: 147px;
+}
+
+section .loginjoin .user .formBx .userMonth {
+    display: table-cell;
+    width: 147px;
+    vertical-align: middle;
+}
+section .loginjoin .user .formBx .userDay {
+    display: table-cell;
+    width: 147px;
+}
+section .loginjoin .user .formBx .userMonth, .userDay {
+    padding-left: 10px;
+}
+section .loginjoin .user .formBx .genderSelect,
+section .loginjoin .user .formBx #mm {
+    width: 100%;
+    font-size: 1rem;
+    font-weight: 400;
+    line-height: 1.5;
+    color: #444;
+    background-color: #fff;
+    padding: 0.6em 1.4em 0.5em 0.8em;
+    margin: 0;
+    border: 1px solid #aaa;
+    border-radius: 0.5em;
+    box-shadow: 0 1px 0 1px rgba(0, 0, 0, 0.04);
+}
+
+@media (max-width: 991px) {
+    section .loginjoin {
+        max-width: 400px;
+    }
+    section .loginjoin .imgBx{
+        display: none;
+    }
+    section .loginjoin .user .formBx{
+        width: 100%;
+    }
+}

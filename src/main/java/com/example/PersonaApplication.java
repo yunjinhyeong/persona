@@ -14,7 +14,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 @SpringBootApplication  // 스프링 애노테이션
 @MapperScan("com.example.mapper")  // 마이바티스 애노테이션
 public class PersonaApplication {
-
+	
 	public static void main(String[] args) {
 		SpringApplication.run(PersonaApplication.class, args);
 	}

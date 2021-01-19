@@ -13,8 +13,8 @@
 	</select>
 	
 	<insert id="addMember">
-		INSERT INTO member (id, passwd, name, age, gender, email, reg_date, address, tel) 
-		VALUES (#{id}, #{passwd}, #{name}, #{age}, #{gender}, #{email}, #{regDate}, #{address}, #{tel}) 
+		INSERT INTO member (id, passwd, name, yy, mm, dd, gender, email, reg_date) 
+		VALUES (#{id}, #{passwd}, #{name}, #{yy}, #{mm}, #{dd}, #{gender}, #{email}, #{regDate}) 
 	</insert>
 	
 	<select id="userCheck" resultType="string">
@@ -25,9 +25,13 @@
 		SELECT COUNT(*) FROM member WHERE id = #{id}
 	</select>
 	
+	<select id="getCountByEmail" resultType="int">
+		SELECT COUNT(*) FROM member WHERE email = #{email}
+	</select>
+	
 	<update id="update">
 		UPDATE member 
-		SET name = #{name}, age = #{age}, gender = #{gender}, email = #{email}, address = #{address}, tel = #{tel} 
+		SET name = #{name}, yy = #{yy}, mm = #{mm}, dd = #{dd}, gender = #{gender}, email = #{email} 
 		WHERE id = #{id} 
 	</update>
 	

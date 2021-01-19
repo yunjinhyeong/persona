@@ -24,7 +24,7 @@ public class MemberLoginCheckInterceptor implements HandlerInterceptor {
 		String id = (String) session.getAttribute("id");
 		
 		if (id == null) {
-			response.sendRedirect("/member/login");
+			response.sendRedirect("/member/loginjoin");
 			return false; // false를 리턴하면 컨트롤러 메소드 실행 안함
 		}
 		

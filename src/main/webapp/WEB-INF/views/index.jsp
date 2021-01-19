@@ -5,13 +5,94 @@
 <head>
 <%-- head 영역 --%>
 <jsp:include page="/WEB-INF/views/include/head.jsp" />
-<link href="/css/navbar.css" rel="stylesheet">
-<link href="/css/footer.css" rel="stylesheet">
 </head>
 <body>
 	<%-- header 영역 --%>
 	<jsp:include page="/WEB-INF/views/include/navbar.jsp" />	
-   
+   	<p>lorem</p>
+   	<p>lorem</p>
+   	<p>lorem</p>
+   	<p>lorem</p>
+   	<p>lorem</p>
+   	<p>lorem</p>
+   	<p>lorem</p>
+   	<p>lorem</p>
+   	<p>lorem</p>
+   	<p>lorem</p>
+   	<p>lorem</p>
+   	<p>lorem</p>
+   	<p>lorem</p>
+   	<p>lorem</p>
+   	<p>lorem</p>
+   	<p>lorem</p>
+   	<p>lorem</p>
+   	<p>lorem</p>
+   	<p>lorem</p>
+   	<p>lorem</p>
+   	<p>lorem</p>
+   	<p>lorem</p>
+   	<p>lorem</p>
+   	<p>lorem</p>
+   	<p>lorem</p>
+   	<p>lorem</p>
+   	<p>lorem</p>
+   	<p>lorem</p>
+   	<p>lorem</p>
+   	<p>lorem</p>
+   	<p>lorem</p>
+   	<p>lorem</p>
+   	<p>lorem</p>
+   	<p>lorem</p>
+   	<p>lorem</p>
+   	<p>lorem</p>
+   	<p>lorem</p>
+   	<p>lorem</p>
+   	<p>lorem</p>
+   	<p>lorem</p>
+   	<p>lorem</p>
+   	<p>lorem</p>
+   	<p>lorem</p>
+   	<p>lorem</p>
+   	<p>lorem</p>
+   	<p>lorem</p>
+   	<p>lorem</p>
+   	<p>lorem</p>
+   	<p>lorem</p>
+   	<p>lorem</p>
+   	<p>lorem</p>
+   	<p>lorem</p>
+   	<p>lorem</p>
+   	<p>lorem</p>
+   	<p>lorem</p>
+   	<p>lorem</p>
+   	<p>lorem</p>
+   	<p>lorem</p>
+   	<p>lorem</p>
+   	<p>lorem</p>
+   	<p>lorem</p>
+   	<p>lorem</p>
+   	<p>lorem</p>
+   	<p>lorem</p>
+   	<p>lorem</p>
+   	<p>lorem</p>
+   	<p>lorem</p>
+   	<p>lorem</p>
+   	<p>lorem</p>
+   	<p>lorem</p>
+   	<p>lorem</p>
+   	<p>lorem</p>
+   	<p>lorem</p>
+   	<p>lorem</p>
+   	<p>lorem</p>
+   	<p>lorem</p>
+   	<p>lorem</p>
+   	<p>lorem</p>
+   	<p>lorem</p>
+   	<p>lorem</p>
+   	<p>lorem</p>
+   	<p>lorem</p>
+   	<p>lorem</p>
+   	<p>lorem</p>
 	<%-- footer 영역 --%>
 	<jsp:include page="/WEB-INF/views/include/footer.jsp" />
 </body>

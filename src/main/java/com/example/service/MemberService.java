@@ -63,6 +63,11 @@ public class MemberService {
 		return count;
 	}
 	
+	public int getCountByEmail(String email) {
+		int count = memberMapper.getCountByEmail(email);
+		return count;
+	}
+	
 	public void update(MemberVo memberVo) {
 		memberMapper.update(memberVo);
 	}
