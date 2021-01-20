@@ -5,11 +5,10 @@
 }
 
 body {
-    background: #000;
     min-height: 100vh;
 }
 
-footer {
+Footer {
     position: relative;
     width: 100%;
     height: auto;
@@ -19,26 +18,26 @@ footer {
     justify-content: space-between;
     flex-wrap: wrap;
 }
-footer .container {
+Footer .containers {
     display: flex;
     justify-content: space-between;
     flex-wrap: wrap;
     flex-direction: row;
     background: #111;
 }
-footer .container .sec {
+Footer .containers .sec {
     margin-right: 30px;
 }
-footer .container .sec.aboutus {
+Footer .containers .sec.aboutus {
     width: 40%;
 }
-footer .container h2 {
+Footer .containers h2 {
     position: relative;
     color: #fff;
     font-weight: 500;
     margin-bottom: 15px;
 }
-footer .container h2::before{
+Footer .containers h2::before{
     content: '';
     position: absolute;
     bottom: -5px;
@@ -47,24 +46,24 @@ footer .container h2::before{
     height: 2px;
     background: #f00;
 }
-footer p {
+Footer p {
     color: #999;
 }
-.sci {
+Footer .sci {
     margin-top: 20px;
     display: flex;
 }
-.sci span {
+Footer .sci span {
     margin-right: 5px;
     align-items: center;
     display: flex;
     justify-content: center;
     color: #fff;
 }
-.sci li {
+Footer .sci li {
     list-style: none;
 }
-.sci li a {
+Footer .sci li a {
     display: inline-block;
     width: 40px;
     height: 40px;
@@ -77,51 +76,51 @@ footer p {
     border-radius: 4px;
     color: white;
 }
-.sci li a:hover {
+Footer .sci li a:hover {
     background: #f00;
 }
-.quickLinks {
+Footer .quickLinks {
     position: relative;
     width: 25%;
 }
-.quickLinks ul li {
+Footer .quickLinks ul li {
     list-style: none;
 }
-.quickLinks ul li a{
+Footer .quickLinks ul li a{
     color: #999;
     text-decoration: none;
     margin-bottom: 10px;
     display: inline-block;
 }
-.quickLinks ul li a:hover {
+Footer .quickLinks ul li a:hover {
     color: #fff;
 }
-.contact {
+Footer .contact {
     width: calc(35% - 60px);
     margin-right: 0 !important;
 }
-.contact .info {
+Footer .contact .info {
     position: relative;
 }
-.contact .info li {
+Footer .contact .info li {
     display: flex;
     margin-bottom: 16px;
 }
-.contact .info li span:nth-child(1),
-.contact .info li p span{
+Footer .contact .info li span:nth-child(1),
+Footer .contact .info li p span{
     color: #fff;
     font-size: 20px;
     margin-right: 10px;
 }
-.contact .info li span {
+Footer .contact .info li span {
     color: #999;
 }
-.contact .info li a {
+Footer .contact .info li a {
     color: #999;
     text-decoration: none;
     margin-right: 7px;
 }
-.contact .info li a:hover {
+Footer .contact .info li a:hover {
     color: #fff;
 }
 .copyrightText {
@@ -133,19 +132,19 @@ footer p {
 }
 
 @media screen and (max-width:768px){
-    footer {
+    Footer {
         padding: 40px;
     }
-    footer .container {
+    Footer .container {
         flex-direction: column;
     }
-    footer .container .sec {
+    Footer .container .sec {
         margin-right: 0;
         margin-bottom: 40px;
     }
-    footer .container .sec.aboutus,
-    .quickLinks,
-    .contact {
+    Footer .container .sec.aboutus,
+    Footer .quickLinks,
+    Footer .contact {
         width: 100%;
     }
     .copyrightText {

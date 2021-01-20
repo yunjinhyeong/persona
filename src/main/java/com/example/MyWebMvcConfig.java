@@ -26,10 +26,8 @@ public class MyWebMvcConfig implements WebMvcConfigurer {
 		InterceptorRegistration registration = registry.addInterceptor(memberLoginCheckInterceptor);
 		// 인터셉터가 수행될 URL 주소 경로 추가
 //		registration.addPathPatterns("/notice/write");
-		registration.addPathPatterns("/notice/*");
 		registration.addPathPatterns("/fileNotice/*");
 		// 인터셉터 수행에서 제외할 URL 주소 경로 추가
-		registration.excludePathPatterns("/notice/list", "/notice/content");
 		registration.excludePathPatterns("/fileNotice/list", "/fileNotice/content");
 		
 		

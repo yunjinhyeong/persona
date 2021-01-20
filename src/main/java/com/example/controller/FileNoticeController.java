@@ -102,7 +102,7 @@ public class FileNoticeController {
 		model.addAttribute("pageDto", pageDto);
 		model.addAttribute("pageNum", pageNum);
 		
-		return "center/fileNotice";
+		return "notice/fileNotice";
 	} // list
 	
 	
@@ -111,7 +111,7 @@ public class FileNoticeController {
 		
 //		model.addAttribute("pageNum", pageNum);
 		
-		return "center/fileWriteForm";
+		return "notice/fileWriteForm";
 	} // GET - write
 	
 	// 오늘 날짜 형식의 폴더 문자열 가져오기 
@@ -273,7 +273,7 @@ public class FileNoticeController {
 		model.addAttribute("noticeVo", noticeVo);
 		model.addAttribute("attachList", noticeVo.getAttachList());
 		
-		return "center/fileContent";
+		return "notice/fileContent";
 	} // content
 	
 	
@@ -338,7 +338,7 @@ public class FileNoticeController {
 		model.addAttribute("attachList", attachList);
 		model.addAttribute("fileCount", fileCount);
 		
-		return "center/fileModifyForm";
+		return "notice/fileModifyForm";
 	} // GET - modify
 	
 	

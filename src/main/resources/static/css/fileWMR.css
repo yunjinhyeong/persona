@@ -1,0 +1,42 @@
+body {
+	background: #fff;
+}
+article {    
+    padding: 5% 20%;
+    margin: 100px;
+}
+table {
+	text-align: center;
+	min-width: 100%;
+}
+table tr th {
+    padding: 30px;
+}
+table tr td input {
+	padding: 5px 25%;
+}
+table tr td textarea {
+	padding: 5px 15%;
+}
+table tr input[type="file"] {
+	padding-left: 0;
+}
+table tr th::after,
+table tr .borderBottomDate::after {
+    content: "";
+    display: block;
+    position: relative;    
+    padding-top: 10px;
+    border-bottom: 1px solid #D3D3D3;     
+}
+
+.btns {
+	margin: 50px 0;
+	text-align: center;
+}
+.btns input {
+    padding: 10px 50px;   
+    color: #e0e0e0;
+    background: #212121;
+    cursor: pointer;
+}

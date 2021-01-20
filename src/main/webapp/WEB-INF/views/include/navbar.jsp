@@ -4,14 +4,14 @@
 String id = (String) session.getAttribute("id");
 %>
 <header>
-        <div class="logoParent"><a href="#" class="logo"><img src="/imgs/favicon.png" alt="">logoName</a></div>
+        <div class="logoParent"><a href="/" class="logo"><img src="/imgs/favicon.png" alt="">PERSONA</a></div>
         <ul>
             <li><a href="#">예매</a></li>
             <li><a href="#">영화</a></li>
             <li><a href="#">영화관</a></li>
             <li><a href="#">이벤트</a></li>
             <li><a href="#">스토어</a></li>
-            <li><a href="#">게시판</a></li>
+            <li><a href="/fileNotice/list">게시판</a></li>
             <%
 			if (id != null) {
 				%>

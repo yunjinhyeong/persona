@@ -1,7 +1,10 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%
+String id = (String) session.getAttribute("id");
+%>
 <footer>
-        <div class="container">
+        <div class="containers">
             <div class="sec aboutus">
             <h2>About Us</h2>
             <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Cum, perferendis. Molestiae nostrum cupiditate debitis
@@ -22,8 +25,17 @@
                     <li><a href="#">FAQ</a></li>
                     <li><a href="#">Privacy Policy</a></li>                    
                     <li><a href="#">Terms & Consitions</a></li>
-                    <li><a href="#">Contact</a></li>                   
-		            <li><a href="#">Manager Page</a></li>		                   
+                    <li><a href="#">Contact</a></li>
+                    <%
+                    if(id != null) {
+						if (id.equals("admin")) {
+							%>
+							<li><a href="/movieNotice/list">Manager Page</a></li>
+							<%
+						}
+                    }
+                    %>
+		            		                   
                 </ul>
             </div>
             <div class="sec contact">
@@ -31,23 +43,23 @@
                 <ul class="info">
                     <li>
                         <span><i class="fa fa-envelope" aria-hidden="true"></i></span>
-                        <p><a href="mailto:yju7257@naver.com" title="윤진형 주니어 개발자">yju7257@naver.com</a><span><i class="fa fa-phone" aria-hidden="true"></i></span><a href="tel:01056627257" title="윤진형 주니어 개발자">+81 010 5662 7257</a></p>
+                        <p><a href="mailto:yju7257@naver.com" title="윤진형 주니어 개발자">yju7257@naver.com</a></p>
                     </li>
                     <li>
                         <span><i class="fa fa-envelope" aria-hidden="true"></i></span>
-                        <p><a href="mailto:krsmjeong@gmail.com" title="정의수 주니어 개발자">krsmjeong@gmail.com</a><span><i class="fa fa-phone" aria-hidden="true"></i></span><a href="tel:01056627257" title="정의수 주니어 개발자">+81 010 5662 7257</a></p>
+                        <p><a href="mailto:krsmjeong@gmail.com" title="정의수 주니어 개발자">krsmjeong@gmail.com</a></p>
                     </li>
                     <li>
                         <span><i class="fa fa-envelope" aria-hidden="true"></i></span>
-                        <p><a href="mailto:clinical1540@naver.com" title="주현정 주니어 개발자">clinical1540@naver.com</a><span><i class="fa fa-phone" aria-hidden="true"></i></span><a href="tel:01056627257" title="주현정 주니어 개발자">+81 010 5662 7257</a></p>
+                        <p><a href="mailto:clinical1540@naver.com" title="주현정 주니어 개발자">clinical1540@naver.com</a></p>
                     </li>
                     <li>
                         <span><i class="fa fa-envelope" aria-hidden="true"></i></span>
-                        <p><a href="mailto:nw513kim@gmail.com" title="구성준 주니어 개발자">nw513kim@gmail.com</a><span><i class="fa fa-phone" aria-hidden="true"></i></span><a href="tel:01056627257" title="구성준 주니어 개발자">+81 010 5662 7257</a></p>
+                        <p><a href="mailto:nw513kim@gmail.com" title="구성준 주니어 개발자">nw513kim@gmail.com</a></p>
                     </li>
                     <li>
                         <span><i class="fa fa-envelope" aria-hidden="true"></i></span>
-                        <p><a href="mailto:dleorb08@gmail.com" title="이대규 주니어 개발자">dleorb08@gmail.com</a><span><i class="fa fa-phone" aria-hidden="true"></i></span><a href="tel:01056370816" title="이대규 주니어 개발자">+81 010 5637 0816</a></p>
+                        <p><a href="mailto:dleorb08@gmail.com" title="이대규 주니어 개발자">dleorb08@gmail.com</a></p>
                     </li>
                 </ul>
             </div>

@@ -1,8 +1,16 @@
 package com.example.domain;
 
-import lombok.Data;
+import java.sql.Timestamp;
 
-@Data
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
+
+@NoArgsConstructor
+@Getter
+@Setter
+@ToString
 public class PageDto {
 	
 	private String category;
