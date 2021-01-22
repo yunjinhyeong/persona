@@ -31,8 +31,8 @@ public interface MovieMapper {
 	
 	void updateMovie(MovieVo movieVo);
 	
-	@Delete("DELETE FROM movie WHERE m_num = #{num}")
-	void deleteMovieByNum(int num);
+	@Delete("DELETE FROM movie WHERE m_num = #{mNum}")
+	void deleteMovieByNum(int mNum);
 	
 	@Delete("DELETE FROM movie")
 	void deleteAll();

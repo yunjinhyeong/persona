@@ -70,10 +70,10 @@ public class MovieService {
 	}
 	
 	@Transactional
-//	public void deleteMovieAndAttaches(int num) {
-//		movieMapper.deleteMovieByNum(num);
-//		actorMapper.deleteAttachesByNoNum(num);
-//	}
+	public void deleteMovieAndMImgTrailer(int num) {
+		movieMapper.deleteMovieByNum(num);
+		mImgTrailerMapper.deleteMImgTrailerByNoNum(num);
+	}
 	
 	public void deleteAll() {
 		movieMapper.deleteAll();

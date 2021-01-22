@@ -31,7 +31,10 @@
 						<th>영화이름</th>
 						<th>영화장르</th>
 						<th>영화좋아요</th>
+						<th>개봉일</th>
+						<th>종료일</th>
 						<th>등록일</th>
+						<th>삭제</th>
 					</tr>
 					
 					<c:choose>
@@ -45,7 +48,10 @@
 								<td><a href="/movieNotice/content?num=${ movie.MNum }&pageNum=${ pageNum }">${ movie.MName }</a></td>								
 								<td>${ movie.MGenre }</td>
 								<td>${ movie.MLike }</td>
+								<td>${ movie.MStart }</td>
+								<td>${ movie.MEnd }</td>
 								<td><fmt:formatDate value="${ movie.regDate }" pattern="yyyy.MM.dd"/></td>
+								<td class="deleteBtn" onclick="remove(${ movie.MNum })">삭제</td>
 							</tr>
 						</c:forEach>
 						
@@ -113,7 +119,16 @@
 	
 	<%-- footer 영역 --%>
 	<jsp:include page="/WEB-INF/views/include/footer.jsp" />
-
+<script src="/script/jquery-3.5.1.js"></script>
+<script>
+	// 게시글 삭제 함수
+	function remove(num) {
+		let isDelete = confirm(num+'번 글을 정말 삭제하시겠습니까?');
+		if (isDelete) {
+			location.href = '/movieNotice/delete?num='+num+'&pageNum=${ pageNum }';
+		}
+	}
+</script>
 </body>
 </html>   
 

@@ -37,6 +37,7 @@
     align-items: center;
     display: flex;
     margin-bottom: 10px;
+    font-size: 40px;
 }
 .btns {
     margin-left: 50%;

@@ -37,34 +37,40 @@
                             <td>${ movieVo.MName }</td>
                         </tr>
                         <tr>
-							<th><label for="MImg">포스트트레일러</label></th>
+							<th><label for="MImg">포스트</label></th>
 							
 							<td><c:if test="${ not empty mImgTrailerList }">
-							<c:forEach var="mImgTrailer" items="${ mImgTrailerList }">
-
-								<c:choose>
-									<c:when test="${ mImgTrailer.image eq 'I' }">
-										<p>
-											<a href="/upload/${ mImgTrailer.uploadpath }/${ mImgTrailer.uuid }_${ mImgTrailer.filename }">
-												<img src="/upload/${ mImgTrailer.uploadpath }/s_${ mImgTrailer.uuid }_${ mImgTrailer.filename }" width="600px">
-											</a>
-										</p>
-									</c:when>
-									<c:otherwise>
-										<p>
-											<a href="/upload/${ mImgTrailer.uploadpath }/${ mImgTrailer.uuid }_${ mImgTrailer.filename }">
-												<video src="/upload/${ mImgTrailer.uploadpath }/s_${ mImgTrailer.uuid }_${ mImgTrailer.filename }" autoplay poster="/upload/${ mImgTrailer.uploadpath }/s_${ mImgTrailer.uuid }_${ mImgTrailer.filename }"></video> 
-											</a>
-										</p>
-									</c:otherwise>
-								</c:choose>
-							</c:forEach>
+								<c:forEach var="mImgTrailer" items="${ mImgTrailerList }">
+										<c:if test="${ mImgTrailer.image eq 'I' }">
+											<p>
+												<a href="/upload/${ mImgTrailer.uploadpath }/${ mImgTrailer.uuid }_${ mImgTrailer.filename }">
+													<img  width='400' src="/upload/${ mImgTrailer.uploadpath }/s_${ mImgTrailer.uuid }_${ mImgTrailer.filename }" width="600px">
+												</a>
+											</p>
+										</c:if>
+								</c:forEach>
+							</c:if>
+							</td>
+						</tr>
+						<tr>
+							<th><label for="MTrailer">트레일러</label></th>
+							
+							<td><c:if test="${ not empty mImgTrailerList }">
+								<c:forEach var="mImgTrailer" items="${ mImgTrailerList }">
+										<c:if test="${ mImgTrailer.image eq 'O' }">
+											<p>
+												<a href="/upload/${ mImgTrailer.uploadpath }/${ mImgTrailer.uuid }_${ mImgTrailer.filename }">
+													<video src="/upload/${ mImgTrailer.uploadpath }/s_${ mImgTrailer.uuid }_${ mImgTrailer.filename }"  width='400' controls autoplay>비디오</video> 
+												</a>
+											</p>
+										</c:if>								
+								</c:forEach>
 							</c:if>
 							</td>
 						</tr>
                         <tr>
                             <th><label for="mScore">영화평점</label></th>
-                            <td>${ movieVo.MScore }</td>
+                            <td>${ movieVo.MScore }점</td>
                         </tr>
                         <tr>
                             <th><label for="mRate">영화예매율</label></th>
@@ -85,6 +91,14 @@
                         <tr>
                             <th><label for="mActor">배우</label></th>
                             <td>${ movieVo.MActor }</td>
+                        </tr>
+                        <tr>
+                            <th><label for="mStart">극장개봉일자</label></th>
+                            <td>${ movieVo.MStart }</td>
+                        </tr>
+                        <tr>
+                            <th><label for="mEnd">극장종료일자</label></th>
+                            <td>${ movieVo.MEnd }</td>
                         </tr>                        
                     </tr>
                 </Table>
@@ -101,6 +115,16 @@
     </div>
 	<%-- footer 영역 --%>
 	<jsp:include page="/WEB-INF/views/include/footer.jsp" />
+<script src="/script/jquery-3.5.1.js"></script>
+<script>
+	// 게시글 삭제 함수
+	function remove() {
+		let isDelete = confirm('${ movieVo.MNum }번 글을 정말 삭제하시겠습니까?');
+		if (isDelete) {
+			location.href = '/movieNotice/delete?num=${ movieVo.MNum }&pageNum=${ pageNum }';
+		}
+	}
+</script>
 </body>
 </html>   
 

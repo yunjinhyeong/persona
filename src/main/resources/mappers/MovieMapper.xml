@@ -5,8 +5,8 @@
 <mapper namespace="com.example.mapper.MovieMapper">
 
 	<insert id="addMovie">
-		Insert INTO movie (theater, rank, m_name, m_score, m_rate, m_genre, m_runtime, m_director, m_actor, m_like, reg_date) 
-		VALUES (#{theater}, #{rank}, #{mName}, #{mScore}, #{mRate}, #{mGenre}, #{mRuntime}, #{mDirector}, #{mActor}, #{mLike}, #{regDate})
+		Insert INTO movie (theater, rank, m_name, m_score, m_rate, m_genre, m_runtime, m_director, m_actor, m_start, m_end, m_like, reg_date) 
+		VALUES (#{theater}, #{rank}, #{mName}, #{mScore}, #{mRate}, #{mGenre}, #{mRuntime}, #{mDirector}, #{mActor}, #{mStart}, #{mEnd}, #{mLike}, #{regDate})
 	</insert>
 	
 	<update id="updateReadcount">
@@ -78,7 +78,7 @@
 	
 	<select id="getMovieAndMImgTrailers" resultMap="movieAndmImgTrailers">
 		SELECT n.m_num, n.theater, n.rank, n.m_name, n.m_score, n.m_rate, n.m_genre,
-		       n.m_runtime, n.m_director, n.m_actor, n.m_like, n.reg_date,
+		       n.m_runtime, n.m_director, n.m_actor, n.m_start, n.m_end, n.m_like, n.reg_date,
 		       a.num as anum, a.uuid, a.filename, a.uploadpath, a.image, a.no_num
 		FROM movie n LEFT OUTER JOIN mimgtrailer a
 		ON n.m_num = a.no_num
@@ -96,6 +96,8 @@
 		<result column="m_runtime" property="mRuntime"/>
 		<result column="m_director" property="mDirector"/>
 		<result column="m_actor" property="mActor"/>
+		<result column="m_start" property="mStart"/>
+		<result column="m_end" property="mEnd"/>
 		<result column="m_like" property="mLike"/>
 		<result column="reg_date" property="regDate"/>
 		<collection property="mImgTrailerList" ofType="mImgTrailerVo" javaType="arraylist">

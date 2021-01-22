@@ -52,7 +52,19 @@
 						</tr>
                         <tr>
                             <th><label for="mScore">영화평점</label></th>
-                            <td><input type="number" name="mScore" min="0" max="10" placeholder="10점만점 (점)생략" required></td>
+                            <td><select name="mScore" required>
+                                <option>--평점--</option>
+                                <option value="1">1</option>
+                                <option value="2">2</option>
+                                <option value="3">3</option>
+                                <option value="4">4</option>
+                                <option value="5">5</option>
+                                <option value="6">6</option>
+                                <option value="7">7</option>
+                                <option value="8">8</option>
+                                <option value="9">9</option>
+                                <option value="10">10</option>
+                            </select></td>                            
                         </tr>
                         <tr>
                             <th><label for="mRate">영화예매율</label></th>
@@ -85,6 +97,14 @@
                         <tr>
                             <th><label for="mActor">배우</label></th>
                             <td><input type="text" name="mActor" placeholder="여러명일경우 ,로 구분" required></td>
+                        </tr>
+                        <tr>
+                            <th><label for="mStart">극장개봉일자</label></th>
+                            <td><input type="date" name="mStart" required></td>
+                        </tr>
+                        <tr>
+                            <th><label for="mEnd">극장종료일자</label></th>
+                            <td><input type="date" name="mEnd" required></td>
                         </tr>
                         <tr>
 							<th><label for="mTrailer">영화트레일러</label></th>

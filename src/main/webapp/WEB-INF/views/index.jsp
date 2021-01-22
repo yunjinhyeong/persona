@@ -57,42 +57,7 @@
    	<p>lorem</p>
    	<p>lorem</p>
    	<p>lorem</p>
-   	<p>lorem</p>
-   	<p>lorem</p>
-   	<p>lorem</p>
-   	<p>lorem</p>
-   	<p>lorem</p>
-   	<p>lorem</p>
-   	<p>lorem</p>
-   	<p>lorem</p>
-   	<p>lorem</p>
-   	<p>lorem</p>
-   	<p>lorem</p>
-   	<p>lorem</p>
-   	<p>lorem</p>
-   	<p>lorem</p>
-   	<p>lorem</p>
-   	<p>lorem</p>
-   	<p>lorem</p>
-   	<p>lorem</p>
-   	<p>lorem</p>
-   	<p>lorem</p>
-   	<p>lorem</p>
-   	<p>lorem</p>
-   	<p>lorem</p>
-   	<p>lorem</p>
-   	<p>lorem</p>
-   	<p>lorem</p>
-   	<p>lorem</p>
-   	<p>lorem</p>
-   	<p>lorem</p>
-   	<p>lorem</p>
-   	<p>lorem</p>
-   	<p>lorem</p>
-   	<p>lorem</p>
-   	<p>lorem</p>
-   	<p>lorem</p>
-   	<p>lorem</p>
+
 	<%-- footer 영역 --%>
 	<jsp:include page="/WEB-INF/views/include/footer.jsp" />
 </body>

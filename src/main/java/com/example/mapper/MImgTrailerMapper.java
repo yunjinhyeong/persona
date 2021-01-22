@@ -17,17 +17,17 @@ public interface MImgTrailerMapper {
 	int insertMImgTrailer(MImgTrailerVo mImgTrailerVo);
 	
 	
-	@Select("SELECT * FROM attach WHERE num = #{num}")
+	@Select("SELECT * FROM mimgtrailer WHERE num = #{num}")
 	MImgTrailerVo getImgTrailerByNum(int num);
 	
-	@Select("SELECT * FROM attach WHERE no_num = #{noNum}")
+	@Select("SELECT * FROM mimgtrailer WHERE no_num = #{noNum}")
 	List<MImgTrailerVo> getImgTrailersByNoNum(int noNum);
 	
-	@Delete("DELETE FROM attach where num = #{num}")
+	@Delete("DELETE FROM mimgtrailer where num = #{num}")
 	int deleteAttachByNum(int num);
 	
-	@Delete("DELETE FROM attach where no_num = #{noNum}")
-	int deleteAttachesByNoNum(int noNum);
+	@Delete("DELETE FROM mimgtrailer where no_num = #{noNum}")
+	int deleteMImgTrailerByNoNum(int noNum);
 	
 	
 	void deleteAttachesByNums(@Param("numList") List<Integer> numList);

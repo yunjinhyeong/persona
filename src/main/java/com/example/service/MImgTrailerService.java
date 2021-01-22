@@ -33,9 +33,9 @@ public class MImgTrailerService {
 	}
 	
 	public List<MImgTrailerVo> getImgTrailersByNoNum(int noNum) {
-		List<MImgTrailerVo> attachList = mImgTrailerMapper.getImgTrailersByNoNum(noNum);
+		List<MImgTrailerVo> mImgTrailerList = mImgTrailerMapper.getImgTrailersByNoNum(noNum);
 		log.info("getImgTrailersByNoNum");
-		return attachList;
+		return mImgTrailerList;
 	}
 	
 	public void deleteAttachByNum(int num) {
@@ -43,7 +43,7 @@ public class MImgTrailerService {
 	}
 	
 	public void deleteAttachesByNoNum(int noNum) {
-		mImgTrailerMapper.deleteAttachesByNoNum(noNum);
+		mImgTrailerMapper.deleteMImgTrailerByNoNum(noNum);
 	}
 	
 	public void deleteAttachesByNums(List<Integer> numList) {

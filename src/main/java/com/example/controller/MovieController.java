@@ -272,50 +272,50 @@ public class MovieController {
 	} // content
 	
 	
-//	@GetMapping("delete")
-//	public String delete(int num, String pageNum, HttpServletRequest request) {
-//		// 게시글번호에 첨부된 첨부파일 리스트 가져오기
-//		List<AttachVo> attachList = attachService.getAttachesByNoNum(num);
-//		
-//		// application 객체 참조 가져오기
-//		ServletContext application = request.getServletContext();
-//		// 업로드 기준경로
-//		String realPath = application.getRealPath("/"); // webapp
-//		
-//		// 첨부파일 삭제하기
-//		for (AttachVo attachVo : attachList) {
-//			String dir = realPath + "/upload/" + attachVo.getUploadpath();
-//			String filename = attachVo.getUuid() + "_" + attachVo.getFilename();
-//			// 삭제할 파일을 File 타입 객체로 준비
-//			File file = new File(dir, filename);
-//			
-//			// 파일 존재 확인 후 삭제하기
-//			if (file.exists()) {
-//				file.delete();
-//			}
-//			
-//			// 이미지 파일이면
-//			if (isImage(attachVo.getFilename())) {
-//				// 섬네일 이미지 존재여부 확인 후 삭제하기
-//				File thumbnailFile = new File(dir, "s_" + filename);
-//				if (thumbnailFile.exists()) {
-//					thumbnailFile.delete();
-//				}
-//			}
-//		} // for
-//		
-//		
-//		// attach 첨부파일내용 삭제하기
-////		attachService.deleteAttachesByNoNum(num);
-//		// notice 게시글 삭제하기
-////		noticeService.deleteNoticeByNum(num);
-//		
-//		// notice 게시글 한개와 attach 첨부파일 여러개를 트랜잭션으로 삭제하기
-//		noticeService.deleteNoticeAndAttaches(num);
-//		
-//		// 글목록으로 리다이렉트 이동
-//		return "redirect:/fileNotice/list?pageNum=" + pageNum;
-//	} // delete
+	@GetMapping("delete")
+	public String delete(int num, String pageNum, HttpServletRequest request) {
+		// 게시글번호에 첨부된 첨부파일 리스트 가져오기
+		List<MImgTrailerVo> imgTrailerList = mImgTrailerService.getImgTrailersByNoNum(num);
+		
+		// application 객체 참조 가져오기
+		ServletContext application = request.getServletContext();
+		// 업로드 기준경로
+		String realPath = application.getRealPath("/"); // webapp
+		
+		// 첨부파일 삭제하기
+		for (MImgTrailerVo mImgTrailerVo : imgTrailerList) {
+			String dir = realPath + "/upload/" + mImgTrailerVo.getUploadpath();
+			String filename = mImgTrailerVo.getUuid() + "_" + mImgTrailerVo.getFilename();
+			// 삭제할 파일을 File 타입 객체로 준비
+			File file = new File(dir, filename);
+			
+			// 파일 존재 확인 후 삭제하기
+			if (file.exists()) {
+				file.delete();
+			}
+			
+			// 이미지 파일이면
+			if (isImage(mImgTrailerVo.getFilename())) {
+				// 섬네일 이미지 존재여부 확인 후 삭제하기
+				File thumbnailFile = new File(dir, "s_" + filename);
+				if (thumbnailFile.exists()) {
+					thumbnailFile.delete();
+				}
+			}
+		} // for
+		
+		
+		// attach 첨부파일내용 삭제하기
+//		attachService.deleteAttachesByNoNum(num);
+		// notice 게시글 삭제하기
+//		noticeService.deleteNoticeByNum(num);
+		
+		// notice 게시글 한개와 attach 첨부파일 여러개를 트랜잭션으로 삭제하기
+		movieService.deleteMovieAndMImgTrailer(num);
+		
+		// 글목록으로 리다이렉트 이동
+		return "redirect:/movieNotice/list?pageNum=" + pageNum;
+	} // delete
 //	
 //	
 //	

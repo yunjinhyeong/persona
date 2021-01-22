@@ -23,6 +23,8 @@ public class MovieVo {
 	private Integer mRuntime;
 	private String mDirector;
 	private String mActor;
+	private String mStart;
+	private String mEnd;
 	private Integer mLike;
 	private Timestamp regDate;
 	
