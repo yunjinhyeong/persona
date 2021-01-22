@@ -26,35 +26,33 @@
 				<table>
 					<tr>
 						<th>글번호</th>
-						<th>글제목</th>
-						<th>작성자</th>
-						<th>작성일자</th>
-						<th>조회수</th>
+						<th>영화관번호</th>
+						<th>영화등급</th>
+						<th>영화이름</th>
+						<th>영화장르</th>
+						<th>영화좋아요</th>
+						<th>등록일</th>
 					</tr>
 					
 					<c:choose>
-					<c:when test="${ not empty noticeList }"><%-- ${ pageDto.count gt 0 } --%>
+					<c:when test="${ not empty movieList }"><%-- ${ pageDto.count gt 0 } --%>
 						
-						<c:forEach var="notice" items="${ noticeList }">
+						<c:forEach var="movie" items="${ movieList }">
 							<tr>
-								<td>${ notice.num }</td>
-								<td>
-									<c:if test="${ notice.reLev gt 0 }"><%-- 답글이면 --%>
-										<img src="/imgs/level.gif" width="${ notice.reLev * 15 }">
-										<img src="/imgs/re.gif">
-									</c:if>
-									<a href="/fileNotice/content?num=${ notice.num }&pageNum=${ pageNum }">${ notice.subject }</a>
-								</td>
-								<td>${ notice.id }</td>
-								<td><fmt:formatDate value="${ notice.regDate }" pattern="yyyy.MM.dd"/></td>
-								<td>${ notice.readcount }</td>
+								<td>${ movie.MNum }</td>
+								<td>${ movie.theater }</td>
+								<td>${ movie.rank }</td>
+								<td><a href="/movieNotice/content?num=${ movie.MNum }&pageNum=${ pageNum }">${ movie.MName }</a></td>								
+								<td>${ movie.MGenre }</td>
+								<td>${ movie.MLike }</td>
+								<td><fmt:formatDate value="${ movie.regDate }" pattern="yyyy.MM.dd"/></td>
 							</tr>
 						</c:forEach>
 						
 					</c:when>		
 					<c:otherwise>
 						<tr>
-							<td colspan="5">게시판 글 없음</td>
+							<td colspan="7">등록된 영화 없음</td>
 						</tr>
 					</c:otherwise>
 					</c:choose>
@@ -62,7 +60,7 @@
 				</table>
 		
 				<div>
-					<form action="/fileNotice/list" method="get">
+					<form action="/movieNotice/list" method="get">
 						<select name="category">
 							<option value="subject" ${ pageDto.category eq 'subject' ? 'selected' : '' }>글제목</option>
 							<option value="content" ${ pageDto.category eq 'content' ? 'selected' : '' }>글내용</option>
@@ -73,7 +71,9 @@
 						
 						<%-- 로그인 했을때만 [글쓰기] 버튼 보이기 --%>
 						<c:if test="${ not empty sessionScope.id }">
-							<input type="button" value="글쓰기" class="btn" onclick="location.href='/fileNotice/write?pageNum=${ pageNum }'">
+							<c:if test="${ sessionScope.id eq 'admin' }">
+								<input type="button" value="영화등록" class="btn" onclick="location.href='/movieNotice/write?pageNum=${ pageNum }'">
+							</c:if>
 						</c:if>
 			
 					</form>
@@ -84,7 +84,7 @@
 					<c:if test="${ pageDto.count gt 0 }">
 						<%-- [이전] --%>
 						<c:if test="${ pageDto.startPage gt pageDto.pageBlock }">
-							<a href="/fileNotice/list?pageNum=${ pageDto.startPage - pageDto.pageBlock }&category=${ pageDto.category }&search=${ pageDto.search }">이전</a>
+							<a href="/movieNotice/list?pageNum=${ pageDto.startPage - pageDto.pageBlock }&category=${ pageDto.category }&search=${ pageDto.search }">이전</a>
 						</c:if>
 						
 						<%-- 시작페이지 ~ 끝페이지 --%>
@@ -92,10 +92,10 @@
 							
 							<c:choose>
 							<c:when test="${ i eq pageNum }">
-								<a href="/fileNotice/list?pageNum=${ i }&category=${ pageDto.category }&search=${ pageDto.search }" class="active">${ i }</a>
+								<a href="/movieNotice/list?pageNum=${ i }&category=${ pageDto.category }&search=${ pageDto.search }" class="active">${ i }</a>
 							</c:when>
 							<c:otherwise>
-								<a href="/fileNotice/list?pageNum=${ i }&category=${ pageDto.category }&search=${ pageDto.search }">${ i }</a>
+								<a href="/movieNotice/list?pageNum=${ i }&category=${ pageDto.category }&search=${ pageDto.search }">${ i }</a>
 							</c:otherwise>
 							</c:choose>
 							
@@ -103,7 +103,7 @@
 						
 						<%-- [다음] --%>
 						<c:if test="${ pageDto.endPage lt pageDto.pageCount }">
-							<a href="/fileNotice/list?pageNum=${ pageDto.startPage + pageDto.pageBlock }&category=${ pageDto.category }&search=${ pageDto.search }">다음</a>
+							<a href="/movieNotice/list?pageNum=${ pageDto.startPage + pageDto.pageBlock }&category=${ pageDto.category }&search=${ pageDto.search }">다음</a>
 						</c:if>
 					</c:if>
 				</div>		

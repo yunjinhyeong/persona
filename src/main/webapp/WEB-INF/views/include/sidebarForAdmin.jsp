@@ -11,3 +11,9 @@
         <li><a href="#"><i class="fas fa-map-pin"></i>Map</a></li>
     </ul>
 </div>
+<script>
+window.addEventListener("scroll", function() {
+    var sidebar = document.querySelector(".sidebar");
+    sidebar.classList.toggle("stickyside", window.scrollY > 900);
+})
+</script>
