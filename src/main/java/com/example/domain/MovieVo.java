@@ -15,7 +15,7 @@ import lombok.ToString;
 public class MovieVo {
 	private Integer mNum;
 	private String theater;
-	private String rank; // 12 15 19
+	private String mRank; // 12 15 19
 	private String mName;
 	private Integer mScore; // 평점
 	private Integer mRate; // 예매율

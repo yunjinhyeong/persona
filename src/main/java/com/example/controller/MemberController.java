@@ -1,8 +1,11 @@
 package com.example.controller;
 
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.sql.Timestamp;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Random;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
@@ -14,6 +17,8 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.mail.SimpleMailMessage;
+import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -34,6 +39,9 @@ public class MemberController {
 	
 	@Autowired
 	private MemberService memberService;
+	
+	@Autowired
+	private JavaMailSender javaMailSender;
 	
 //	
 //	public void setMemberService(MemberService memberService) {
@@ -63,6 +71,32 @@ public class MemberController {
 		return "redirect:/member/loginjoin";
 	}
 	
+		
+	@PostMapping(value = "/CheckMail" , produces = { MediaType.APPLICATION_XML_VALUE, MediaType.APPLICATION_JSON_VALUE })
+	@ResponseBody
+	public Map<String, String> SendMail(String mail) {
+		Map<String, String> map = new HashMap<>();
+		Random random = new Random();
+		String key = "";
+
+		SimpleMailMessage message = new SimpleMailMessage();
+		message.setTo(mail); // 스크립트에서 보낸 메일을 받을 사용자 이메일 주소
+		// 입력 키를 위한 코드
+		for (int i = 0; i < 3; i++) {
+			int index = random.nextInt(25) + 65; // A~Z까지 랜덤 알파벳 생성
+			key += (char) index;
+		}
+		int numIndex = random.nextInt(8999) + 1000; // 4자리 정수를 생성
+		key += numIndex;
+		message.setSubject("인증번호 입력을 위한 메일 전송");
+		message.setText("인증 번호 : " + key);
+		log.info("message : " + message);
+		javaMailSender.send(message);
+		map.put("key", key);
+		
+		return map;
+	}
+
 	
 	@GetMapping("/joinIdDupCheck")
 	public String joinIdDupCheck(String id, Model model) {

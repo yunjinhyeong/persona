@@ -43,7 +43,7 @@
             </div>
             <div class="user singupBx">                
                 <div class="formBx">
-                    <form id="join" action="/member/join" method="post" name="frm">
+                    <form id="join" action="/member/join" method="post" name="frm" onsubmit="return submitCheck();">
                         <h2>회원가입</h2>
                         <input type="text" name="id" placeholder="아이디" required>
                         <span id="msgIdDup"></span>
@@ -53,6 +53,9 @@
                         <input type="text" name="name" placeholder="이름" required>
                         <input type="email" name="email" placeholder="이메일" required>
                         <span id="msgEmail"></span>
+                        <input type="button" class="sendMail" value="이메일인증하기">
+                        <input type="text" class="compare" placeholder="인증번호입력">
+                        <span class="compare-text"></span>
                         <div class="userBrith">                            
                             <div class="userYear">
                                 <span class="box">
@@ -171,8 +174,56 @@
     			}
     		});
     	});
-
-    
+    	
+		let isCertification=false;
+		let key='';
+    	$('.sendMail').click(function() {// 메일 입력 유효성 검사
+    		var mail = $('input[name="email"]').val(); //사용자의 이메일 입력값. 
+    		console.log(mail);
+    		if (mail == "") {
+    			alert("메일 주소가 입력되지 않았습니다.");
+    			history.back();
+    		}
+    		
+   			$.ajax({
+   				url: '/member/CheckMail',
+   				data: { mail:mail },
+   				method: 'post',
+   				dataType :'json',
+   				success: function (response) {
+   					console.log(response);
+   					console.log(response.key);
+   					key = response.key;
+   					console.log(key);
+//    					alert("인증번호가 전송되었습니다.");
+   		   			isCertification=true; //추후 인증 여부를 알기위한 값
+   				}
+   				
+   			});
+   			alert("인증번호가 전송되었습니다.")
+   			console.log(key);
+    			
+    		
+    	});
+    	// propertychange change keyup paste input
+    	$('.compare').on('keyup', function() {
+    		if ($('.compare').val() == key) {   //인증 키 값을 비교를 위해 텍스트인풋과 벨류를 비교
+    			$('.compare-text').text('인증 성공!').css('color', 'green');
+    			isCertification = true;  //인증 성공여부 check
+    		} else {
+    			$('.compare-text').text('불일치!').css('color', 'red');
+    			isCertification = false; //인증 실패
+    		}
+    	});
+    	
+    	
+    	$('input[type="submit"]').click(function submitCheck(){
+    		if(isCertification==false){
+    			alert("메일 인증이 완료되지 않았습니다.");
+    			return false;
+    		} else
+    			true;
+    	});
     
     
 </script>

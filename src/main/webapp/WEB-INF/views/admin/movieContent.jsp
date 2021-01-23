@@ -30,7 +30,7 @@
                         </tr>
                         <tr>
                             <th><label for="rank">시청등급</label></th>
-                            <td>${ movieVo.rank }</td>
+                            <td>${ movieVo.MRank }</td>
                         </tr>
                         <tr>
                             <th><label for="MName">영화제목</label></th>

@@ -136,6 +136,9 @@ section .loginjoin .user .formBx form input {
     letter-spacing: 1px;
     font-weight: 300;
 }
+section .loginjoin .user .formBx form input.compare {
+	max-width: 50%;
+}
 section .loginjoin .user .formBx form span {
     color: #808080;
     font-size: 12px;

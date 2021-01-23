@@ -32,8 +32,8 @@
                             </select></td>
                         </tr>
                         <tr>
-                            <th><label for="rank">시청등급</label></th>
-                            <td><select name="rank" required>
+                            <th><label for="mRank">시청등급</label></th>
+                            <td><select name="mRank" required>
                                 <option>--등급--</option>
                                 <option value="전체">전체</option>
                                 <option value="07">7</option>

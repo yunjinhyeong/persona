@@ -44,7 +44,7 @@
 							<tr>
 								<td>${ movie.MNum }</td>
 								<td>${ movie.theater }</td>
-								<td>${ movie.rank }</td>
+								<td>${ movie.MRank }</td>
 								<td><a href="/movieNotice/content?num=${ movie.MNum }&pageNum=${ pageNum }">${ movie.MName }</a></td>								
 								<td>${ movie.MGenre }</td>
 								<td>${ movie.MLike }</td>
@@ -58,7 +58,7 @@
 					</c:when>		
 					<c:otherwise>
 						<tr>
-							<td colspan="7">등록된 영화 없음</td>
+							<td colspan="10">등록된 영화 없음</td>
 						</tr>
 					</c:otherwise>
 					</c:choose>
