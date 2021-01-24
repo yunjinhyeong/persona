@@ -16,9 +16,7 @@ public interface NoticeMapper {
 	
 	
 	@Select("SELECT * FROM notice WHERE num = #{num}")
-	NoticeVo getNoticeByNum(int num);
-	
-	
+	NoticeVo getNoticeByNum(int num);	
 	
 	void updateReadcount(int num);
 	

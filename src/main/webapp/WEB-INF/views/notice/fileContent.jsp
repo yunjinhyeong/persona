@@ -85,7 +85,7 @@
 						<input type="button" value="글수정" class="btn" onclick="location.href = '/fileNotice/modify?num=${ noticeVo.num }&pageNum=${ pageNum }'">
 						<input type="button" value="글삭제" class="btn" onclick="remove()">
 					</c:if>
-					<input type="button" value="답글쓰기" class="btn">
+					<input type="button" value="답글쓰기" class="btn" onclick="location.href = '/fileNotice/replyWrite?reRef=${ noticeVo.reRef }&reLev=${ noticeVo.reLev }&reSeq=${ noticeVo.reSeq }&pageNum=${ pageNum }'">
 				</c:if>
 
 				<input type="button" value="목록보기" class="btn"

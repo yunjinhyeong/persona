@@ -93,7 +93,7 @@
                             <option value="남자" id="man">남자</option>
                             <option value="여자" id="female">여자</option>
                         </select>
-                        <input type="submit" value="회원가입">
+                        <input id="submitBtn" type="submit" value="회원가입">
                         <p class="signup">계정이 있나요 ? <a href="#" onclick="toggleForm();">로그인</a></p>
                     </form>
                 </div>
@@ -217,7 +217,7 @@
     	});
     	
     	
-    	$('input[type="submit"]').click(function submitCheck(){
+    	$('input[id="submitBtn"]').click(function submitCheck(){
     		if(isCertification==false){
     			alert("메일 인증이 완료되지 않았습니다.");
     			return false;

@@ -269,12 +269,57 @@ public class FileNoticeController {
 			noticeVo.setContent(content);
 		}
 		
-		
 		model.addAttribute("noticeVo", noticeVo);
 		model.addAttribute("attachList", noticeVo.getAttachList());
 		
 		return "notice/fileContent";
 	} // content
+	
+	   @GetMapping("/replyWrite")
+	   public String replyWrite(
+	         @ModelAttribute("reRef") String reRef,
+	         @ModelAttribute("reLev") String reLev,
+	         @ModelAttribute("reSeq") String reSeq,
+	         @ModelAttribute("pageNum") String pageNum,
+	         Model model) {
+
+//	      model.addAttribute("reRef", reRef);
+//	      model.addAttribute("reLev", reLev);
+//	      model.addAttribute("reSeq", reSeq);
+//	      model.addAttribute("pageNum", pageNum);
+
+	      log.info("get replyWrite 호출됨");
+
+	      return "notice/replyWriteForm";
+	   } // GET - replyWrite
+
+	   @PostMapping("/replyWrite")
+	   public String replyWrite(NoticeVo noticeVo, String pageNum,
+	         HttpServletRequest request, RedirectAttributes rttr) {
+	      // reRef, reLev, reSeq 는 동일한 NoticeVo객체에 저장되지만
+	      // 답글 자체의 정보가 아니고 답글을 다는 대상글에 대한 정보임에 주의!!
+
+	      //insert될 글번호 가져오기
+	      int num = mySqlService.getNextNum("notice");
+	      noticeVo.setNum(num);
+
+	      //ip  regDate  readcount  값 저장
+	      noticeVo.setIp(request.getRemoteAddr());
+	      noticeVo.setRegDate(new Timestamp(System.currentTimeMillis()));
+	      noticeVo.setReadcount(0);  // 조회수
+
+	      // 답글 insert하기
+	      noticeService.updateAndAddReply(noticeVo);
+
+	      // 리다이렉트용 속성값을 설정
+	      rttr.addAttribute("num", noticeVo.getNum());
+	      rttr.addAttribute("pageNum", pageNum);
+
+	      log.info("post replyWrite 호출됨");
+
+	      // 글내용 상세보기 화면으로 리다이렉트 이동
+	      return "redirect:/fileNotice/content";
+	   } // POST - replyWrite
 	
 	
 	@GetMapping("delete")
