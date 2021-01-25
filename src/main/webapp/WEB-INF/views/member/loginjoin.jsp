@@ -54,8 +54,16 @@
                         <input type="email" name="email" placeholder="이메일" required>
                         <span id="msgEmail"></span>
                         <input type="button" class="sendMail" value="이메일인증하기">
-                        <input type="text" class="compare" placeholder="인증번호입력">
+                        <input type="text" class="compare" placeholder="이메일 인증번호입력">
                         <span class="compare-text"></span>
+                        <div class="postAddr">
+                        	<input type="text" id="postcode" name="postcode" class="compare" placeholder="우편번호">
+                        	<input type="button" class="compare" onclick="getPostAddress()" value="우편번호 찾기">
+                        </div>   
+                        <div class="postAddr">
+                        	<input type="text" id="address" name="address" placeholder="주소">
+                        	<input type="text" id="address2" name="address2" placeholder="상세주소">
+                        </div>                        
                         <div class="userBrith">                            
                             <div class="userYear">
                                 <span class="box">
@@ -105,13 +113,35 @@
     <%-- footer 영역 --%>
 	<jsp:include page="/WEB-INF/views/include/footer.jsp" />
 <script src="/script/jquery-3.5.1.js"></script>
+<script src="https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+<script>
+    function getPostAddress() {
+    	daum.postcode.load(function(){
+    		new daum.Postcode({
+        		oncomplete: function(data) {
+        			var addr = '';
+        			if(data.userSelectedType === 'R') {
+        				addr = data.roadAddress;
+        			} else {
+        				addr = data.jibunAddress;
+        			}
+        			document.getElementById('postcode').value = data.zonecode;
+        			document.getElementById('address').value = addr;
+        			document.getElementById('address2').focus();
+        		}
+        	}).open();
+    	});
+    }
+</script>
 <script type="text/javascript">
     function toggleForm() {
         var loginjoin = document.querySelector('.loginjoin');
         loginjoin.classList.toggle('active');
     }
     
-    
+    	let isID=false;
+    	let isPw=false;
+    	let isEmail=false;
     
     	$('input[name="id"]').keyup(function () {
     		let id = $(this).val();
@@ -125,14 +155,17 @@
     			url: '/member/ajax/joinIdDupChk',
     			data: { id: id },
     			//method: 'GET',
+    			dataType :'json',
     			success: function (response) {
     				console.log(typeof response);
     				console.log(response);
     	
     				if (response.isIdDup) {
     					$('span#msgIdDup').html('이미 사용중인 아이디 입니다.').css('color', 'red');
+    					isID=false;
     				} else {
     					$('span#msgIdDup').html('사용 가능한 아이디 입니다.').css('color', 'green');
+    					isID=true;
     				}
     			}
     		});
@@ -145,8 +178,10 @@
 
     		if (pass1 == pass2) {
     			$('#msgPass').html('패스워드 일치함').css('color', 'green');
+    			isPw=true;
     		} else {
     			$('#msgPass').html('패스워드 불일치').css('color', 'red');
+    			isPw=false;
     		}
     	});
     	
@@ -168,8 +203,10 @@
     	
     				if (response.isEmailDup) {
     					$('span#msgEmail').html('이미 사용중인 이메일 입니다.').css('color', 'red');
+    					isEmail=false;
     				} else {
     					$('span#msgEmail').html('사용 가능한 이메일 입니다.').css('color', 'green');
+    					isEmail=true;
     				}
     			}
     		});
@@ -180,7 +217,7 @@
     	$('.sendMail').click(function() {// 메일 입력 유효성 검사
     		var mail = $('input[name="email"]').val(); //사용자의 이메일 입력값. 
     		console.log(mail);
-    		if (mail == "") {
+    		if (mail == '') {
     			alert("메일 주소가 입력되지 않았습니다.");
     			history.back();
     		}
@@ -207,7 +244,7 @@
     	});
     	// propertychange change keyup paste input
     	$('.compare').on('keyup', function() {
-    		if ($('.compare').val() == key) {   //인증 키 값을 비교를 위해 텍스트인풋과 벨류를 비교
+    		if ($('.compare').val() == key && $('.compare').val() != '') {   //인증 키 값을 비교를 위해 텍스트인풋과 벨류를 비교
     			$('.compare-text').text('인증 성공!').css('color', 'green');
     			isCertification = true;  //인증 성공여부 check
     		} else {
@@ -216,13 +253,22 @@
     		}
     	});
     	
-    	
     	$('input[id="submitBtn"]').click(function submitCheck(){
     		if(isCertification==false){
     			alert("메일 인증이 완료되지 않았습니다.");
     			return false;
+    		} else if (isID==false) {
+    			alert("아이디가 중복됩니다.");
+    			return false;
+    		} else if (isPw==false) {
+    			alert("비밀번호가 일치하지 않습니다.");
+    			return false;
+    		} else if (isEmail==false) {
+    			alert("사용중인 이메일 입니다.");
+    			return false;
     		} else
     			true;
+    		
     	});
     
     

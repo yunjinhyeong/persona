@@ -112,7 +112,7 @@ public class MemberController {
 	} // joinIdDupCheck
 	
 	
-	@GetMapping(value = "/ajax/joinIdDupChk", produces = { MediaType.APPLICATION_XML_VALUE, MediaType.APPLICATION_JSON_VALUE })
+	@GetMapping(value = "/ajax/joinIdDupChk")
 	@ResponseBody // 리턴 객체를 JSON 문자열로 변환해서 응답을 줌
 	public Map<String, Boolean> ajaxJoinIdDupChk(String id) {
 		

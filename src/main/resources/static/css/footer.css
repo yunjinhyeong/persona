@@ -85,6 +85,7 @@ Footer .quickLinks {
 }
 Footer .quickLinks ul li {
     list-style: none;
+    margin-bottom: 4px;
 }
 Footer .quickLinks ul li a{
     color: #999;

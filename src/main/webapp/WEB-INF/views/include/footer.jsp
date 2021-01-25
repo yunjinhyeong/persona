@@ -21,11 +21,10 @@ String id = (String) session.getAttribute("id");
             <div class="sec quickLinks">
                 <h2>Quick Links</h2>
                 <ul>
-                    <li><a href="#">About</a></li>
-                    <li><a href="#">FAQ</a></li>
-                    <li><a href="#">Privacy Policy</a></li>                    
-                    <li><a href="#">Terms & Consitions</a></li>
-                    <li><a href="#">Contact</a></li>
+                    <li><a href="/footer/membershipagreement">회원약관</a></li>
+                    <li><a href="/footer/privacypolicy">개인정보처리방침</a></li>
+                    <li><a href="/footer/mailpolicy">이메일주소무단수집거부</a></li>                    
+                    <li><a href="/footer/imageinformationprocessingpolicy">영상정보처리기기운영및관리방침</a></li>
                     <%
                     if(id != null) {
 						if (id.equals("admin")) {
@@ -43,7 +42,7 @@ String id = (String) session.getAttribute("id");
                 <ul class="info">
                     <li>
                         <span><i class="fa fa-envelope" aria-hidden="true"></i></span>
-                        <p><a href="mailto:yju7257@naver.com" title="윤진형 주니어 개발자">yju7257@naver.com</a></p>
+                        <p><a href="mailto:yju7257@naver.com" title="윤진형 주니어 개발자">yjh72577@gmail.com</a></p>
                     </li>
                     <li>
                         <span><i class="fa fa-envelope" aria-hidden="true"></i></span>
@@ -51,7 +50,7 @@ String id = (String) session.getAttribute("id");
                     </li>
                     <li>
                         <span><i class="fa fa-envelope" aria-hidden="true"></i></span>
-                        <p><a href="mailto:clinical1540@naver.com" title="주현정 주니어 개발자">clinical1540@naver.com</a></p>
+                        <p><a href="mailto:clinical1540@naver.com" title="주현정 주니어 개발자">clinical1540@gmail.com</a></p>
                     </li>
                     <li>
                         <span><i class="fa fa-envelope" aria-hidden="true"></i></span>

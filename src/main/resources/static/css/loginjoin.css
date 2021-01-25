@@ -5,7 +5,7 @@
 }
 section {
     position: relative;
-    min-height: 100vh;
+    min-height: 120vh;
     background: #555;
     display: flex;
     justify-content: center;
@@ -72,7 +72,7 @@ section .loginjoinbox .square:nth-child(5) {
 section .loginjoin {
     position: relative;
     width: 1200px;
-    height: 700px;
+    height: 800px;
     background: #fff;
     box-shadow: 0 20px 70px rgba(0,0,0,0.1);
     overflow: hidden;
@@ -138,6 +138,9 @@ section .loginjoin .user .formBx form input {
 }
 section .loginjoin .user .formBx form input.compare {
 	max-width: 50%;
+}
+section .loginjoin .user .formBx form .postAddr {
+	display: flex;
 }
 section .loginjoin .user .formBx form span {
     color: #808080;

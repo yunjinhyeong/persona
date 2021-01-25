@@ -13,8 +13,8 @@
 	</select>
 	
 	<insert id="addMember">
-		INSERT INTO member (id, passwd, name, yy, mm, dd, gender, email, reg_date) 
-		VALUES (#{id}, #{passwd}, #{name}, #{yy}, #{mm}, #{dd}, #{gender}, #{email}, #{regDate}) 
+		INSERT INTO member (id, passwd, name, yy, mm, dd, gender, email, postcode, address, address2, reg_date) 
+		VALUES (#{id}, #{passwd}, #{name}, #{yy}, #{mm}, #{dd}, #{gender}, #{email}, #{postcode}, #{address}, #{address2}, #{regDate}) 
 	</insert>
 	
 	<select id="userCheck" resultType="string">

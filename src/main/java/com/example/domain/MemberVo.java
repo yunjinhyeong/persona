@@ -21,6 +21,9 @@ public class MemberVo {
 	private Integer dd;
 	private String gender;
 	private String email;
+	private String postcode;
+	private String address;
+	private String address2;
 	private Timestamp regDate;
 }
 
