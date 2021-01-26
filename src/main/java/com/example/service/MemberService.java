@@ -58,6 +58,40 @@ public class MemberService {
 		return check;
 	}
 	
+	public String getUserPW(String id, String name, String email) {
+		String passwd = "";
+		
+		String dbPasswd = memberMapper.findUserPasswd(id, name, email);
+		
+		int count = 0;
+		
+		count = memberMapper.userCheckPasswd(id, name, email);
+		
+		if (count == 0) {
+			passwd = null;
+		} else if (count == 1){ // dbPasswd == null
+			passwd = dbPasswd;
+		}
+		return passwd;
+	}
+	
+	public String getUserID(String name, String email) {
+		String findId = "";
+		
+		String dbId = memberMapper.findUserID(name, email);
+		
+		int count = 0;
+		
+		count = memberMapper.userCheckID(name, email);
+		
+		if (count == 0) {
+			findId = null;
+		} else if (count == 1){ // dbPasswd == null
+			findId = dbId;
+		}
+		return findId;
+	}
+	
 	public int getCountById(String id) {
 		int count = memberMapper.getCountById(id);
 		return count;

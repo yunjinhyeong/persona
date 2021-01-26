@@ -141,7 +141,7 @@ public class FileNoticeController {
 	// 주글쓰기
 	@PostMapping("/write")
 	public String write(HttpServletRequest request,
-			@RequestParam("filename") List<MultipartFile> multipartFiles,
+			@RequestParam(name = "filename", required = false) List<MultipartFile> multipartFiles,
 			NoticeVo noticeVo, String pageNum) throws IOException {
 		
 		//============ 게시글 NoticeVo 준비하기 ==============
@@ -181,61 +181,63 @@ public class FileNoticeController {
 		
 		// AttachVo 첨부파일정보 담을 리스트 준비
 		List<AttachVo> attachList = new ArrayList<>();
-		
-		for (MultipartFile multipartFile : multipartFiles) {
-			// 파일입력상자에서 선택하지않은 요소는 건너뛰기
-			if (multipartFile.isEmpty()) {
-				continue;
-			}
-			
-			// 실제 업로드한 파일이름 구하기
-			String filename = multipartFile.getOriginalFilename();
-			
-			// 익스플로러는 파일이름에 경로가 포함되어 있으므로
-			// 순수 파일이름만 부분문자열로 가져오기
-			int beginIndex = filename.lastIndexOf("\\") + 1;
-			filename = filename.substring(beginIndex);
-			
-			// 파일명 중복을 피하기 위해서 파일이름 앞에 붙일 UUID 문자열 구하기
-			UUID uuid = UUID.randomUUID();
-			String strUuid = uuid.toString();
-			
-			// 업로드(생성)할 파일이름
-			String uploadFilename = strUuid + "_" + filename;
-			
-			// 생성할 파일정보를 File 객체로 준비
-			File saveFile = new File(dir, uploadFilename);
-			
-			// 임시업로드된 파일을 지정경로의 파일명으로 생성(복사)
-			multipartFile.transferTo(saveFile);
-			
-			
-			//============ 첨부파일 AttachVo 준비하기 ==============
-			AttachVo attachVo = new AttachVo();
-			// 게시판 글번호 설정
-			attachVo.setNoNum(noticeVo.getNum());
-			
-			attachVo.setUuid(strUuid);
-			attachVo.setFilename(filename);
-			attachVo.setUploadpath(strDate);
-			
-			if (isImage(filename)) {
-				attachVo.setImage("I");
-				
-				// 생성할 썸네일 이미지 파일 경로와 이름을 준비
-				File thumbnailFile = new File(dir, "s_" + uploadFilename);
-				// 썸네일 이미지 파일 생성하기
-				try (FileOutputStream fos = new FileOutputStream(thumbnailFile)) {
-					Thumbnailator.createThumbnail(multipartFile.getInputStream(), fos, 100, 100);
+		if (multipartFiles != null) {
+			for (MultipartFile multipartFile : multipartFiles) {
+				// 파일입력상자에서 선택하지않은 요소는 건너뛰기
+				if (multipartFile.isEmpty()) {
+					continue;
 				}
-			} else {
-				attachVo.setImage("O");
-			}
-			
-			// AttachVo 를 DB에 insert하기
-			//attachService.insertAttach(attachVo);
-			
-			attachList.add(attachVo);
+				
+				// 실제 업로드한 파일이름 구하기
+				String filename = multipartFile.getOriginalFilename();
+				
+				// 익스플로러는 파일이름에 경로가 포함되어 있으므로
+				// 순수 파일이름만 부분문자열로 가져오기
+				int beginIndex = filename.lastIndexOf("\\") + 1;
+				filename = filename.substring(beginIndex);
+				
+				// 파일명 중복을 피하기 위해서 파일이름 앞에 붙일 UUID 문자열 구하기
+				UUID uuid = UUID.randomUUID();
+				String strUuid = uuid.toString();
+				
+				// 업로드(생성)할 파일이름
+				String uploadFilename = strUuid + "_" + filename;
+				
+				// 생성할 파일정보를 File 객체로 준비
+				File saveFile = new File(dir, uploadFilename);
+				
+				// 임시업로드된 파일을 지정경로의 파일명으로 생성(복사)
+				multipartFile.transferTo(saveFile);
+				
+				
+				//============ 첨부파일 AttachVo 준비하기 ==============
+				AttachVo attachVo = new AttachVo();
+				// 게시판 글번호 설정
+				attachVo.setNoNum(noticeVo.getNum());
+				
+				attachVo.setUuid(strUuid);
+				attachVo.setFilename(filename);
+				attachVo.setUploadpath(strDate);
+				
+				if (isImage(filename)) {
+					attachVo.setImage("I");
+					
+					// 생성할 썸네일 이미지 파일 경로와 이름을 준비
+					File thumbnailFile = new File(dir, "s_" + uploadFilename);
+					// 썸네일 이미지 파일 생성하기
+					try (FileOutputStream fos = new FileOutputStream(thumbnailFile)) {
+						Thumbnailator.createThumbnail(multipartFile.getInputStream(), fos, 100, 100);
+					}
+				} else {
+					attachVo.setImage("O");
+				}
+				
+				// AttachVo 를 DB에 insert하기
+				//attachService.insertAttach(attachVo);
+				
+				attachList.add(attachVo);
+		} // if
+		
 		} // for
 		
 		

@@ -2,6 +2,7 @@ package com.example.controller;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.sql.Connection;
 import java.sql.Timestamp;
 import java.util.HashMap;
 import java.util.Map;
@@ -19,16 +20,30 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.social.google.api.Google;
+import org.springframework.social.google.api.impl.GoogleTemplate;
+import org.springframework.social.google.connect.GoogleConnectionFactory;
+import org.springframework.social.google.connect.GoogleOAuth2Template;
+import org.springframework.social.oauth2.AccessGrant;
+import org.springframework.social.oauth2.GrantType;
+import org.springframework.social.oauth2.OAuth2Operations;
+import org.springframework.social.oauth2.OAuth2Parameters;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.client.RestTemplate;
 
 import com.example.domain.MemberVo;
 import com.example.service.MemberService;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.PropertyNamingStrategy;
 
 import lombok.extern.java.Log;
 
@@ -43,11 +58,14 @@ public class MemberController {
 	@Autowired
 	private JavaMailSender javaMailSender;
 	
+
+	
 //	
 //	public void setMemberService(MemberService memberService) {
 //		this.memberService = memberService;
 //	}
 
+	
 
 	//	@RequestMapping(value = "/join", method = RequestMethod.GET)
 	@GetMapping("/loginjoin")
@@ -144,11 +162,11 @@ public class MemberController {
 		return map;
 	}
 	
-	
 	@GetMapping("/login")
 	public void login() {
 //		return "member/login";
 	}
+
 	
 	@PostMapping("/login")
 	public ResponseEntity<String> login(String id, String passwd, 
@@ -193,6 +211,8 @@ public class MemberController {
 	} // login
 	
 	
+
+	
 	@GetMapping("/logout")
 	public String logout(HttpSession session,
 			HttpServletRequest request,
@@ -217,6 +237,78 @@ public class MemberController {
 		return "redirect:/";
 	} // logout
 	
+	@GetMapping("/findPW")
+	public void findPW() {
+		log.info("GET - findPW() 호출됨");
+//		return "member/join";   // 메소드 리턴타입이 String일 경우
+	}
+	
+	@GetMapping("/findID")
+	public void findID() {
+		log.info("GET - findID() 호출됨");
+//		return "member/join";   // 메소드 리턴타입이 String일 경우
+	}
+	
+	@PostMapping("/findPW")
+	public void findPW(@RequestParam("id") String id,
+			@RequestParam("name") String name,
+			@RequestParam("email") String email,
+			HttpServletResponse response) {
+		
+		log.info("id = "+ id);
+		log.info("name = "+ name);
+		log.info("email = "+ email);
+		String passwd = memberService.getUserPW(id, name, email);
+		
+		response.setContentType("text/html; charset=UTF-8");
+		PrintWriter out=null;
+		try {
+			out = response.getWriter();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}		
+		
+		if (passwd == null) {
+			out.println("<script>alert('입력하신 정보가 틀립니다.'); history.back();</script>");			
+		} else {
+			SimpleMailMessage message = new SimpleMailMessage();
+			message.setTo(email); // 스크립트에서 보낸 메일을 받을 사용자 이메일 주소		
+			message.setSubject("패스워드 전송");
+			message.setText("패스워드 : " + passwd);
+			javaMailSender.send(message);
+			out.println("<script>alert('이메일로 비밀번호가 전송 되었습니다.'); window.open('about:blank','_self').self.close();</script>");
+		}
+		
+	}
+	
+	@PostMapping("/findID")
+	public void findID(@RequestParam("name") String name,
+			@RequestParam("email") String email,
+			HttpServletResponse response) {
+		
+		log.info("name = "+ name);
+		log.info("email = "+ email);
+		
+		String findId = memberService.getUserID(name, email);
+		
+		response.setContentType("text/html; charset=UTF-8");
+		PrintWriter out=null;
+		try {
+			out = response.getWriter();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}		
+		
+		if (findId == null) {
+			out.println("<script>alert('입력하신 정보가 틀립니다.'); history.back();</script>");			
+		} else {
+			
+			out.println("<script>alert('당신의 아이디는 "+ findId +" 입니다.'); window.open('about:blank','_self').self.close();</script>");
+		}
+		
+	}
 }
 
 

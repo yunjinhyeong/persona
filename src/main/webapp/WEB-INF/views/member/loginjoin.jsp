@@ -6,6 +6,9 @@
 <%-- head 영역 --%>
 <jsp:include page="/WEB-INF/views/include/head.jsp" />
 <link href="/css/loginjoin.css" rel="stylesheet">
+<script src="https://apis.google.com/js/platform.js" async defer></script>
+<meta name="google-signin-client_id" content="622565699351-rt1ug07uls1bnctidhah27oc509fpi4s.apps.googleusercontent.com">
+<script src = "//developers.kakao.com/sdk/js/kakao.min.js"></script>
 </head>
 <body>
 	<%-- header 영역 --%>
@@ -30,13 +33,15 @@
                         <input type="checkbox" name="keepLogin"><span>아이디 기억하기</span><br>
                         <input type="submit" value="로그인">
                         <p class="signup">계정이 없나요 ? <a href="#" onclick="toggleForm();">회원가입</a></p>
-                        <p class="signup">아이디를 잃어버렸나요 ? <a href="#">아이디 찾기</a></p>
-                        <p class="signup">비밀번호를 잃어버렸나요 ? <a href="#">비밀번호 찾기</a></p>
+                        <p class="signup">아이디를 잃어버렸나요 ? <a href="#" onclick="findID();">아이디 찾기</a></p>
+                        <p class="signup">비밀번호를 잃어버렸나요 ? <a href="#" onclick="findPW();">비밀번호 찾기</a></p>
                     </form>
                     <h2>소셜로그인</h2>
                     <ul class="sci">
-                        <li><img src="/imgs/googleIcon.jpg" alt=""></li>
-                        <li><img src="/imgs/naverIcon.png" alt=""></li>
+                        <div id="googleLoginBtn" style="cursor: pointer">
+							<img id="googleLoginImg" src="./images/btn_google_signin_light_pressed_web.png">
+						</div>
+                        <a id="kakao-login-btn"></a>
                         <li><img src="/imgs/kakaoIcon.jpg" alt=""></li>
                     </ul>
                 </div>
@@ -237,9 +242,10 @@
    				}
    				
    			});
-   			alert("인증번호가 전송되었습니다.")
+   			alert("인증번호가 전송되었습니다.");
    			console.log(key);
     			
+   			
     		
     	});
     	// propertychange change keyup paste input
@@ -270,8 +276,14 @@
     			true;
     		
     	});
-    
-    
+    	
+    	function findID() {
+    		window.open('/member/findID', '아이디 찾기', 'width=500,height=300');
+    	}
+		function findPW() {
+			window.open('/member/findPW', '비밀번호 찾기', 'width=500,height=300');
+    	}
+    	
 </script>
 </body>
 </html>

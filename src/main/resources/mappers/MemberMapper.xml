@@ -21,12 +21,28 @@
 		SELECT passwd FROM member WHERE id = #{id}
 	</select>
 	
+	<select id="findUserPasswd" resultType="string">
+		SELECT passwd FROM member WHERE id = #{id} And name = #{name} And email = #{email}
+	</select>
+	
+	<select id="findUserID" resultType="string">
+		SELECT id FROM member WHERE name = #{name} And email = #{email}
+	</select>
+	
 	<select id="getCountById" resultType="int">
 		SELECT COUNT(*) FROM member WHERE id = #{id}
 	</select>
 	
 	<select id="getCountByEmail" resultType="int">
 		SELECT COUNT(*) FROM member WHERE email = #{email}
+	</select>
+	
+	<select id="userCheckPasswd" resultType="int">
+		SELECT COUNT(*) FROM member WHERE id = #{id} And name = #{name} And email = #{email}
+	</select>
+	
+	<select id="userCheckID" resultType="int">
+		SELECT COUNT(*) FROM member WHERE name = #{name} And email = #{email}
 	</select>
 	
 	<update id="update">

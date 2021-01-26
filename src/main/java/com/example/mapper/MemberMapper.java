@@ -23,12 +23,22 @@ public interface MemberMapper {
 	//@Select("SELECT passwd FROM member WHERE id = #{id}")
 	String userCheck(String id);
 	
+	String findUserPasswd(String id, String name, String email);
+	
+	String findUserID(String name, String email);
+	
 	//@Select("SELECT COUNT(*) FROM member WHERE id = #{id}")
 	int getCountById(String id);
 	
 	int getCountByEmail(String email);
 	
+	int userCheckPasswd(String id, String name, String email);
+	
+	int userCheckID(String name, String email);
+	
 	void update(MemberVo memberVo);
+	
+	
 	
 	//@Delete("DELETE FROM member WHERE id = #{id} ")
 	void deleteById(String id);
