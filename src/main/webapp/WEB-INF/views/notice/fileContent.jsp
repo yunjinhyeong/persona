@@ -11,6 +11,12 @@
 <link href="/css/bootstrap.css" rel="stylesheet" type="text/css">
 <link href="/css/bootstrap-theme.css" rel="stylesheet" type="text/css">
 <style>
+li.media {
+	background-color: lightgray;
+}
+span.reply-toggle {
+	cursor: pointer;
+}
 /* 나타나고 있을때와 사라지고 있을때 0.5초*/
 .v-enter-active, .v-leave-active {
 	transition: 0.1s;
@@ -115,7 +121,7 @@
 								</select>
 							</div>
 						</div>
-					</div>				
+					</div>	
 
 				</div>
 
@@ -299,7 +305,21 @@
 				},
 				
 				getDate: function (str) {
-					let result = moment(str).format('YYYY-MM-DD a hh:mm:ss');
+					console.log(typeof str);
+					console.log(str);
+
+					let today = new Date(); // 현재시점 날짜시간
+					let date = new Date(str); // new Date('2021-01-06T02:44:32.000+00:00');
+
+					let gap = today.getTime() - date.getTime(); // 밀리초 차이값
+					let oneDay = 1000 * 60 * 60 * 24; // 밀리초 하루
+
+					let result;
+					if (gap > oneDay) { // 년월일
+						result = moment(str).format('YYYY-MM-DD');
+					} else { // gap <= oneDay   시분초
+						result = moment(str).format('a hh:mm:ss');
+					}
 					return result;
 				},
 

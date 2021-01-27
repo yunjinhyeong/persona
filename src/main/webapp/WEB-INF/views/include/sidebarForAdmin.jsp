@@ -2,18 +2,16 @@
     pageEncoding="UTF-8"%>
 <div class="sidebar">
     <ul>
-        <li><a href="#"><i class="fas fa-home"></i>Home</a></li>
-        <li><a href="#"><i class="fas fa-user"></i>Profile</a></li>
-        <li><a href="#"><i class="fas fa-address-card"></i>About</a></li>
-        <li><a href="#"><i class="fas fa-project-diagram"></i>portfolio</a></li>
-        <li><a href="#"><i class="fas fa-blog"></i>Blogs</a></li>
-        <li><a href="#"><i class="fas fa-address-book"></i>Contact</a></li>
-        <li><a href="#"><i class="fas fa-map-pin"></i>Map</a></li>
+        <li><a href="/movieNotice/list">영화리스트</a></li>
+        <li><a href="/eventNotice/list">이벤트관리</a></li>
+        <li><a href="#">About</a></li>
+        <li><a href="#">portfolio</a></li>
+        <li><a href="#">Blogs</a></li>
     </ul>
 </div>
 <script>
 window.addEventListener("scroll", function() {
     var sidebar = document.querySelector(".sidebar");
-    sidebar.classList.toggle("stickyside", window.scrollY > 900);
+    sidebar.classList.toggle("stickyside", window.scrollY > 300);
 })
 </script>

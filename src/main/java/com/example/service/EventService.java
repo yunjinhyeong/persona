@@ -14,7 +14,7 @@ import com.example.mapper.AttachMapper;
 import com.example.mapper.NoticeMapper;
 
 @Service
-public class NoticeService {
+public class EventService {
 	
 	@Autowired
 	private NoticeMapper noticeMapper;

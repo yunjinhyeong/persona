@@ -1,69 +1,7 @@
 article {
-	background: #fff;
-	width: 100%;
-	height: 100vh;
-}
-
-table,
-article .pageNumber,
-article form {
-    position: absolute;
-    z-index: 2;
-    left: 50%;
-    top: 50%;
-    transform: translate(-50%, -50%);
-    width: 80%;
-    border-collapse: collapse;
-    border-spacing: 0;
-    border-radius: 12px 12px 0 0;
-    overflow: hidden;
-    box-shadow: 0 5px 18px rgba(76, 25, 25, .3);
-    background: #fafafa;
-    text-align: center;
-}
-th, td {
-    padding: 20px 25px;
-}
-th {
-    background: #212121;
-    color: #fafafa;
-    text-transform: uppercase;
-}
-tr:nth-child(odd) {
-    background-color: #eeeeee;
-}
-tr:hover {
-    background-color: #e0e0e0;
-}
-article form,
-article .pageNumber {
-    width: auto;
-    box-shadow: none;
-    border-radius: 0;
-}
-
-article form {
-    top: 80%;
-}
-article form input,
-article form select {
-    padding: 10px 50px;   
-    color: #e0e0e0;
-    background: #212121;
-    cursor: pointer;
-}
-article form input[type="text"] {
-    cursor: auto;
-}
-article .pageNumber {
-    top: 90%;
-    padding: 5px;
-}
-article .pageNumber a {
-    background: #212121;
-    color: #e0e0e0;
-    padding: 5px;
-}
-.deleteBtn {
-	cursor: pointer;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	margin: 500px;
+	flex-direction: column;
 }

@@ -277,7 +277,7 @@ public class MemberController {
 			message.setSubject("패스워드 전송");
 			message.setText("패스워드 : " + passwd);
 			javaMailSender.send(message);
-			out.println("<script>alert('이메일로 비밀번호가 전송 되었습니다.'); window.open('about:blank','_self').self.close();</script>");
+			out.println("<script>alert('"+email+"로 비밀번호가 전송 되었습니다.'); window.open('about:blank','_self').self.close();</script>");
 		}
 		
 	}

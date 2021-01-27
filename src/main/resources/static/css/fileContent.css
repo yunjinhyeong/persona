@@ -38,13 +38,3 @@ table tr .borderBottomDate::after {
     width: 300px;
     left: 20%;
 }
-.btns {
-	margin: 50px 0;
-	text-align: center;
-}
-.btns input {
-    padding: 10px 50px;   
-    color: #e0e0e0;
-    background: #212121;
-    cursor: pointer;
-}

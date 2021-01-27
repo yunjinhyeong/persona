@@ -34,6 +34,8 @@ import com.example.domain.AttachVo;
 import com.example.domain.NoticeVo;
 import com.example.domain.PageDto;
 import com.example.service.AttachService;
+import com.example.service.EventPosterService;
+import com.example.service.EventService;
 import com.example.service.MySqlService;
 import com.example.service.NoticeService;
 
@@ -42,13 +44,13 @@ import net.coobird.thumbnailator.Thumbnailator;
 
 @Log
 @Controller
-@RequestMapping("/fileNotice/*")
-public class FileNoticeController {
+@RequestMapping("/event/*")
+public class EventController {
 	
 	@Autowired
-	private NoticeService noticeService;
+	private EventService eventService;
 	@Autowired
-	private AttachService attachService;
+	private EventPosterService eventPosterService;
 	@Autowired
 	private MySqlService mySqlService;
 
@@ -61,7 +63,7 @@ public class FileNoticeController {
 			Model model) {
 		
 		//int count = noticeService.getCountAll();
-		int count = noticeService.getCountBySearch(category, search);
+		int count = eventService.getCountBySearch(category, search);
 		
 		int pageSize = 10;
 		
@@ -70,7 +72,7 @@ public class FileNoticeController {
 		List<NoticeVo> noticeList = null;
 		if (count > 0) {
 			//noticeList = noticeService.getNotices(startRow, pageSize);
-			noticeList = noticeService.getNoticesBySearch(startRow, pageSize, category, search);
+			noticeList = eventService.getNoticesBySearch(startRow, pageSize, category, search);
 		}
 		
 		
@@ -248,7 +250,7 @@ public class FileNoticeController {
 		//noticeService.addNotice(noticeVo);
 		
 		// NoticeVo와 AttachVo 여러개를 트랜잭션으로 insert하기
-		noticeService.addNoticeAndAttaches(noticeVo, attachList);
+		eventService.addNoticeAndAttaches(noticeVo, attachList);
 
 		
 		// 자료실 게시판 상세보기로 리다이렉트
@@ -259,14 +261,14 @@ public class FileNoticeController {
 	@GetMapping("/content")
 	public String content(int num, @ModelAttribute("pageNum") String pageNum, Model model) {
 		// 조회수 1 증가
-		noticeService.updateReadcount(num);
+		eventService.updateReadcount(num);
 		
 		// 방법1) 따로따로 select해서 가져오기
 //		NoticeVo noticeVo = noticeService.getNoticeByNum(num);
 //		List<AttachVo> attachList = attachService.getAttachesByNoNum(num);
 		
 		// 방법2) 조인 쿼리로 한번에 가져오기
-		NoticeVo noticeVo = noticeService.getNoticeAndAttaches(num);
+		NoticeVo noticeVo = eventService.getNoticeAndAttaches(num);
 		
 		String content = "";
 		if (noticeVo.getContent() != null) {
@@ -283,7 +285,7 @@ public class FileNoticeController {
 	@GetMapping("delete")
 	public String delete(int num, String pageNum, HttpServletRequest request) {
 		// 게시글번호에 첨부된 첨부파일 리스트 가져오기
-		List<AttachVo> attachList = attachService.getAttachesByNoNum(num);
+		List<AttachVo> attachList = eventPosterService.getAttachesByNoNum(num);
 		
 		// application 객체 참조 가져오기
 		ServletContext application = request.getServletContext();
@@ -319,7 +321,7 @@ public class FileNoticeController {
 //		noticeService.deleteNoticeByNum(num);
 		
 		// notice 게시글 한개와 attach 첨부파일 여러개를 트랜잭션으로 삭제하기
-		noticeService.deleteNoticeAndAttaches(num);
+		eventService.deleteNoticeAndAttaches(num);
 		
 		// 글목록으로 리다이렉트 이동
 		return "redirect:/fileNotice/list?pageNum=" + pageNum;
@@ -333,7 +335,7 @@ public class FileNoticeController {
 //		NoticeVo noticeVo = noticeService.getNoticeByNum(num);
 //		List<AttachVo> attachList = attachService.getAttachesByNoNum(num);
 		// 조인으로 한번에 가져오기
-		NoticeVo noticeVo = noticeService.getNoticeAndAttaches(num);
+		NoticeVo noticeVo = eventService.getNoticeAndAttaches(num);
 		List<AttachVo> attachList = noticeVo.getAttachList();
 		int fileCount = attachList.size();
 		
@@ -438,7 +440,7 @@ public class FileNoticeController {
 		if (delFileNums != null) {
 			for (int num : delFileNums) {
 				// 첨부파일 번호에 해당하는 첨부파일 정보 한개를 VO로 가져오기
-				AttachVo attachVo = attachService.getAttachByNum(num);
+				AttachVo attachVo = eventPosterService.getAttachByNum(num);
 				
 				// 파일정보로 실제파일 존재여부 확인해서 삭제하기
 				String path = realPath + "/upload/" + attachVo.getUploadpath();
@@ -470,7 +472,7 @@ public class FileNoticeController {
 		//noticeService.updateBoard(noticeVo);
 		
 		// 트랜잭션 단위로 테이블 데이터 처리
-		noticeService.updateNoticeAndAddAttachesAndDeleteAttaches(noticeVo, addAttaches, delFileNums);
+		eventService.updateNoticeAndAddAttachesAndDeleteAttaches(noticeVo, addAttaches, delFileNums);
 		
 		
 		rttr.addAttribute("num", noticeVo.getNum());
@@ -598,7 +600,7 @@ public class FileNoticeController {
 //		attachService.insertAttaches(attachList);
 		
 		// 트랜잭션 단위로 처리 : 답글 insert와 첨부파일 insert
-		noticeService.updateAndAddReplyAndAddAttaches(noticeVo, attachList);
+		eventService.updateAndAddReplyAndAddAttaches(noticeVo, attachList);
 		
 		// 리다이렉트용 속성값을 설정
 		rttr.addAttribute("num", noticeVo.getNum());
@@ -613,7 +615,7 @@ public class FileNoticeController {
 	@GetMapping(value = "/download", produces = MediaType.APPLICATION_OCTET_STREAM_VALUE)
 	public ResponseEntity<Resource> download(int num, HttpServletRequest request) throws Exception {
 		// 첨부파일 번호에 해당하는 레코드 한개 가져오기
-		AttachVo attachVo = attachService.getAttachByNum(num);
+		AttachVo attachVo = eventPosterService.getAttachByNum(num);
 		
 		ServletContext application = request.getServletContext();
 		String realPath = application.getRealPath("/"); // webapp
