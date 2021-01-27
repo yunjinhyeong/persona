@@ -16,14 +16,14 @@ public interface EventPosterMapper {
 	@Select("SELECT * FROM eventposter WHERE num = #{num}")
 	EventPosterVo getEventPosterByNum(int num);
 	
-	@Select("SELECT * FROM attach WHERE no_num = #{noNum}")
-	List<AttachVo> getAttachesByNoNum(int noNum);
+	@Select("SELECT * FROM eventposter WHERE no_num = #{noNum}")
+	List<EventPosterVo> getEventPosterByNoNum(int noNum);
 	
 	@Delete("DELETE FROM attach where num = #{num}")
 	int deleteAttachByNum(int num);
 	
-	@Delete("DELETE FROM attach where no_num = #{noNum}")
-	int deleteAttachesByNoNum(int noNum);
+	@Delete("DELETE FROM eventposter where no_num = #{noNum}")
+	int deleteEventPostersByNoNum(int noNum);
 	
 	
 	void deleteAttachesByNums(@Param("numList") List<Integer> numList);

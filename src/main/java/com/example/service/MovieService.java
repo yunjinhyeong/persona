@@ -114,16 +114,18 @@ public class MovieService {
 	}
 	
 	
-//	@Transactional
-//	public void updateNoticeAndAddAttachesAndDeleteAttaches(MovieVo movieVo, List<ActorVo> actors, List<Integer> delFileNums) {
-//		movieMapper.updateMovie(movieVo);
-//		
-//		for (ActorVo actorVo : actors) {
-//			actorMapper.insertActor(actorVo);
-//		}
-//		
-//		actorMapper.deleteAttachesByNums(delFileNums);
-//	}
+	@Transactional
+	public void updateMovieAndAddMImgTrailersAndDeleteMImgTrailers(MovieVo movieVo, List<MImgTrailerVo> mImgTrailers, List<Integer> delFileNums) {
+		movieMapper.updateMovie(movieVo);
+		
+		for (MImgTrailerVo mImgTrailerVo : mImgTrailers) {
+			mImgTrailerMapper.insertMImgTrailer(mImgTrailerVo);
+		}
+		
+		if (delFileNums != null) {
+			mImgTrailerMapper.deleteMImgTrailersByNums(delFileNums);
+		}
+	}
 	
 }
 

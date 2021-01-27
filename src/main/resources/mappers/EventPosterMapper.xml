@@ -5,13 +5,13 @@
 <mapper namespace="com.example.mapper.EventPosterMapper">
 
 	<insert id="insertEventPoster">
-		INSERT INTO event (uuid, filename, uploadpath, no_num) 
+		INSERT INTO eventposter (uuid, filename, uploadpath, no_num) 
 		VALUES (#{uuid}, #{filename}, #{uploadpath}, #{noNum}) 
 	</insert>
 	
 	<delete id="deleteAttachesByNums">
 		DELETE
-		FROM event
+		FROM eventposter
 		WHERE num IN
 		<foreach collection="numList" item="num" open="(" separator="," close=")">
 			#{num}

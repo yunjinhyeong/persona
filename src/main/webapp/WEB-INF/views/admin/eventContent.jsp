@@ -30,24 +30,24 @@
                         </tr>
                         <tr>
                             <th><label for="ETitle">제목</label></th>
-                            <td>${ movieVo.ETitle }</td>
+                            <td>${ eventVo.ETitle }</td>
                         </tr>                   
                         <tr>
                             <th><label for="startDate">이벤트시작일자</label></th>
-                            <td>${ movieVo.startDate }</td>
+                            <td>${ eventVo.startDate }</td>
                         </tr>
                         <tr>
                             <th><label for="endDate">이벤트종료일자</label></th>
-                            <td>${ movieVo.endDate }</td>
+                            <td>${ eventVo.endDate }</td>
                         </tr>
                         <tr>
 							<th><label for="EImg">포스트</label></th>
 							
-							<td><c:if test="${ not empty eImgList }">
-								<c:forEach var="eImg" items="${ eImgList }">
+							<td><c:if test="${ not empty eventPosterList }">
+								<c:forEach var="eventPoster" items="${ eventPosterList }">
 									<p>
-										<a href="/upload/${ eImgList.uploadpath }/${ eImgList.uuid }_${ eImgList.filename }">
-											<img  width='400' src="/upload/${ eImgList.uploadpath }/s_${ eImgList.uuid }_${ eImgList.filename }" width="600px">
+										<a href="/upload/${ eventPoster.uploadpath }/${ eventPoster.uuid }_${ eventPoster.filename }">
+											<img  width='400' src="/upload/${ eventPoster.uploadpath }/s_${ eventPoster.uuid }_${ eventPoster.filename }" width="600px">
 										</a>
 									</p>
 								</c:forEach>
@@ -60,7 +60,7 @@
                 <div class="btns">
                 	<c:if test="${ not empty id }">
 						<%-- 로그인 아이디와 글작성자 아이디가 같을때 --%>
-						<input type="button" value="수정" class="btn" onclick="location.href = '/eventNotice/modify?num=${ eventVo.MNum }&pageNum=${ pageNum }'">
+						<input type="button" value="수정" class="btn" onclick="location.href = '/eventNotice/modify?num=${ eventVo.ENum }&pageNum=${ pageNum }'">
 						<input type="button" value="삭제" class="btn" onclick="remove()">
 					</c:if>
 					<input type="button" value="목록보기" class="btn" onclick="location.href = '/eventNotice/list?pageNum=${ pageNum }'">                	

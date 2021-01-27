@@ -27,10 +27,11 @@
 		LIMIT #{startRow}, #{pageSize} 
 	</select>
 	
-	<update id="updateBoard">
+	<update id="updateMovie">
 		UPDATE movie 
-		SET subject = #{subject}, content = #{content} 
-		WHERE num = #{num} 
+		SET theater = #{theater}, m_rank = #{mRank}, m_name = #{mName} , m_score = #{mScore} , m_rate = #{mRate} , m_genre = #{mGenre} , m_runtime = #{mRuntime} 
+		, m_director = #{mDirector} , m_actor = #{mActor} , m_start = #{mStart} , m_end = #{mEnd}  
+		WHERE m_num = #{mNum} 
 	</update>
 	
 	<update id="updateReSeq">
@@ -46,13 +47,13 @@
 	<select id="getCountBySearch" resultType="int">
 		SELECT COUNT(*) 
 		FROM movie 
-		<if test="category == 'm_name'">
+		<if test="category == 'mname'">
 			WHERE m_name LIKE CONCAT('%', #{search}, '%') 
 		</if>
-		<if test="category == 'm_genre'">
+		<if test="category == 'mgenre'">
 			WHERE m_genre LIKE CONCAT('%', #{search}, '%') 
 		</if>
-		<if test="category == 'm_rank'">
+		<if test="category == 'mrank'">
 			WHERE m_rank LIKE CONCAT('%', #{search}, '%') 
 		</if>
 	</select>
@@ -61,13 +62,13 @@
 	<select id="getMoviesBySearch" resultType="movieVo">
 		SELECT * 
 		FROM movie 
-		<if test="category == 'm_name'">
+		<if test="category == 'mname'">
 			WHERE m_name LIKE CONCAT('%', #{search}, '%') 
 		</if>
-		<if test="category == 'm_genre'">
+		<if test="category == 'mgenre'">
 			WHERE m_genre LIKE CONCAT('%', #{search}, '%') 
 		</if>
-		<if test="category == 'm_rank'">
+		<if test="category == 'mrank'">
 			WHERE m_rank LIKE CONCAT('%', #{search}, '%') 
 		</if>
 		ORDER BY m_num DESC 

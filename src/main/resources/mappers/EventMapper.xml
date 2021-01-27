@@ -29,7 +29,7 @@
 	
 	<update id="updateBoard">
 		UPDATE event 
-		SET e_section = #{ESection}, e_title = #{ETitle} , start_date = #{startDate} , end_date = #{endDate} ,  
+		SET e_section = #{ESection}, e_title = #{ETitle} , start_date = #{startDate} , end_date = #{endDate}  
 		WHERE e_num = #{ENum} 
 	</update>
 	
@@ -45,32 +45,31 @@
 	
 	<select id="getCountBySearch" resultType="int">
 		SELECT COUNT(*) 
-		FROM notice 
-		<if test="category == 'subject'">
-			WHERE subject LIKE CONCAT('%', #{search}, '%') 
+		FROM event 
+		<if test="category == 'esection'">
+			WHERE e_section LIKE CONCAT('%', #{search}, '%') 
 		</if>
-		<if test="category == 'content'">
-			WHERE content LIKE CONCAT('%', #{search}, '%') 
+		<if test="category == 'etitle'">
+			WHERE e_title LIKE CONCAT('%', #{search}, '%') 
 		</if>
-		<if test="category == 'id'">
-			WHERE id LIKE CONCAT('%', #{search}, '%') 
+		<if test="category == 'edate'">
+			WHERE start_date LIKE CONCAT('%', #{search}, '%') 
 		</if>
 	</select>
 	
 	
 	<select id="getEventsBySearch" resultType="eventVo">
 		SELECT * 
-		FROM notice 
-		<if test="category == 'subject'">
-			WHERE subject LIKE CONCAT('%', #{search}, '%') 
+		FROM event 
+		<if test="category == 'esection'">
+			WHERE e_section LIKE CONCAT('%', #{search}, '%') 
 		</if>
-		<if test="category == 'content'">
-			WHERE content LIKE CONCAT('%', #{search}, '%') 
+		<if test="category == 'etitle'">
+			WHERE e_title LIKE CONCAT('%', #{search}, '%') 
 		</if>
-		<if test="category == 'id'">
-			WHERE id LIKE CONCAT('%', #{search}, '%') 
+		<if test="category == 'edate'">
+			WHERE start_date LIKE CONCAT('%', #{search}, '%') 
 		</if>
-		ORDER BY re_ref DESC, re_seq ASC 
 		LIMIT #{startRow}, #{pageSize} 
 	</select>
 	
@@ -88,8 +87,8 @@
 		<id column="e_num" property="ENum"/>
 		<result column="e_section" property="ESection"/>
 		<result column="e_title" property="ETitle"/>
-		<result column="startDate" property="startDate"/>
-		<result column="endDate" property="endDate"/>
+		<result column="start_date" property="startDate"/>
+		<result column="end_date" property="endDate"/>
 		<result column="reg_date" property="regDate"/>		
 		<collection property="eventPosterList" ofType="eventPosterVo" javaType="arraylist">
 			<id column="anum" property="num"/>

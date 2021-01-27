@@ -158,7 +158,6 @@ public class EventController {
 
 		//ip  regDate  readcount 
 		eventVo.setRegDate(new Timestamp(System.currentTimeMillis()));
-
 		
 		//============ 게시글 NoticeVo 준비완료 ==============
 		
@@ -258,7 +257,7 @@ public class EventController {
 		EventVo eventVo = eventService.getEventAndEventPosters(num);
 		
 		model.addAttribute("eventVo", eventVo);
-		model.addAttribute("attachList", eventVo.getEventPosterList());
+		model.addAttribute("eventPosterList", eventVo.getEventPosterList());
 		
 		return "admin/eventContent";
 	} // content
@@ -266,7 +265,7 @@ public class EventController {
 	@GetMapping("delete")
 	public String delete(int num, String pageNum, HttpServletRequest request) {
 		// 게시글번호에 첨부된 첨부파일 리스트 가져오기
-		List<AttachVo> attachList = eventPosterService.getAttachesByNoNum(num);
+		List<EventPosterVo> eventPosterList = eventPosterService.getEventPosterByNoNum(num);
 		
 		// application 객체 참조 가져오기
 		ServletContext application = request.getServletContext();
@@ -274,9 +273,9 @@ public class EventController {
 		String realPath = application.getRealPath("/"); // webapp
 		
 		// 첨부파일 삭제하기
-		for (AttachVo attachVo : attachList) {
-			String dir = realPath + "/upload/" + attachVo.getUploadpath();
-			String filename = attachVo.getUuid() + "_" + attachVo.getFilename();
+		for (EventPosterVo eventPosterVo : eventPosterList) {
+			String dir = realPath + "/upload/" + eventPosterVo.getUploadpath();
+			String filename = eventPosterVo.getUuid() + "_" + eventPosterVo.getFilename();
 			// 삭제할 파일을 File 타입 객체로 준비
 			File file = new File(dir, filename);
 			
@@ -286,7 +285,7 @@ public class EventController {
 			}
 			
 			// 이미지 파일이면
-			if (isImage(attachVo.getFilename())) {
+			if (isImage(eventPosterVo.getFilename())) {
 				// 섬네일 이미지 존재여부 확인 후 삭제하기
 				File thumbnailFile = new File(dir, "s_" + filename);
 				if (thumbnailFile.exists()) {
@@ -302,10 +301,10 @@ public class EventController {
 //		noticeService.deleteNoticeByNum(num);
 		
 		// notice 게시글 한개와 attach 첨부파일 여러개를 트랜잭션으로 삭제하기
-		eventService.deleteNoticeAndAttaches(num);
+		eventService.deleteEventAndEventPosters(num);
 		
 		// 글목록으로 리다이렉트 이동
-		return "redirect:/fileNotice/list?pageNum=" + pageNum;
+		return "redirect:/eventNotice/list?pageNum=" + pageNum;
 	} // delete
 	
 	

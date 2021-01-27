@@ -23,18 +23,15 @@ public class MImgTrailerService {
 	
 	public void insertMImgTrailer(MImgTrailerVo mImgTrailerVo) {
 		mImgTrailerMapper.insertMImgTrailer(mImgTrailerVo);
-		log.info("insertMImgTrailer");
 	}
 	
 	public MImgTrailerVo getImgTrailerByNum(int num) {
 		MImgTrailerVo mImgTrailerVo = mImgTrailerMapper.getImgTrailerByNum(num);
-		log.info("getImgTrailerByNum");
 		return mImgTrailerVo;
 	}
 	
 	public List<MImgTrailerVo> getImgTrailersByNoNum(int noNum) {
 		List<MImgTrailerVo> mImgTrailerList = mImgTrailerMapper.getImgTrailersByNoNum(noNum);
-		log.info("getImgTrailersByNoNum");
 		return mImgTrailerList;
 	}
 	
@@ -46,8 +43,8 @@ public class MImgTrailerService {
 		mImgTrailerMapper.deleteMImgTrailerByNoNum(noNum);
 	}
 	
-	public void deleteAttachesByNums(List<Integer> numList) {
-		mImgTrailerMapper.deleteAttachesByNums(numList);
+	public void deleteMImgTrailersByNums(List<Integer> numList) {
+		mImgTrailerMapper.deleteMImgTrailersByNums(numList);
 	}
 	
 }

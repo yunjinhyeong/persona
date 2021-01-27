@@ -51,3 +51,7 @@
     background: #212121;
     cursor: pointer;
 }
+td.borderBottom {
+    display: flex;
+    flex-direction: column-reverse;
+}

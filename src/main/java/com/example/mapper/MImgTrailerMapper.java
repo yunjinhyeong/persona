@@ -30,7 +30,7 @@ public interface MImgTrailerMapper {
 	int deleteMImgTrailerByNoNum(int noNum);
 	
 	
-	void deleteAttachesByNums(@Param("numList") List<Integer> numList);
+	void deleteMImgTrailersByNums(@Param("numList") List<Integer> numList);
 }
 
 

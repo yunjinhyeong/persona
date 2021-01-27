@@ -31,8 +31,8 @@ public interface EventMapper {
 	
 	void updateBoard(EventVo eventVo);
 	
-	@Delete("DELETE FROM notice WHERE num = #{num}")
-	void deleteNoticeByNum(int num);
+	@Delete("DELETE FROM event WHERE e_num = #{num}")
+	void deleteEventByNum(int num);
 	
 	@Delete("DELETE FROM notice")
 	void deleteAll();

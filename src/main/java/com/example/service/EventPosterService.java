@@ -27,9 +27,9 @@ public class EventPosterService {
 		return eventPosterVo;
 	}
 	
-	public List<AttachVo> getAttachesByNoNum(int noNum) {
-		List<AttachVo> attachList = eventPosterMapper.getAttachesByNoNum(noNum);
-		return attachList;
+	public List<EventPosterVo> getEventPosterByNoNum(int noNum) {
+		List<EventPosterVo> eventPosterList = eventPosterMapper.getEventPosterByNoNum(noNum);
+		return eventPosterList;
 	}
 	
 	public void deleteAttachByNum(int num) {
@@ -37,7 +37,7 @@ public class EventPosterService {
 	}
 	
 	public void deleteAttachesByNoNum(int noNum) {
-		eventPosterMapper.deleteAttachesByNoNum(noNum);
+		eventPosterMapper.deleteEventPostersByNoNum(noNum);
 	}
 	
 	public void deleteAttachesByNums(List<Integer> numList) {

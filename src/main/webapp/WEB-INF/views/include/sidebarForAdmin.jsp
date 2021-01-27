@@ -4,9 +4,9 @@
     <ul>
         <li><a href="/movieNotice/list">영화리스트</a></li>
         <li><a href="/eventNotice/list">이벤트관리</a></li>
-        <li><a href="#">About</a></li>
-        <li><a href="#">portfolio</a></li>
-        <li><a href="#">Blogs</a></li>
+        <li><a href="#">스토어관리</a></li>
+        <li><a href="#">회원관리</a></li>
+        <li><a href="#">분석차트</a></li>
     </ul>
 </div>
 <script>

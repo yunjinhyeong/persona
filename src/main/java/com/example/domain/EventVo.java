@@ -14,11 +14,11 @@ import lombok.ToString;
 @ToString
 public class EventVo {
 	
-	private int eNum;
+	private Integer eNum;
 	private String eSection;
 	private String eTitle;
 	private String startDate;
-	private int endDate;
+	private String endDate;
 	private Timestamp regDate;
 	
 	private List<EventPosterVo> eventPosterList;

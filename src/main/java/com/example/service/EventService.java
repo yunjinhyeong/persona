@@ -61,14 +61,14 @@ public class EventService {
 		eventMapper.updateBoard(eventVo);
 	}
 	
-	public void deleteNoticeByNum(int num) {
-		eventMapper.deleteNoticeByNum(num);
+	public void deleteEventByNum(int num) {
+		eventMapper.deleteEventByNum(num);
 	}
 	
 	@Transactional
-	public void deleteNoticeAndAttaches(int num) {
-		eventMapper.deleteNoticeByNum(num);
-		eventPosterMapper.deleteAttachesByNoNum(num);
+	public void deleteEventAndEventPosters(int num) {
+		eventMapper.deleteEventByNum(num);
+		eventPosterMapper.deleteEventPostersByNoNum(num);
 	}
 	
 	public void deleteAll() {

@@ -39,7 +39,7 @@
 							<tr>
 								<td>${ event.ENum }</td>
 								<td>${ event.ESection }</td>
-								<td><a href="/eventNotice/content?num=${ event.MNum }&pageNum=${ pageNum }">${ event.ETitle }</a></td>								
+								<td><a href="/eventNotice/content?num=${ event.ENum }&pageNum=${ pageNum }">${ event.ETitle }</a></td>								
 								<td>${ event.startDate }</td>
 								<td>${ event.endDate }</td>
 								<td><fmt:formatDate value="${ event.regDate }" pattern="yyyy.MM.dd"/></td>
@@ -50,7 +50,7 @@
 					</c:when>		
 					<c:otherwise>
 						<tr>
-							<td colspan="10">등록된 영화 없음</td>
+							<td colspan="7">등록된 이벤트 없음</td>
 						</tr>
 					</c:otherwise>
 					</c:choose>
@@ -59,9 +59,9 @@
 				<div>
 					<form action="/eventNotice/list" method="get">
 						<select name="category">
-							<option value="subject" ${ pageDto.category eq 'subject' ? 'selected' : '' }>글제목</option>
-							<option value="content" ${ pageDto.category eq 'content' ? 'selected' : '' }>글내용</option>
-							<option value="id" ${ pageDto.category eq 'id' ? 'selected' : '' }>작성자ID</option>
+							<option value="esection" ${ pageDto.category eq 'esection' ? 'selected' : '' }>섹션</option>
+							<option value="etitle" ${ pageDto.category eq 'etitle' ? 'selected' : '' }>제목</option>
+							<option value="edate" ${ pageDto.category eq 'id' ? 'edate' : '' }>날짜</option>
 						</select>
 						<input type="text" class="input_box" name="search" value="${ pageDto.search }">
 						<input type="submit" value="검색" class="btn">
@@ -69,7 +69,7 @@
 						<%-- 로그인 했을때만 [글쓰기] 버튼 보이기 --%>
 						<c:if test="${ not empty sessionScope.id }">
 							<c:if test="${ sessionScope.id eq 'admin' }">
-								<input type="button" value="영화등록" class="btn" onclick="location.href='/eventNotice/write?pageNum=${ pageNum }'">
+								<input type="button" value="이벤트등록" class="btn" onclick="location.href='/eventNotice/write?pageNum=${ pageNum }'">
 							</c:if>
 						</c:if>
 			

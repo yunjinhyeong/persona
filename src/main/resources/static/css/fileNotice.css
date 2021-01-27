@@ -24,4 +24,14 @@ form select, form input {
     color: #e0e0e0;
     background: #212121;
     cursor: pointer;
+    margin-bottom: 10px;
+}
+.pageNumber a {
+	padding: 3px;   
+    color: #e0e0e0;
+    background: #a0a0a0;
+    cursor: pointer;
+}
+.pageNumber a.active {
+	background: #212121;
 }

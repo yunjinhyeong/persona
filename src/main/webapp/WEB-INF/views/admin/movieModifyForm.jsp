@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -18,12 +20,12 @@
         <div class="main_content">
             <form action="/movieNotice/modify" method="post" enctype="multipart/form-data" name="frm">
                 <input type="hidden" name="pageNum" value="${ pageNum }">
-                <input type="hidden" name="num" value="${ movieVo.MNum }">
+                <input type="hidden" name="mNum" value="${ movieVo.MNum }">
                 <Table class="addMovieMain">
                     <tr>
                         <tr>
                             <th><label for="theater">상영관</label></th>
-                            <td><select name="theater" onchange="SetSelectBox();" required>
+                            <td><select name="theater" required>
                                 <option>--관--</option>
                                 <option value="A">A</option>
                                 <option value="B">B</option>
@@ -47,19 +49,17 @@
                             <th><label for="mName">영화제목</label></th>
                             <td><input type="text" name="mName" value="${ movieVo.MName }" required></td>
                         </tr>
+                        
+                        
                         <tr>
-							<th><label for="mImg">영화포스트</label></th>
-							
-							<td><input type="file" name="mImgTrailer" required></td>
-							
-							
-							<td>
+							<th><label for="mImgTrailer">포스터&트레일러</label></th>
+							<td class="borderBottom">
 								<div id="oldFileBox">
 													
-									<c:forEach var="attach" items="${ attachList }">
-										<input type="hidden" name="oldfile" value="${ attach.num }">
+									<c:forEach var="mImgTrailer" items="${ mImgTrailerList }">
+										<input type="hidden" name="oldfile" value="${ mImgTrailer.num }">
 										<div>
-											${ attach.filename }
+											${ mImgTrailer.filename }
 											<span class="delete-oldfile">X</span>
 										</div>	
 									</c:forEach>
@@ -68,10 +68,7 @@
 								<div id="newFileBox"></div>
 								<input type="button" id="btnAddFile" value="첨부파일 추가">
 							</td>
-							
-							
-							
-						</tr>
+						</tr>                                           
                         <tr>
                             <th><label for="mScore">영화평점</label></th>
                             <td><select name="mScore" required>
@@ -90,7 +87,7 @@
                         </tr>
                         <tr>
                             <th><label for="mRate">영화예매율</label></th>
-                            <td><input type="number" name="mRate" min="0" max="100" placeholder="(%)생략" required></td>
+                            <td><input type="number" name="mRate" min="0" max="100" value="${ movieVo.MRate }" required></td>
                         </tr>
                         <tr>
                             <th><label for="mGenre">영화장르</label></th>
@@ -110,33 +107,29 @@
                         </tr>
                         <tr>
                             <th><label for="mRuntime">상영시간</label></th>
-                            <td><input type="number" name="mRuntime" min="0" max="1000" placeholder="(분)생략" required></td>
+                            <td><input type="number" name="mRuntime" min="0" max="1000" value="${ movieVo.MRuntime }" required></td>
                         </tr>
                         <tr>
                             <th><label for="mDirector">감독</label></th>
-                            <td><input type="text" name="mDirector" required></td>
+                            <td><input type="text" name="mDirector" value="${ movieVo.MDirector }" required></td>
                         </tr>
                         <tr>
                             <th><label for="mActor">배우</label></th>
-                            <td><input type="text" name="mActor" placeholder="여러명일경우 ,로 구분" required></td>
+                            <td><input type="text" name="mActor" value="${ movieVo.MActor }" required></td>
                         </tr>
                         <tr>
                             <th><label for="mStart">극장개봉일자</label></th>
-                            <td><input type="date" name="mStart" required></td>
+                            <td><input type="date" name="mStart" value="${ movieVo.MStart }" required></td>
                         </tr>
                         <tr>
                             <th><label for="mEnd">극장종료일자</label></th>
-                            <td><input type="date" name="mEnd" required></td>
-                        </tr>
-                        <tr>
-							<th><label for="mTrailer">영화트레일러</label></th>
-							<td><input type="file" name="mImgTrailer" required></td>
-						</tr>
+                            <td><input type="date" name="mEnd" value="${ movieVo.MEnd }" required></td>
+                        </tr>					
                     </tr>
                 </Table>
             
                 <div class="btns">
-                    <input type="submit" value="영화등록" class="btn">
+                    <input type="submit" value="수정하기" class="btn">
                     <input type="reset" value="다시쓰기" class="btn">
                     <input type="button" value="목록보기" class="btn" onclick="location.href = '/movieNotice/list?pageNum=${ pageNum }'">
                 </div>
@@ -145,6 +138,53 @@
     </div>
 	<%-- footer 영역 --%>
 	<jsp:include page="/WEB-INF/views/include/footer.jsp" />
+<script src="/script/jquery-3.5.1.js"></script>
+<script>
+const maxFileCount = 2;  // 최대 첨부파일 갯수
+var fileCount = ${ fn:length(mImgTrailerList) };  // 현재 첨부된 파일 갯수
+
+// [첨부파일 추가] 버튼을 클릭할 때
+$('#btnAddFile').click(function () {
+
+	if (fileCount >= maxFileCount) {
+		alert('파일은 포스터 트레일러 각 최대 한개까지만 가능합니다.')
+		return;
+	}
+	
+	// 백틱 문자열 안에서 변수값을 표현할때는
+	// \${}로 표현함
+	var str = `
+		<div>
+			<input type="file" name="filename">
+			<span class="delete-addfile">X</span>
+		</div>
+	`;
+
+	$('div#newFileBox').append(str);
+	
+	fileCount++;
+});
+
+
+// 동적 이벤트 바인딩. 이벤트 바인딩 작업을 이미 존재하는 요소에게 위임하기.
+// 이미 존재하는 div#newFileBox 요소에게
+// 안쪽에 새로운 span.delete-addfile가 들어오면 클릭이벤트 연결하기
+$('div#newFileBox').on('click', 'span.delete-addfile', function () {
+	$(this).parent().remove();
+	fileCount--;
+});
+
+
+// 정적 이벤트 바인딩. 기존 첨부파일에 삭제버튼을 눌렀을때
+$('span.delete-oldfile').on('click', function () {
+	// 현재 클릭한 요소의 직계부모(parent)의 앞(prev) 요소 
+	$(this).parent().prev().prop('name', 'delfile');
+	// 현재 클릭한 요소의 직계부모(parent)를 삭제. 현재요소안에 자식요소도 모두 삭제됨
+	$(this).parent().remove();
+	fileCount--;
+});
+
+</script>
 </body>
 </html>   
 

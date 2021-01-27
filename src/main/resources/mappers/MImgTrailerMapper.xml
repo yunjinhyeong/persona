@@ -9,7 +9,7 @@
 		VALUES (#{uuid}, #{filename}, #{uploadpath}, #{image}, #{noNum}) 
 	</insert>
 	
-	<delete id="deleteAttachesByNums">
+	<delete id="deleteMImgTrailersByNums">
 		DELETE
 		FROM mimgtrailer
 		WHERE num IN

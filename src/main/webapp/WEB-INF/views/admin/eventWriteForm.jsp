@@ -36,7 +36,7 @@
                         </tr>
                         <tr>
 							<th><label for="eImg">이벤트포스터</label></th>
-							<td><input type="file" name="eImg" required></td>
+							<td><input type="file" name="filename" required></td>
 						</tr>
                         <tr>
                             <th><label for="startDate">시작일자</label></th>
@@ -50,7 +50,7 @@
                 </Table>
             
                 <div class="btns">
-                    <input type="submit" value="영화등록" class="btn">
+                    <input type="submit" value="이벤트등록" class="btn">
                     <input type="reset" value="다시쓰기" class="btn">
                     <input type="button" value="목록보기" class="btn" onclick="location.href = '/eventNotice/list?pageNum=${ pageNum }'">
                 </div>

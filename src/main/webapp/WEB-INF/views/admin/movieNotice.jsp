@@ -68,9 +68,9 @@
 				<div>
 					<form action="/movieNotice/list" method="get">
 						<select name="category">
-							<option value="subject" ${ pageDto.category eq 'subject' ? 'selected' : '' }>글제목</option>
-							<option value="content" ${ pageDto.category eq 'content' ? 'selected' : '' }>글내용</option>
-							<option value="id" ${ pageDto.category eq 'id' ? 'selected' : '' }>작성자ID</option>
+							<option value="mname" ${ pageDto.category eq 'mname' ? 'selected' : '' }>제목</option>
+							<option value="mgenre" ${ pageDto.category eq 'mgenre' ? 'selected' : '' }>장르</option>
+							<option value="mrank" ${ pageDto.category eq 'mrank' ? 'selected' : '' }>연령등급</option>
 						</select>
 						<input type="text" class="input_box" name="search" value="${ pageDto.search }">
 						<input type="submit" value="검색" class="btn">
