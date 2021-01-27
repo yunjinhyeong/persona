@@ -7,39 +7,41 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.example.domain.AttachVo;
+import com.example.domain.EventPosterVo;
 import com.example.mapper.AttachMapper;
+import com.example.mapper.EventPosterMapper;
 
 @Service
 @Transactional
 public class EventPosterService {
 
 	@Autowired
-	private AttachMapper attachMapper;
+	private EventPosterMapper eventPosterMapper;
 	
-	public void insertAttach(AttachVo attachVo) {
-		attachMapper.insertAttach(attachVo);
+	public void insertEventPoster(EventPosterVo eventPosterVo) {
+		eventPosterMapper.insertEventPoster(eventPosterVo);
 	}
 	
-	public AttachVo getAttachByNum(int num) {
-		AttachVo attachVo = attachMapper.getAttachByNum(num);
-		return attachVo;
+	public EventPosterVo getEventPosterByNum(int num) {
+		EventPosterVo eventPosterVo = eventPosterMapper.getEventPosterByNum(num);
+		return eventPosterVo;
 	}
 	
 	public List<AttachVo> getAttachesByNoNum(int noNum) {
-		List<AttachVo> attachList = attachMapper.getAttachesByNoNum(noNum);
+		List<AttachVo> attachList = eventPosterMapper.getAttachesByNoNum(noNum);
 		return attachList;
 	}
 	
 	public void deleteAttachByNum(int num) {
-		attachMapper.deleteAttachByNum(num);
+		eventPosterMapper.deleteAttachByNum(num);
 	}
 	
 	public void deleteAttachesByNoNum(int noNum) {
-		attachMapper.deleteAttachesByNoNum(noNum);
+		eventPosterMapper.deleteAttachesByNoNum(noNum);
 	}
 	
 	public void deleteAttachesByNums(List<Integer> numList) {
-		attachMapper.deleteAttachesByNums(numList);
+		eventPosterMapper.deleteAttachesByNums(numList);
 	}
 	
 }

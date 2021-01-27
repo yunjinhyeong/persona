@@ -6,8 +6,8 @@
 <html>
 <head>
 <%-- head 영역 --%>
-<jsp:include page="/WEB-INF/views/include/head.jsp" />
 <link href="/css/fileNotice.css" rel="stylesheet">
+<jsp:include page="/WEB-INF/views/include/head.jsp" />
 </head>
 <body>
 	<%-- header 영역 --%>

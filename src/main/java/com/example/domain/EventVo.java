@@ -1,6 +1,7 @@
 package com.example.domain;
 
 import java.sql.Timestamp;
+import java.util.List;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -19,6 +20,8 @@ public class EventVo {
 	private String startDate;
 	private int endDate;
 	private Timestamp regDate;
+	
+	private List<EventPosterVo> eventPosterList;
 	
 }
 

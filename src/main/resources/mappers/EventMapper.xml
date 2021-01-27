@@ -4,9 +4,9 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.example.mapper.EventMapper">
 
-	<insert id="addNotice">
-		INSERT INTO notice (id, subject, content, readcount, reg_date, ip, re_ref, re_lev, re_seq) 
-		VALUES (#{id}, #{subject}, #{content}, #{readcount}, #{regDate}, #{ip}, #{reRef}, #{reLev}, #{reSeq})
+	<insert id="addEvent">
+		INSERT INTO event (e_section, e_title, start_date, end_date, reg_date) 
+		VALUES (#{ESection}, #{ETitle}, #{startDate}, #{endDate}, #{regDate})
 	</insert>
 	
 	<update id="updateReadcount">
@@ -28,9 +28,9 @@
 	</select>
 	
 	<update id="updateBoard">
-		UPDATE notice 
-		SET subject = #{subject}, content = #{content} 
-		WHERE num = #{num} 
+		UPDATE event 
+		SET e_section = #{ESection}, e_title = #{ETitle} , start_date = #{startDate} , end_date = #{endDate} ,  
+		WHERE e_num = #{ENum} 
 	</update>
 	
 	<update id="updateReSeq">
@@ -58,7 +58,7 @@
 	</select>
 	
 	
-	<select id="getNoticesBySearch" resultType="noticeVo">
+	<select id="getEventsBySearch" resultType="eventVo">
 		SELECT * 
 		FROM notice 
 		<if test="category == 'subject'">
@@ -76,32 +76,26 @@
 	
 	
 	
-	<select id="getNoticeAndAttaches" resultMap="noticeAndAttaches">
-		SELECT n.num, n.id, n.subject, n.content, n.readcount, n.reg_date, n.ip,
-		       n.re_ref, n.re_lev, n.re_seq,
-		       a.num as anum, a.uuid, a.filename, a.uploadpath, a.image, a.no_num
-		FROM notice n LEFT OUTER JOIN attach a
-		ON n.num = a.no_num
-		where n.num = #{num}
+	<select id="getEventAndEventPosters" resultMap="eventAndEventPosters">
+		SELECT n.e_num, n.e_section, n.e_title, n.start_date, n.end_date, n.reg_date,
+		       a.num as anum, a.uuid, a.filename, a.uploadpath, a.no_num
+		FROM event n LEFT OUTER JOIN eventposter a
+		ON n.e_num = a.no_num
+		where n.e_num = #{num}
 	</select>
-	<resultMap id="noticeAndAttaches" type="noticeVo">
+	<resultMap id="eventAndEventPosters" type="eventVo">
 		<!-- property 속성은 setter 메소드 이름을 의미함! -->
-		<id column="num" property="num"/>
-		<result column="id" property="id"/>
-		<result column="subject" property="subject"/>
-		<result column="content" property="content"/>
-		<result column="readcount" property="readcount"/>
-		<result column="reg_date" property="regDate"/>
-		<result column="ip" property="ip"/>
-		<result column="re_ref" property="reRef"/>
-		<result column="re_lev" property="reLev"/>
-		<result column="re_seq" property="reSeq"/>
-		<collection property="attachList" ofType="attachVo" javaType="arraylist">
+		<id column="e_num" property="ENum"/>
+		<result column="e_section" property="ESection"/>
+		<result column="e_title" property="ETitle"/>
+		<result column="startDate" property="startDate"/>
+		<result column="endDate" property="endDate"/>
+		<result column="reg_date" property="regDate"/>		
+		<collection property="eventPosterList" ofType="eventPosterVo" javaType="arraylist">
 			<id column="anum" property="num"/>
 			<result column="uuid" property="uuid"/>
 			<result column="filename" property="filename"/>
 			<result column="uploadpath" property="uploadpath"/>
-			<result column="image" property="image"/>
 			<result column="no_num" property="noNum"/>
 		</collection>
 	</resultMap>

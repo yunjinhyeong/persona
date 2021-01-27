@@ -5,3 +5,23 @@ article {
 	margin: 500px;
 	flex-direction: column;
 }
+table {
+	margin-bottom: 100px;
+	border: 1px solid #000;
+}
+table td, table th{
+	min-width: 100px;
+	border-bottom: 1px solid #000;
+}
+table th {
+	background: #000;
+	color: #fff;
+}
+
+form select, form input {
+    font-size: 20px;
+    padding: 5px 30px;   
+    color: #e0e0e0;
+    background: #212121;
+    cursor: pointer;
+}

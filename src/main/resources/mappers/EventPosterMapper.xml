@@ -4,14 +4,14 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.example.mapper.EventPosterMapper">
 
-	<insert id="insertAttach">
-		INSERT INTO attach (uuid, filename, uploadpath, image, no_num) 
-		VALUES (#{uuid}, #{filename}, #{uploadpath}, #{image}, #{noNum}) 
+	<insert id="insertEventPoster">
+		INSERT INTO event (uuid, filename, uploadpath, no_num) 
+		VALUES (#{uuid}, #{filename}, #{uploadpath}, #{noNum}) 
 	</insert>
 	
 	<delete id="deleteAttachesByNums">
 		DELETE
-		FROM attach
+		FROM event
 		WHERE num IN
 		<foreach collection="numList" item="num" open="(" separator="," close=")">
 			#{num}

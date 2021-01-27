@@ -31,6 +31,8 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.example.domain.AttachVo;
+import com.example.domain.EventPosterVo;
+import com.example.domain.EventVo;
 import com.example.domain.NoticeVo;
 import com.example.domain.PageDto;
 import com.example.service.AttachService;
@@ -44,7 +46,7 @@ import net.coobird.thumbnailator.Thumbnailator;
 
 @Log
 @Controller
-@RequestMapping("/event/*")
+@RequestMapping("/eventNotice/*")
 public class EventController {
 	
 	@Autowired
@@ -69,10 +71,10 @@ public class EventController {
 		
 		int startRow = (pageNum - 1) * pageSize;		
 		
-		List<NoticeVo> noticeList = null;
+		List<EventVo> eventList = null;
 		if (count > 0) {
 			//noticeList = noticeService.getNotices(startRow, pageSize);
-			noticeList = eventService.getNoticesBySearch(startRow, pageSize, category, search);
+			eventList = eventService.getEventsBySearch(startRow, pageSize, category, search);
 		}
 		
 		
@@ -103,11 +105,11 @@ public class EventController {
 		} // if
 		
 		
-		model.addAttribute("noticeList", noticeList);
+		model.addAttribute("eventList", eventList);
 		model.addAttribute("pageDto", pageDto);
 		model.addAttribute("pageNum", pageNum);
 		
-		return "notice/fileNotice";
+		return "admin/eventNotice";
 	} // list
 	
 	
@@ -116,7 +118,7 @@ public class EventController {
 		
 //		model.addAttribute("pageNum", pageNum);
 		
-		return "notice/fileWriteForm";
+		return "admin/eventWriteForm";
 	} // GET - write
 	
 	// 오늘 날짜 형식의 폴더 문자열 가져오기 
@@ -147,22 +149,17 @@ public class EventController {
 	@PostMapping("/write")
 	public String write(HttpServletRequest request,
 			@RequestParam(name = "filename", required = false) List<MultipartFile> multipartFiles,
-			NoticeVo noticeVo, String pageNum) throws IOException {
+			EventVo eventVo, String pageNum) throws IOException {
 		
 		//============ 게시글 NoticeVo 준비하기 ==============
 		// AUTO INCREMENT 다음번호 가져오기
-		int num = mySqlService.getNextNum("notice");
-		noticeVo.setNum(num);
+		int num = mySqlService.getNextNum("event");
+		eventVo.setENum(num);
 
-		//ip  regDate  readcount  
-		noticeVo.setIp(request.getRemoteAddr());
-		noticeVo.setRegDate(new Timestamp(System.currentTimeMillis()));
-		noticeVo.setReadcount(0);
+		//ip  regDate  readcount 
+		eventVo.setRegDate(new Timestamp(System.currentTimeMillis()));
 
-		//re_ref  re_lev  re_seq
-		noticeVo.setReRef(num);
-		noticeVo.setReLev(0);
-		noticeVo.setReSeq(0);
+		
 		//============ 게시글 NoticeVo 준비완료 ==============
 		
 		
@@ -185,7 +182,7 @@ public class EventController {
 		//============ MultipartFile을 이용해 파일업로드 수행 ==============
 		
 		// AttachVo 첨부파일정보 담을 리스트 준비
-		List<AttachVo> attachList = new ArrayList<>();
+		List<EventPosterVo> eventPosterList = new ArrayList<>();
 		
 		if (multipartFiles != null) {
 			for (MultipartFile multipartFile : multipartFiles) {
@@ -217,16 +214,15 @@ public class EventController {
 				
 				
 				//============ 첨부파일 AttachVo 준비하기 ==============
-				AttachVo attachVo = new AttachVo();
+				EventPosterVo eventPosterVo = new EventPosterVo();
 				// 게시판 글번호 설정
-				attachVo.setNoNum(noticeVo.getNum());
+				eventPosterVo.setNoNum(eventVo.getENum());
 				
-				attachVo.setUuid(strUuid);
-				attachVo.setFilename(filename);
-				attachVo.setUploadpath(strDate);
+				eventPosterVo.setUuid(strUuid);
+				eventPosterVo.setFilename(filename);
+				eventPosterVo.setUploadpath(strDate);
 				
 				if (isImage(filename)) {
-					attachVo.setImage("I");
 					
 					// 생성할 썸네일 이미지 파일 경로와 이름을 준비
 					File thumbnailFile = new File(dir, "s_" + uploadFilename);
@@ -234,14 +230,12 @@ public class EventController {
 					try (FileOutputStream fos = new FileOutputStream(thumbnailFile)) {
 						Thumbnailator.createThumbnail(multipartFile.getInputStream(), fos, 100, 100);
 					}
-				} else {
-					attachVo.setImage("O");
 				}
 				
 				// AttachVo 를 DB에 insert하기
 				//attachService.insertAttach(attachVo);
 				
-				attachList.add(attachVo);
+				eventPosterList.add(eventPosterVo);
 			} // if		
 		} // for
 		
@@ -250,36 +244,23 @@ public class EventController {
 		//noticeService.addNotice(noticeVo);
 		
 		// NoticeVo와 AttachVo 여러개를 트랜잭션으로 insert하기
-		eventService.addNoticeAndAttaches(noticeVo, attachList);
+		eventService.addEventAndEventPosters(eventVo, eventPosterList);
 
 		
 		// 자료실 게시판 상세보기로 리다이렉트
-		return "redirect:/fileNotice/content?num=" + noticeVo.getNum() + "&pageNum=" + pageNum;
+		return "redirect:/eventNotice/content?num=" + eventVo.getENum() + "&pageNum=" + pageNum;
 	} // POST - write
 	
 	
 	@GetMapping("/content")
 	public String content(int num, @ModelAttribute("pageNum") String pageNum, Model model) {
-		// 조회수 1 증가
-		eventService.updateReadcount(num);
+
+		EventVo eventVo = eventService.getEventAndEventPosters(num);
 		
-		// 방법1) 따로따로 select해서 가져오기
-//		NoticeVo noticeVo = noticeService.getNoticeByNum(num);
-//		List<AttachVo> attachList = attachService.getAttachesByNoNum(num);
+		model.addAttribute("eventVo", eventVo);
+		model.addAttribute("attachList", eventVo.getEventPosterList());
 		
-		// 방법2) 조인 쿼리로 한번에 가져오기
-		NoticeVo noticeVo = eventService.getNoticeAndAttaches(num);
-		
-		String content = "";
-		if (noticeVo.getContent() != null) {
-			content = noticeVo.getContent().replace("\n", "<br>");
-			noticeVo.setContent(content);
-		}
-		
-		model.addAttribute("noticeVo", noticeVo);
-		model.addAttribute("attachList", noticeVo.getAttachList());
-		
-		return "notice/fileContent";
+		return "admin/eventContent";
 	} // content
 	
 	@GetMapping("delete")
@@ -335,22 +316,22 @@ public class EventController {
 //		NoticeVo noticeVo = noticeService.getNoticeByNum(num);
 //		List<AttachVo> attachList = attachService.getAttachesByNoNum(num);
 		// 조인으로 한번에 가져오기
-		NoticeVo noticeVo = eventService.getNoticeAndAttaches(num);
-		List<AttachVo> attachList = noticeVo.getAttachList();
-		int fileCount = attachList.size();
+		EventVo eventVo = eventService.getEventAndEventPosters(num);
+		List<EventPosterVo> eventPosterList = eventVo.getEventPosterList();
+		int fileCount = eventPosterList.size();
 		
-		model.addAttribute("noticeVo", noticeVo);
-		model.addAttribute("attachList", attachList);
+		model.addAttribute("eventVo", eventVo);
+		model.addAttribute("eventPosterList", eventPosterList);
 		model.addAttribute("fileCount", fileCount);
 		
-		return "notice/fileModifyForm";
+		return "admin/eventModifyForm";
 	} // GET - modify
 	
 	
 	@PostMapping("/modify")
 	public String modify(HttpServletRequest request,
 			@RequestParam(name = "filename", required = false) List<MultipartFile> multipartFiles,
-			NoticeVo noticeVo, String pageNum,
+			EventVo eventVo, String pageNum,
 			@RequestParam(name = "delfile", required = false) List<Integer> delFileNums,
 			RedirectAttributes rttr) throws IOException {
 		
@@ -366,14 +347,12 @@ public class EventController {
 
 		if (!dir.exists()) {
 			dir.mkdirs();
-		}
-		
-		
+		}		
 		
 		//============ MultipartFile을 이용해 신규파일 업로드 수행 ==============
 		
 		// AttachVo 첨부파일정보 담을 리스트 준비
-		List<AttachVo> addAttaches = new ArrayList<>();
+		List<EventPosterVo> addEventPosters = new ArrayList<>();
 		
 		if (multipartFiles != null) {
 			for (MultipartFile multipartFile : multipartFiles) {
@@ -405,32 +384,28 @@ public class EventController {
 				
 				
 				//============ 첨부파일 AttachVo 준비하기 ==============
-				AttachVo attachVo = new AttachVo();
+				EventPosterVo eventPosterVo = new EventPosterVo();
 				// 게시판 글번호 설정
-				attachVo.setNoNum(noticeVo.getNum());
+				eventPosterVo.setNoNum(eventVo.getENum());
 				
-				attachVo.setUuid(strUuid);
-				attachVo.setFilename(filename);
-				attachVo.setUploadpath(strDate);
+				eventPosterVo.setUuid(strUuid);
+				eventPosterVo.setFilename(filename);
+				eventPosterVo.setUploadpath(strDate);
 				
 				if (isImage(filename)) {
-					attachVo.setImage("I");
-					
 					// 생성할 썸네일 이미지 파일 경로와 이름을 준비
 					File thumbnailFile = new File(dir, "s_" + uploadFilename);
 					// 썸네일 이미지 파일 생성하기
 					try (FileOutputStream fos = new FileOutputStream(thumbnailFile)) {
 						Thumbnailator.createThumbnail(multipartFile.getInputStream(), fos, 100, 100);
 					}
-				} else {
-					attachVo.setImage("O");
 				}
 				
 				// AttachVo 를 DB에 insert하기
 				//attachService.insertAttach(attachVo);
 
 				// 트랜잭션 처리를 위해 attachVo를 리스트에 추가해서 모으기
-				addAttaches.add(attachVo);
+				addEventPosters.add(eventPosterVo);
 			} // for
 		}
 		
@@ -440,18 +415,18 @@ public class EventController {
 		if (delFileNums != null) {
 			for (int num : delFileNums) {
 				// 첨부파일 번호에 해당하는 첨부파일 정보 한개를 VO로 가져오기
-				AttachVo attachVo = eventPosterService.getAttachByNum(num);
+				EventPosterVo eventPosterVo = eventPosterService.getEventPosterByNum(num);
 				
 				// 파일정보로 실제파일 존재여부 확인해서 삭제하기
-				String path = realPath + "/upload/" + attachVo.getUploadpath();
-				String file = attachVo.getUuid() + "_" + attachVo.getFilename();
+				String path = realPath + "/upload/" + eventPosterVo.getUploadpath();
+				String file = eventPosterVo.getUuid() + "_" + eventPosterVo.getFilename();
 				
 				File delFile = new File(path, file);
 				if (delFile.exists()) {
 					delFile.delete();
 				}
 				
-				if (isImage(attachVo.getFilename())) {
+				if (isImage(eventPosterVo.getFilename())) {
 					File thumbnailFile = new File(path, "s_" + file);
 					if (thumbnailFile.exists()) {
 						thumbnailFile.delete();
@@ -472,179 +447,17 @@ public class EventController {
 		//noticeService.updateBoard(noticeVo);
 		
 		// 트랜잭션 단위로 테이블 데이터 처리
-		eventService.updateNoticeAndAddAttachesAndDeleteAttaches(noticeVo, addAttaches, delFileNums);
+		eventService.updateEventAndAddEventPostersAndDeleteEventPosters(eventVo, addEventPosters, delFileNums);
 		
 		
-		rttr.addAttribute("num", noticeVo.getNum());
+		rttr.addAttribute("num", eventVo.getENum());
 		rttr.addAttribute("pageNum", pageNum);
 		
 		// 상세보기 화면으로 리다이렉트 이동
-		return "redirect:/fileNotice/content";
+		return "redirect:/eventNotice/content";
 	} // POST - modify
 	
-	@GetMapping("/replyWrite")
-	public String replyWrite(
-			@ModelAttribute("reRef") String reRef, 
-			@ModelAttribute("reLev") String reLev, 
-			@ModelAttribute("reSeq") String reSeq, 
-			@ModelAttribute("pageNum") String pageNum, 
-			Model model) {
-		
-//		model.addAttribute("reRef", reRef);
-//		model.addAttribute("reLev", reLev);
-//		model.addAttribute("reSeq", reSeq);
-//		model.addAttribute("pageNum", pageNum);
-		
-		return "notice/replyWriteForm";
-	} // GET - replyWrite
-	
-	
-	@PostMapping("/replyWrite")
-	public String replyWrite(NoticeVo noticeVo, String pageNum, 
-			@RequestParam(name = "filename", required = false) List<MultipartFile> multipartFiles,
-			HttpServletRequest request, RedirectAttributes rttr) throws IOException {
-		// reRef, reLev, reSeq 는 동일한 NoticeVo객체에 저장되지만
-		// 답글 자체의 정보가 아니고 답글을 다는 대상글에 대한 정보임에 주의!!
-		
-		//insert될 글번호 가져오기
-		int num = mySqlService.getNextNum("notice");
-		noticeVo.setNum(num);
-		
-		//ip  regDate  readcount  값 저장
-		noticeVo.setIp(request.getRemoteAddr());
-		noticeVo.setRegDate(new Timestamp(System.currentTimeMillis()));
-		noticeVo.setReadcount(0);  // 조회수
-		
-		
-		//============ 파일 업로드를 위한 폴더 준비 ==============
-		ServletContext application = request.getServletContext();
-		String realPath = application.getRealPath("/");  // webapp 폴더의 실제경로
-		log.info("realPath : " + realPath);
-		
-		String strDate = this.getFolder();
-		
-		File dir = new File(realPath + "/upload", strDate);
-		log.info("dir : " + dir.getPath());
 
-		if (!dir.exists()) {
-			dir.mkdirs();
-		}
-		
-		
-		//============ MultipartFile을 이용해 파일업로드 수행 ==============
-		
-		// AttachVo 첨부파일정보 담을 리스트 준비
-		List<AttachVo> attachList = new ArrayList<>();
-		
-		if (multipartFiles != null) {
-			for (MultipartFile multipartFile : multipartFiles) {
-				// 파일입력상자에서 선택하지않은 요소는 건너뛰기
-				if (multipartFile.isEmpty()) {
-					continue;
-				}
-				
-				// 실제 업로드한 파일이름 구하기
-				String filename = multipartFile.getOriginalFilename();
-				
-				// 익스플로러는 파일이름에 경로가 포함되어 있으므로
-				// 순수 파일이름만 부분문자열로 가져오기
-				int beginIndex = filename.lastIndexOf("\\") + 1;
-				filename = filename.substring(beginIndex);
-				
-				// 파일명 중복을 피하기 위해서 파일이름 앞에 붙일 UUID 문자열 구하기
-				UUID uuid = UUID.randomUUID();
-				String strUuid = uuid.toString();
-				
-				// 업로드(생성)할 파일이름
-				String uploadFilename = strUuid + "_" + filename;
-				
-				// 생성할 파일정보를 File 객체로 준비
-				File saveFile = new File(dir, uploadFilename);
-				
-				// 임시업로드된 파일을 지정경로의 파일명으로 생성(복사)
-				multipartFile.transferTo(saveFile);
-				
-				
-				//============ 첨부파일 AttachVo 준비하기 ==============
-				AttachVo attachVo = new AttachVo();
-				// 게시판 글번호 설정
-				attachVo.setNoNum(noticeVo.getNum());
-				
-				attachVo.setUuid(strUuid);
-				attachVo.setFilename(filename);
-				attachVo.setUploadpath(strDate);
-				
-				if (isImage(filename)) {
-					attachVo.setImage("I");
-					
-					// 생성할 썸네일 이미지 파일 경로와 이름을 준비
-					File thumbnailFile = new File(dir, "s_" + uploadFilename);
-					// 썸네일 이미지 파일 생성하기
-					try (FileOutputStream fos = new FileOutputStream(thumbnailFile)) {
-						Thumbnailator.createThumbnail(multipartFile.getInputStream(), fos, 100, 100);
-					}
-				} else {
-					attachVo.setImage("O");
-				}
-				
-				// AttachVo 를 DB에 insert하기
-				//attachService.insertAttach(attachVo);
-				
-				attachList.add(attachVo);
-			} // for
-		} // if
-		
-		
-		// 답글 insert하기
-//		noticeService.updateAndAddReply(noticeVo);
-//		attachService.insertAttaches(attachList);
-		
-		// 트랜잭션 단위로 처리 : 답글 insert와 첨부파일 insert
-		eventService.updateAndAddReplyAndAddAttaches(noticeVo, attachList);
-		
-		// 리다이렉트용 속성값을 설정
-		rttr.addAttribute("num", noticeVo.getNum());
-		rttr.addAttribute("pageNum", pageNum);
-		
-		// 글내용 상세보기 화면으로 리다이렉트 이동
-		return "redirect:/fileNotice/content";
-	} // POST - replyWrite
-	
-	
-	
-	@GetMapping(value = "/download", produces = MediaType.APPLICATION_OCTET_STREAM_VALUE)
-	public ResponseEntity<Resource> download(int num, HttpServletRequest request) throws Exception {
-		// 첨부파일 번호에 해당하는 레코드 한개 가져오기
-		AttachVo attachVo = eventPosterService.getAttachByNum(num);
-		
-		ServletContext application = request.getServletContext();
-		String realPath = application.getRealPath("/"); // webapp
-
-		// 다운로드할 파일정보를 File 객체로 준비
-		String dir = realPath + "/upload/" + attachVo.getUploadpath();
-		String filename = attachVo.getUuid() + "_" + attachVo.getFilename();
-		File file = new File(dir, filename);
-		
-		Resource resource = new FileSystemResource(file);
-		
-		if (!resource.exists()) {
-			log.info("다운로드할 파일이 존재하지 않습니다.");
-			return new ResponseEntity<Resource>(HttpStatus.NOT_FOUND); // 404
-		}
-		
-		String downloadFilename = attachVo.getFilename();
-		System.out.println("utf-8 파일명: " + downloadFilename);
-
-		// 다운로드 파일명의 문자셋을 utf-8에서 iso-8859-1로 변환
-		downloadFilename = new String(downloadFilename.getBytes("utf-8"), "iso-8859-1");
-		System.out.println("iso-8859-1 파일명: " + downloadFilename);
-		
-		HttpHeaders headers = new HttpHeaders();
-		headers.add("Content-Disposition", "attachment; filename=" + downloadFilename);
-		
-		return new ResponseEntity<Resource>(resource, headers, HttpStatus.OK); // 200코드 정상
-	} // download
-	
 	
 }
 

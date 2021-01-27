@@ -10,7 +10,7 @@ table {
 	min-width: 100%;
 }
 table tr th {
-    padding: 30px;
+    padding: 20px;
 }
 table tr th::after,
 table tr .borderBottom::after,

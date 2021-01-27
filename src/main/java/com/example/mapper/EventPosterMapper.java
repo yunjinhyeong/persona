@@ -7,13 +7,14 @@ import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 
 import com.example.domain.AttachVo;
+import com.example.domain.EventPosterVo;
 
 public interface EventPosterMapper {
 	
-	int insertAttach(AttachVo attachVo);
+	int insertEventPoster(EventPosterVo eventPosterVo);
 	
-	@Select("SELECT * FROM attach WHERE num = #{num}")
-	AttachVo getAttachByNum(int num);
+	@Select("SELECT * FROM eventposter WHERE num = #{num}")
+	EventPosterVo getEventPosterByNum(int num);
 	
 	@Select("SELECT * FROM attach WHERE no_num = #{noNum}")
 	List<AttachVo> getAttachesByNoNum(int noNum);

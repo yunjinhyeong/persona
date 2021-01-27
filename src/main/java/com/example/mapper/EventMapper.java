@@ -6,13 +6,14 @@ import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 
+import com.example.domain.EventVo;
 import com.example.domain.NoticeVo;
 
 public interface EventMapper {
 
 //	@Insert("INSERT INTO notice (id, subject, content, readcount, reg_date, ip, re_ref, re_lev, re_seq) "
 //			+ "VALUES (#{id}, #{subject}, #{content}, #{readcount}, #{regDate}, #{ip}, #{reRef}, #{reLev}, #{reSeq})")
-	void addNotice(NoticeVo noticeVo);
+	void addEvent(EventVo eventVo);
 	
 	
 	@Select("SELECT * FROM notice WHERE num = #{num}")
@@ -28,7 +29,7 @@ public interface EventMapper {
 	List<NoticeVo> getNotices(@Param("startRow") int startRow, @Param("pageSize") int pageSize);
 	
 	
-	void updateBoard(NoticeVo noticeVo);
+	void updateBoard(EventVo eventVo);
 	
 	@Delete("DELETE FROM notice WHERE num = #{num}")
 	void deleteNoticeByNum(int num);
@@ -48,14 +49,14 @@ public interface EventMapper {
 			@Param("search") String search);
 	
 	
-	List<NoticeVo> getNoticesBySearch(
+	List<EventVo> getEventsBySearch(
 			@Param("startRow") int startRow, 
 			@Param("pageSize") int pageSize, 
 			@Param("category") String category, 
 			@Param("search") String search);
 	
 	
-	NoticeVo getNoticeAndAttaches(int num);
+	EventVo getEventAndEventPosters(int num);
 	
 	
 	

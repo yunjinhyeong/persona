@@ -5,11 +5,12 @@
 <!DOCTYPE html>
 <html>
 <head>
-<%-- head 영역 --%>
-<jsp:include page="/WEB-INF/views/include/head.jsp" />
+
 <link href="/css/fileContent.css" rel="stylesheet">
 <link href="/css/bootstrap.css" rel="stylesheet" type="text/css">
 <link href="/css/bootstrap-theme.css" rel="stylesheet" type="text/css">
+<%-- head 영역 --%>
+<jsp:include page="/WEB-INF/views/include/head.jsp" />
 <style>
 li.media {
 	background-color: lightgray;
@@ -219,6 +220,7 @@ span.reply-toggle {
 		src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/locale/ko.js"></script>
 	<script src="https://cdn.jsdelivr.net/npm/vue@2.6.10/dist/vue.js"></script>
 	<script src="/script/jquery-3.5.1.js"></script>
+	<script src="/script/bootstrap.js"></script>
 	<script>
 		// 게시글 삭제 함수
 		function remove() {
