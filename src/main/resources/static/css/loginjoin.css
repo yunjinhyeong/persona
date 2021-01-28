@@ -210,12 +210,10 @@ section .loginjoin .user .formBx .sci li {
     margin: 0 7px;
     cursor: pointer;
 }
-section .loginjoin .user .formBx .sci li:hover {
-    background: #ff4584;
-}
 section .loginjoin .user .formBx .sci li img {
     transform: scale(0.5);
-    width: 70px;
+    font-size: 300px;
+    width: 300px;
 }
 section .loginjoin .singupBx {
     pointer-events: none;

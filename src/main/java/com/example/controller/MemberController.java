@@ -58,13 +58,23 @@ public class MemberController {
 	@Autowired
 	private JavaMailSender javaMailSender;
 	
-
 	
 //	
 //	public void setMemberService(MemberService memberService) {
 //		this.memberService = memberService;
 //	}
 
+	
+	@GetMapping("/kalogin")
+    public String home(@RequestParam(value = "code", required = false) String code, HttpSession session) throws Exception{
+		System.out.println("#########" + code);
+        String access_Token = memberService.getAccessToken(code);
+        System.out.println("#########" + access_Token);
+        HashMap<String, Object> userInfo = memberService.getUserInfo(access_Token);        
+        session.setAttribute("id", userInfo.get("name"));
+        
+        return "index";
+    }
 	
 
 	//	@RequestMapping(value = "/join", method = RequestMethod.GET)

@@ -6,9 +6,6 @@
 <%-- head 영역 --%>
 <jsp:include page="/WEB-INF/views/include/head.jsp" />
 <link href="/css/loginjoin.css" rel="stylesheet">
-<script src="https://apis.google.com/js/platform.js" async defer></script>
-<meta name="google-signin-client_id" content="622565699351-rt1ug07uls1bnctidhah27oc509fpi4s.apps.googleusercontent.com">
-<script src = "//developers.kakao.com/sdk/js/kakao.min.js"></script>
 </head>
 <body>
 	<%-- header 영역 --%>
@@ -38,11 +35,7 @@
                     </form>
                     <h2>소셜로그인</h2>
                     <ul class="sci">
-                        <div id="googleLoginBtn" style="cursor: pointer">
-							<img id="googleLoginImg" src="./images/btn_google_signin_light_pressed_web.png">
-						</div>
-                        <a id="kakao-login-btn"></a>
-                        <li><img src="/imgs/kakaoIcon.jpg" alt=""></li>
+                        <li><a href="https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=eac72a49a12f71733a11b03a516913df&redirect_uri=http://localhost:8082/member/kalogin"><img alt="" src="/imgs/kakaoIcon.png"></a></li>
                     </ul>
                 </div>
             </div>
