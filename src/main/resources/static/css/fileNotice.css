@@ -35,3 +35,9 @@ form select, form input {
 .pageNumber a.active {
 	background: #212121;
 }
+table .title {
+	width: 2000px;
+}
+tr td span {
+	color: #212121;
+}

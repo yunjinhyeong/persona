@@ -23,55 +23,60 @@
 				
 				<table>
 					<tr>
-						<th>글번호</th>
-						<th>섹션</th>
-						<th>제목</th>
-						<th>시작일</th>
-						<th>종료일</th>
-						<th>등록일</th>
+						<th>아이디</th>
+						<th>비밀번호</th>
+						<th>이름</th>
+						<th>연</th>
+						<th>월</th>
+						<th>일</th>
+						<th>성별</th>
+						<th>이메일</th>
+						<th>우편번호</th>
+						<th>주소</th>
+						<th>상세주소</th>
+						<th>가입일</th>
 						<th>삭제</th>
 					</tr>
 					
 					<c:choose>
-					<c:when test="${ not empty eventList }"><%-- ${ pageDto.count gt 0 } --%>
+					<c:when test="${ not empty memberList }"><%-- ${ pageDto.count gt 0 } --%>
 						
-						<c:forEach var="event" items="${ eventList }">
+						<c:forEach var="member" items="${ memberList }">
 							<tr>
-								<td>${ event.ENum }</td>
-								<td class="title">${ event.ESection }</td>
-								<td class="title"><a href="/eventNotice/content?num=${ event.ENum }&pageNum=${ pageNum }">${ event.ETitle }</a></td>								
-								<td>${ event.startDate }</td>
-								<td>${ event.endDate }</td>
-								<td><fmt:formatDate value="${ event.regDate }" pattern="yyyy.MM.dd"/></td>
-								<td class="deleteBtn" onclick="remove(${ event.ENum })">삭제</td>
+								<td>${ member.id }</td>
+								<td>${ member.passwd }</td>
+								<td>${ member.name }</td>
+								<td>${ member.yy }</td>
+								<td>${ member.mm }</td>
+								<td>${ member.dd }</td>
+								<td>${ member.gender }</td>
+								<td>${ member.email }</td>
+								<td>${ member.postcode }</td>
+								<td>${ member.address }</td>
+								<td>${ member.address2 }</td>
+								<td><fmt:formatDate value="${ member.regDate }" pattern="yyyy.MM.dd"/></td>
+								<td class="deleteBtn" onclick="remove('${ member.id }')">삭제</td>
 							</tr>
 						</c:forEach>
 						
 					</c:when>		
 					<c:otherwise>
 						<tr>
-							<td colspan="7">등록된 이벤트 없음</td>
+							<td colspan="13">등록된 회원 없음</td>
 						</tr>
 					</c:otherwise>
 					</c:choose>
 				</table>
 		
 				<div>
-					<form action="/eventNotice/list" method="get">
+					<form action="/memberNotice/list" method="get">
 						<select name="category">
-							<option value="esection" ${ pageDto.category eq 'esection' ? 'selected' : '' }>섹션</option>
-							<option value="etitle" ${ pageDto.category eq 'etitle' ? 'selected' : '' }>제목</option>
-							<option value="edate" ${ pageDto.category eq 'id' ? 'selected' : '' }>날짜</option>
+							<option value="id" ${ pageDto.category eq 'id' ? 'selected' : '' }>아이디</option>
+							<option value="name" ${ pageDto.category eq 'name' ? 'selected' : '' }>이름</option>
+							<option value="email" ${ pageDto.category eq 'email' ? 'selected' : '' }>이메일</option>
 						</select>
 						<input type="text" class="input_box" name="search" value="${ pageDto.search }">
 						<input type="submit" value="검색" class="btn">
-						
-						<%-- 로그인 했을때만 [글쓰기] 버튼 보이기 --%>
-						<c:if test="${ not empty sessionScope.id }">
-							<c:if test="${ sessionScope.id eq 'admin' }">
-								<input type="button" value="이벤트등록" class="btn" onclick="location.href='/eventNotice/write?pageNum=${ pageNum }'">
-							</c:if>
-						</c:if>
 			
 					</form>
 				</div>
@@ -81,7 +86,7 @@
 					<c:if test="${ pageDto.count gt 0 }">
 						<%-- [이전] --%>
 						<c:if test="${ pageDto.startPage gt pageDto.pageBlock }">
-							<a href="/eventNotice/list?pageNum=${ pageDto.startPage - pageDto.pageBlock }&category=${ pageDto.category }&search=${ pageDto.search }">이전</a>
+							<a href="/memberNotice/list?pageNum=${ pageDto.startPage - pageDto.pageBlock }&category=${ pageDto.category }&search=${ pageDto.search }">이전</a>
 						</c:if>
 						
 						<%-- 시작페이지 ~ 끝페이지 --%>
@@ -89,10 +94,10 @@
 							
 							<c:choose>
 							<c:when test="${ i eq pageNum }">
-								<a href="/eventNotice/list?pageNum=${ i }&category=${ pageDto.category }&search=${ pageDto.search }" class="active">${ i }</a>
+								<a href="/memberNotice/list?pageNum=${ i }&category=${ pageDto.category }&search=${ pageDto.search }" class="active">${ i }</a>
 							</c:when>
 							<c:otherwise>
-								<a href="/eventNotice/list?pageNum=${ i }&category=${ pageDto.category }&search=${ pageDto.search }">${ i }</a>
+								<a href="/memberNotice/list?pageNum=${ i }&category=${ pageDto.category }&search=${ pageDto.search }">${ i }</a>
 							</c:otherwise>
 							</c:choose>
 							
@@ -100,7 +105,7 @@
 						
 						<%-- [다음] --%>
 						<c:if test="${ pageDto.endPage lt pageDto.pageCount }">
-							<a href="/eventNotice/list?pageNum=${ pageDto.startPage + pageDto.pageBlock }&category=${ pageDto.category }&search=${ pageDto.search }">다음</a>
+							<a href="/memberNotice/list?pageNum=${ pageDto.startPage + pageDto.pageBlock }&category=${ pageDto.category }&search=${ pageDto.search }">다음</a>
 						</c:if>
 					</c:if>
 				</div>		
@@ -113,10 +118,10 @@
 <script src="/script/jquery-3.5.1.js"></script>
 <script>
 	// 게시글 삭제 함수
-	function remove(num) {
-		let isDelete = confirm(num+'번 글을 정말 삭제하시겠습니까?');
+	function remove(id) {
+		let isDelete = confirm(id+'님을 정말 삭제하시겠습니까?');
 		if (isDelete) {
-			location.href = '/eventNotice/delete?num='+num+'&pageNum=${ pageNum }';
+			location.href = '/member/delete?id='+id+'&pageNum=${ pageNum }';
 		}
 	}
 </script>

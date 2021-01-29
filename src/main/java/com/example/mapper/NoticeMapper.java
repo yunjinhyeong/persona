@@ -14,6 +14,9 @@ public interface NoticeMapper {
 //			+ "VALUES (#{id}, #{subject}, #{content}, #{readcount}, #{regDate}, #{ip}, #{reRef}, #{reLev}, #{reSeq})")
 	void addNotice(NoticeVo noticeVo);
 	
+	void addTotalReplyCount(
+			@Param("totalCount") int totalCount,
+			@Param("num") int nno);
 	
 	@Select("SELECT * FROM notice WHERE num = #{num}")
 	NoticeVo getNoticeByNum(int num);	

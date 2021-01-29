@@ -23,6 +23,7 @@ import com.example.domain.CommentVo;
 import com.example.domain.Criteria;
 import com.example.service.CommentService;
 import com.example.service.MySqlService;
+import com.example.service.NoticeService;
 
 import lombok.extern.java.Log;
 
@@ -42,7 +43,8 @@ public class CommentRestController {
 	private CommentService commentService;
 	@Autowired
 	private MySqlService mySqlService;
-	
+	@Autowired
+	private NoticeService noticeService;
 	
 	@GetMapping("/one/{cno}")
 	public ResponseEntity<CommentVo> getOne(@PathVariable("cno") int cno) {
@@ -69,6 +71,8 @@ public class CommentRestController {
 		List<CommentVo> commentList = commentService.getCommentsWithPaging(nno, cri);
 		
 		int totalCount = commentService.getTotalCountByNno(nno);
+		
+		noticeService.addTotalReplyCount(totalCount, nno);
 		
 		Map<String, Object> map = new HashMap<>();
 		map.put("commentList", commentList);

@@ -7,7 +7,9 @@ import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 import javax.servlet.ServletContext;
@@ -27,6 +29,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -34,6 +37,7 @@ import com.example.domain.AttachVo;
 import com.example.domain.NoticeVo;
 import com.example.domain.PageDto;
 import com.example.service.AttachService;
+import com.example.service.CommentService;
 import com.example.service.MySqlService;
 import com.example.service.NoticeService;
 
@@ -51,6 +55,8 @@ public class FileNoticeController {
 	private AttachService attachService;
 	@Autowired
 	private MySqlService mySqlService;
+	@Autowired
+	private CommentService commentService;
 
 	
 	@GetMapping("/list")
@@ -72,7 +78,6 @@ public class FileNoticeController {
 			//noticeList = noticeService.getNotices(startRow, pageSize);
 			noticeList = noticeService.getNoticesBySearch(startRow, pageSize, category, search);
 		}
-		
 		
 		PageDto pageDto = new PageDto();
 		
@@ -140,6 +145,21 @@ public class FileNoticeController {
 		}
 		return result;
 	}
+	
+	@GetMapping(value = "/ajax/getCountCommentByNno", produces = { MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE })
+	@ResponseBody // 리턴 객체를 JSON 문자열로 변환해서 응답을 줌
+	public Map<String, Integer> getCountCommentByNno(@RequestParam int nno) {
+		int count = 0;
+		
+		count = commentService.getTotalCountByNno(nno);
+		
+		Map<String, Integer> map = new HashMap<>();
+		map.put("count", count);
+		
+		log.info("map : " + map);
+		return map;	
+	}
+	
 	
 	// 주글쓰기
 	@PostMapping("/write")

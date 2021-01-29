@@ -27,6 +27,9 @@ public class NoticeService {
 		noticeMapper.addNotice(noticeVo);
 	}
 	
+	public void addTotalReplyCount(int totalCount, int nno) {
+		noticeMapper.addTotalReplyCount(totalCount, nno);
+	}
 	
 	public NoticeVo getNoticeByNum(int num) {
 		NoticeVo noticeVo = noticeMapper.getNoticeByNum(num);

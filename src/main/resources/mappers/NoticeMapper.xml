@@ -9,6 +9,12 @@
 		VALUES (#{id}, #{subject}, #{content}, #{readcount}, #{regDate}, #{ip}, #{reRef}, #{reLev}, #{reSeq})
 	</insert>
 	
+	<insert id="addTotalReplyCount">
+		UPDATE notice 
+		SET total_count = #{totalCount} 
+		WHERE num = #{num}		
+	</insert>
+	
 	<update id="updateReadcount">
 		UPDATE notice 
 		SET readcount = readcount + 1 

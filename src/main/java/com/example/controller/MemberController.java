@@ -1,13 +1,16 @@
 package com.example.controller;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.Connection;
 import java.sql.Timestamp;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Random;
 
+import javax.servlet.ServletContext;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -38,7 +41,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.client.RestTemplate;
 
+import com.example.domain.MImgTrailerVo;
 import com.example.domain.MemberVo;
+import com.example.domain.NoticeVo;
+import com.example.domain.PageDto;
+import com.example.service.CommentService;
 import com.example.service.MemberService;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -63,7 +70,63 @@ public class MemberController {
 //	public void setMemberService(MemberService memberService) {
 //		this.memberService = memberService;
 //	}
-
+	
+	
+	@GetMapping("/list")
+	public String list(
+			@RequestParam(defaultValue = "1") int pageNum,
+			@RequestParam(defaultValue = "") String category,
+			@RequestParam(defaultValue = "") String search,
+			Model model) {
+		
+		//int count = noticeService.getCountAll();
+		int count = memberService.getCountBySearch(category, search);
+		
+		int pageSize = 10;
+		
+		int startRow = (pageNum - 1) * pageSize;		
+		
+		List<MemberVo> memberList = null;
+		if (count > 0) {
+			//noticeList = noticeService.getNotices(startRow, pageSize);
+			memberList = memberService.getMembersBySearch(startRow, pageSize, category, search);
+		}
+		
+		
+		PageDto pageDto = new PageDto();
+		
+		if (count > 0) {
+			int pageCount = (count / pageSize) + (count % pageSize == 0 ? 0 : 1);
+			//int pageCount = (int) Math.ceil((double) count / pageSize);
+			
+			int pageBlock = 5;
+			
+			// 1~5          6~10          11~15          16~20       ...
+			// 1~5 => 1     6~10 => 6     11~15 => 11    16~20 => 16
+			int startPage = ((pageNum / pageBlock) - (pageNum % pageBlock == 0 ? 1 : 0)) * pageBlock + 1;
+			
+			int endPage = startPage + pageBlock - 1;
+			if (endPage > pageCount) {
+				endPage = pageCount;
+			}
+			
+			pageDto.setCategory(category);
+			pageDto.setSearch(search);
+			pageDto.setCount(count);
+			pageDto.setPageCount(pageCount);
+			pageDto.setPageBlock(pageBlock);
+			pageDto.setStartPage(startPage);
+			pageDto.setEndPage(endPage);
+		} // if
+		
+		
+		model.addAttribute("memberList", memberList);
+		model.addAttribute("pageDto", pageDto);
+		model.addAttribute("pageNum", pageNum);
+		
+		return "admin/memberNotice";
+	} // list
+	
 	
 	@GetMapping("/kalogin")
     public String home(@RequestParam(value = "code", required = false) String code, HttpSession session) throws Exception{
@@ -221,12 +284,41 @@ public class MemberController {
 	} // login
 	
 	
+	@GetMapping("delete")
+	public String delete(String id, String pageNum, HttpServletRequest request) {
+		log.info("delete id : " + id);
+	
+		// notice 게시글 한개와 attach 첨부파일 여러개를 트랜잭션으로 삭제하기
+		memberService.deleteById(id);
+		
+		// 글목록으로 리다이렉트 이동
+		return "redirect:/member/list?pageNum=" + pageNum;
+	} // delete
 
 	
 	@GetMapping("/logout")
 	public String logout(HttpSession session,
 			HttpServletRequest request,
 			HttpServletResponse response) {
+		
+
+			response.setContentType("text/html; charset=UTF-8");
+			PrintWriter out=null;
+			try {
+				out = response.getWriter();
+				out.println("<script>");
+				out.println("document.cookie = 'token=; Path=/; Expires=Thu, 01 Jan 1970 00:00:01 GMT;';");
+				out.println("localStorage.removeItem('token');");
+				out.println("localStorage.removeItem('access_token');");
+				out.println("sessionStorage.removeItem('token');");
+				out.println("sessionStorage.removeItem('access_token');");
+				out.println("ctx.cookies.set('access_token');");
+				out.println("</script>");
+				
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		
 		// 세션 초기화
 		session.invalidate();

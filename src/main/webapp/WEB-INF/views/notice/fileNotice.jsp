@@ -32,12 +32,12 @@
 				<c:forEach var="notice" items="${ noticeList }">
 					<tr>
 						<td>${ notice.num }</td>
-						<td>
+						<td class="title">
 							<c:if test="${ notice.reLev gt 0 }"><%-- 답글이면 --%>
 								<img src="/imgs/level.gif" width="${ notice.reLev * 15 }">
 								<img src="/imgs/re.gif">
 							</c:if>
-							<a href="/fileNotice/content?num=${ notice.num }&pageNum=${ pageNum }">${ notice.subject }</a>
+							<a href="/fileNotice/content?num=${ notice.num }&pageNum=${ pageNum }">${ notice.subject } </a><span><i class="far fa-comment-dots"></i>${ notice.totalCount }</span>
 						</td>
 						<td>${ notice.id }</td>
 						<td><fmt:formatDate value="${ notice.regDate }" pattern="yyyy.MM.dd"/></td>
@@ -105,7 +105,6 @@
 	
 	<%-- footer 영역 --%>
 	<jsp:include page="/WEB-INF/views/include/footer.jsp" />
-
 </body>
 </html>   
 

@@ -16,6 +16,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.example.domain.MemberVo;
+import com.example.domain.NoticeVo;
 import com.example.mapper.MemberMapper;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
@@ -138,7 +139,18 @@ public class MemberService {
 
          return userInfo;
      }
-	
+	 
+	 
+	 
+	 public int getCountBySearch(String category, String search) {
+		int count = memberMapper.getCountBySearch(category, search);
+		return count;
+	 }
+	 
+	 public List<MemberVo> getMembersBySearch(int startRow, int pageSize, String category, String search) {
+		return memberMapper.getMembersBySearch(startRow, pageSize, category, search);
+	}
+	 
 	@Autowired
 	public void setMemberMapper(MemberMapper memberMapper) {
 		this.memberMapper = memberMapper;

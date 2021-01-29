@@ -3,7 +3,11 @@ package com.example.mapper;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.ibatis.annotations.Delete;
+import org.apache.ibatis.annotations.Param;
+
 import com.example.domain.MemberVo;
+import com.example.domain.NoticeVo;
 
 // ���̹�Ƽ������ Mapper �������̽��� ������ ������ ��!
 public interface MemberMapper {
@@ -13,10 +17,19 @@ public interface MemberMapper {
 	
 	//@Select("SELECT * FROM member WHERE id = #{id}")
 	MemberVo getMemberById(String id);
+		
+	List<MemberVo> getMembersBySearch(
+			@Param("startRow") int startRow, 
+			@Param("pageSize") int pageSize, 
+			@Param("category") String category, 
+			@Param("search") String search);
 	
 	//@Select("SELECT * FROM member ORDER BY id")
 	List<MemberVo> getAllMembers();
 	
+	int getCountBySearch(
+			@Param("category") String category, 
+			@Param("search") String search);
 	
 	void addMember(MemberVo memberVo);
 	

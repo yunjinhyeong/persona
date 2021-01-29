@@ -12,6 +12,36 @@
 		SELECT * FROM member ORDER BY id
 	</select>
 	
+	<select id="getCountBySearch" resultType="int">
+		SELECT COUNT(*) 
+		FROM member 
+		<if test="category == 'id'">
+			WHERE id LIKE CONCAT('%', #{search}, '%') 
+		</if>
+		<if test="category == 'name'">
+			WHERE name LIKE CONCAT('%', #{search}, '%') 
+		</if>
+		<if test="category == 'email'">
+			WHERE email LIKE CONCAT('%', #{search}, '%') 
+		</if>
+	</select>
+	
+	<select id="getMembersBySearch" resultType="memberVo">
+		SELECT * 
+		FROM member 
+		<if test="category == 'id'">
+			WHERE id LIKE CONCAT('%', #{search}, '%') 
+		</if>
+		<if test="category == 'name'">
+			WHERE name LIKE CONCAT('%', #{search}, '%') 
+		</if>
+		<if test="category == 'email'">
+			WHERE email LIKE CONCAT('%', #{search}, '%') 
+		</if>
+		ORDER BY reg_date DESC 
+		LIMIT #{startRow}, #{pageSize} 
+	</select>
+	
 	<insert id="addMember">
 		INSERT INTO member (id, passwd, name, yy, mm, dd, gender, email, postcode, address, address2, reg_date) 
 		VALUES (#{id}, #{passwd}, #{name}, #{yy}, #{mm}, #{dd}, #{gender}, #{email}, #{postcode}, #{address}, #{address2}, #{regDate}) 
