@@ -57,6 +57,127 @@
 		</if>
 	</select>
 	
+	<select id="getCountByMovie" resultType="int">
+		SELECT COUNT(*) 
+		FROM event 
+		WHERE e_section LIKE '영화';
+	</select>
+	
+	<select id="getMovie" resultType="int">
+		SELECT *
+		FROM event 
+		WHERE e_section LIKE '영화';
+	</select>
+	
+	<select id="getCountByPremiere" resultType="int">
+		SELECT COUNT(*) 
+		FROM event 
+		WHERE e_section LIKE '시사회/무대인사';
+	</select>
+	
+	<select id="getPremiere" resultType="int">
+		SELECT *
+		FROM event 
+		WHERE e_section LIKE '시사회/무대인사';
+	</select>
+	
+	<select id="getCountByHOT" resultType="int">
+		SELECT COUNT(*) 
+		FROM event 
+		WHERE e_section LIKE 'HOT';
+	</select>
+	
+	<select id="getHOT" resultType="int">
+		SELECT *
+		FROM event 
+		WHERE e_section LIKE 'HOT';
+	</select>
+	
+	<select id="getCountByDiscount" resultType="int">
+		SELECT COUNT(*) 
+		FROM event 
+		WHERE e_section LIKE '제휴할인';
+	</select>
+	
+	<select id="getDiscount" resultType="int">
+		SELECT *
+		FROM event 
+		WHERE e_section LIKE '제휴할인';
+	</select>
+	
+	
+	<select id="getEventMovieImg" resultType="eventImgVo">
+		SELECT e.e_num, e.e_section, e.e_title, e.start_date, e.end_date, e.reg_date,
+		       a.num as anum, a.uuid, a.filename, a.uploadpath, a.no_num
+		FROM event e LEFT OUTER JOIN eventposter a
+		ON e.e_num = a.no_num
+		WHERE e_section = '영화'
+		ORDER BY e_num asc 
+		LIMIT 3 
+	</select>
+	<select id="getEventMovieImgAll" resultType="eventImgVo">
+		SELECT e.e_num, e.e_section, e.e_title, e.start_date, e.end_date, e.reg_date,
+		       a.num as anum, a.uuid, a.filename, a.uploadpath, a.no_num
+		FROM event e LEFT OUTER JOIN eventposter a
+		ON e.e_num = a.no_num
+		WHERE e_section = '영화'
+		ORDER BY e_num asc
+	</select>
+	
+	<select id="getEventPremiereImg" resultType="eventImgVo">
+		SELECT e.e_num, e.e_section, e.e_title, e.start_date, e.end_date, e.reg_date,
+		       a.num as anum, a.uuid, a.filename, a.uploadpath, a.no_num
+		FROM event e LEFT OUTER JOIN eventposter a
+		ON e.e_num = a.no_num
+		WHERE e_section = '시사회/무대인사'
+		ORDER BY e_num asc 
+		LIMIT 3 
+	</select>
+	<select id="getEventPremiereImgAll" resultType="eventImgVo">
+		SELECT e.e_num, e.e_section, e.e_title, e.start_date, e.end_date, e.reg_date,
+		       a.num as anum, a.uuid, a.filename, a.uploadpath, a.no_num
+		FROM event e LEFT OUTER JOIN eventposter a
+		ON e.e_num = a.no_num
+		WHERE e_section = '시사회/무대인사'
+		ORDER BY e_num asc
+	</select>
+	
+	<select id="getEventHOTImg" resultType="eventImgVo">
+		SELECT e.e_num, e.e_section, e.e_title, e.start_date, e.end_date, e.reg_date,
+		       a.num as anum, a.uuid, a.filename, a.uploadpath, a.no_num
+		FROM event e LEFT OUTER JOIN eventposter a
+		ON e.e_num = a.no_num
+		WHERE e_section = 'HOT'
+		ORDER BY e_num asc 
+		LIMIT 3 
+	</select>
+	<select id="getEventHOTImgAll" resultType="eventImgVo">
+		SELECT e.e_num, e.e_section, e.e_title, e.start_date, e.end_date, e.reg_date,
+		       a.num as anum, a.uuid, a.filename, a.uploadpath, a.no_num
+		FROM event e LEFT OUTER JOIN eventposter a
+		ON e.e_num = a.no_num
+		WHERE e_section = 'HOT'
+		ORDER BY e_num asc
+	</select>
+	
+	<select id="getEventDiscountImg" resultType="eventImgVo">
+		SELECT e.e_num, e.e_section, e.e_title, e.start_date, e.end_date, e.reg_date,
+		       a.num as anum, a.uuid, a.filename, a.uploadpath, a.no_num
+		FROM event e LEFT OUTER JOIN eventposter a
+		ON e.e_num = a.no_num
+		WHERE e_section = '제휴할인'
+		ORDER BY e_num asc 
+		LIMIT 3 
+	</select>
+	<select id="getEventDiscountImgAll" resultType="eventImgVo">
+		SELECT e.e_num, e.e_section, e.e_title, e.start_date, e.end_date, e.reg_date,
+		       a.num as anum, a.uuid, a.filename, a.uploadpath, a.no_num
+		FROM event e LEFT OUTER JOIN eventposter a
+		ON e.e_num = a.no_num
+		WHERE e_section = '제휴할인'
+		ORDER BY e_num asc
+	</select>
+	
 	
 	<select id="getEventsBySearch" resultType="eventVo">
 		SELECT * 

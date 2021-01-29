@@ -31,6 +31,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.example.domain.AttachVo;
+import com.example.domain.EventImgVo;
 import com.example.domain.EventPosterVo;
 import com.example.domain.EventVo;
 import com.example.domain.NoticeVo;
@@ -111,6 +112,74 @@ public class EventController {
 		
 		return "admin/eventNotice";
 	} // list
+	
+	@GetMapping("/main/list")
+	public String mainlist(Model model) {
+		
+		//int count = noticeService.getCountAll();
+		int countMovie = eventService.getCountByMovie();
+		int countPremiere = eventService.getCountByPremiere();
+		int countHOT = eventService.getCountByHOT();
+		int countDiscount = eventService.getCountByDiscount();
+		
+		
+		List<EventImgVo> eventMovieList = null;
+		List<EventImgVo> eventPremiereList = null;
+		List<EventImgVo> eventHOTList = null;
+		List<EventImgVo> eventDiscountList = null;
+		
+		if (countMovie > 0) {eventMovieList = eventService.getEventMovieImg();}
+		if (countPremiere > 0) {eventPremiereList = eventService.getEventPremiereImg();}
+		if (countHOT > 0) {eventHOTList = eventService.getEventHOTImg();}
+		if (countDiscount > 0) {eventDiscountList = eventService.getEventDiscountImg();}
+		
+		model.addAttribute("eventMovieList", eventMovieList);
+		model.addAttribute("eventPremiereList", eventPremiereList);
+		model.addAttribute("eventHOTList", eventHOTList);
+		model.addAttribute("eventDiscountList", eventDiscountList);
+		
+		return "event/eventMain";
+	} // mainlist
+	
+	@GetMapping("/main/listMovie")
+	public String mainlistMovie(Model model) {
+		
+		int countMovie = eventService.getCountByMovie();		
+		List<EventImgVo> eventMovieList = null;		
+		if (countMovie > 0) {eventMovieList = eventService.getEventMovieImgAll();}		
+		model.addAttribute("eventMovieList", eventMovieList);		
+		return "event/eventMovie";
+	} // mainlistmore
+	
+	@GetMapping("/main/listPremiere")
+	public String mainlistPremiere(Model model) {
+		
+		int countPremiere = eventService.getCountByPremiere();		
+		List<EventImgVo> eventPremiereList = null;		
+		if (countPremiere > 0) {eventPremiereList = eventService.getEventPremiereImgAll();}		
+		model.addAttribute("eventPremiereList", eventPremiereList);		
+		return "event/eventPremiere";
+	} // mainlistmore
+	
+	@GetMapping("/main/listHOT")
+	public String mainlistHOT(Model model) {
+		
+		int countHOT = eventService.getCountByHOT();		
+		List<EventImgVo> eventHOTList = null;		
+		if (countHOT > 0) {eventHOTList = eventService.getEventHOTImgAll();}		
+		model.addAttribute("eventHOTList", eventHOTList);		
+		return "event/eventHOT";
+	} // mainlistmore
+	
+	@GetMapping("/main/listDiscount")
+	public String mainlistDiscount(Model model) {
+		
+		int countDiscount = eventService.getCountByDiscount();		
+		List<EventImgVo> eventDiscountList = null;		
+		if (countDiscount > 0) {eventDiscountList = eventService.getEventDiscountImgAll();}		
+		model.addAttribute("eventDiscountList", eventDiscountList);		
+		return "event/eventDiscount";
+	} // mainlistmore
 	
 	
 	@GetMapping("/write")

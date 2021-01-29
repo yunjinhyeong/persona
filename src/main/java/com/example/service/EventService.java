@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.example.domain.AttachVo;
+import com.example.domain.EventImgVo;
 import com.example.domain.EventPosterVo;
 import com.example.domain.EventVo;
 import com.example.domain.NoticeVo;
@@ -37,6 +38,40 @@ public class EventService {
 		return noticeVo;
 	}
 	
+	public List<EventImgVo> getEventMovieImg() {
+		List<EventImgVo> list = eventMapper.getEventMovieImg();
+		return list;
+	}
+	public List<EventImgVo> getEventPremiereImg() {
+		List<EventImgVo> list = eventMapper.getEventPremiereImg();
+		return list;
+	}
+	public List<EventImgVo> getEventHOTImg() {
+		List<EventImgVo> list = eventMapper.getEventHOTImg();
+		return list;
+	}
+	public List<EventImgVo> getEventDiscountImg() {
+		List<EventImgVo> list = eventMapper.getEventDiscountImg();
+		return list;
+	}
+	
+	
+	public List<EventImgVo> getEventMovieImgAll() {
+		List<EventImgVo> list = eventMapper.getEventMovieImgAll();
+		return list;
+	}
+	public List<EventImgVo> getEventPremiereImgAll() {
+		List<EventImgVo> list = eventMapper.getEventPremiereImgAll();
+		return list;
+	}
+	public List<EventImgVo> getEventHOTImgAll() {
+		List<EventImgVo> list = eventMapper.getEventHOTImgAll();
+		return list;
+	}
+	public List<EventImgVo> getEventDiscountImgAll() {
+		List<EventImgVo> list = eventMapper.getEventDiscountImgAll();
+		return list;
+	}
 	
 	
 	public void updateReadcount(int num) {
@@ -96,9 +131,39 @@ public class EventService {
 		return count;
 	}
 	
+	public int getCountByMovie() {
+		int count = eventMapper.getCountByMovie();
+		return count;
+	}
+	public int getCountByPremiere() {
+		int count = eventMapper.getCountByPremiere();
+		return count;
+	}
+	public int getCountByHOT() {
+		int count = eventMapper.getCountByHOT();
+		return count;
+	}
+	public int getCountByDiscount() {
+		int count = eventMapper.getCountByDiscount();
+		return count;
+	}
+	
 	
 	public List<EventVo> getEventsBySearch(int startRow, int pageSize, String category, String search) {
 		return eventMapper.getEventsBySearch(startRow, pageSize, category, search);
+	}
+	
+	public List<EventVo> getMovie() {
+		return eventMapper.getMovie();
+	}
+	public List<EventVo> getPremiere() {
+		return eventMapper.getPremiere();
+	}
+	public List<EventVo> getHOT() {
+		return eventMapper.getHOT();
+	}
+	public List<EventVo> getDiscount() {
+		return eventMapper.getDiscount();
 	}
 	
 	

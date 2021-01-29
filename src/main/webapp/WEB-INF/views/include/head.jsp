@@ -11,7 +11,7 @@
   rel="stylesheet"
 />
 <link rel="stylesheet" href="index.css">
-<link rel="shortcut icon" type="image/x-icon" href="imgs/favicon.png">
+<link rel="shortcut icon" type="image/x-icon" href="/imgs/favicon.png">
 <link href="/css/navbar.css" rel="stylesheet">
 <link href="/css/footer.css" rel="stylesheet">
 <title>PERSONA</title>

@@ -6,6 +6,7 @@ import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 
+import com.example.domain.EventImgVo;
 import com.example.domain.EventVo;
 import com.example.domain.NoticeVo;
 
@@ -48,6 +49,10 @@ public interface EventMapper {
 			@Param("category") String category, 
 			@Param("search") String search);
 	
+	int getCountByMovie();
+	int getCountByPremiere();
+	int getCountByHOT();
+	int getCountByDiscount();
 	
 	List<EventVo> getEventsBySearch(
 			@Param("startRow") int startRow, 
@@ -55,10 +60,22 @@ public interface EventMapper {
 			@Param("category") String category, 
 			@Param("search") String search);
 	
+	List<EventVo> getMovie();
+	List<EventVo> getPremiere();
+	List<EventVo> getHOT();
+	List<EventVo> getDiscount();	
 	
 	EventVo getEventAndEventPosters(int num);
 	
+	List<EventImgVo> getEventMovieImg();
+	List<EventImgVo> getEventPremiereImg();
+	List<EventImgVo> getEventHOTImg();
+	List<EventImgVo> getEventDiscountImg();
 	
+	List<EventImgVo> getEventMovieImgAll();
+	List<EventImgVo> getEventPremiereImgAll();
+	List<EventImgVo> getEventHOTImgAll();
+	List<EventImgVo> getEventDiscountImgAll();
 	
 	List<NoticeVo> getNoticesByNums(@Param("numList") List<Integer> numList);
 	

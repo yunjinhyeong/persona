@@ -9,7 +9,7 @@ String id = (String) session.getAttribute("id");
             <li><a href="#">예매</a></li>
             <li><a href="#">영화</a></li>
             <li><a href="#">스토어</a></li>
-            <li><a href="#">이벤트</a></li>           
+            <li><a href="/eventNotice/main/list">이벤트</a></li>           
             <li><a href="#">고객센터</a></li>
             <li><a href="/fileNotice/list">게시판</a></li>
             <%
