@@ -55,6 +55,6 @@ article input {
     cursor: pointer;
     margin-bottom: 10px;
     display: flex;
-    margin-top: 50px;
+    margin: 200px auto 0px auto;
     margin-inline: auto;
-}
+}    

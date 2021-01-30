@@ -21,7 +21,7 @@
         </div>
         <div class="loginjoin">
             <div class="user singinBx">
-                <div class="imgBx"><img src="/imgs/robbit.jpg" alt=""></div>
+                <div class="imgBx"><img src="/imgs/login.jpg" alt=""></div>
                 <div class="formBx">
                     <form id="login" action="/member/login" method="post" name="frm">
                         <h2>로그인</h2>
@@ -103,7 +103,7 @@
                         <p class="signup">계정이 있나요 ? <a href="#" onclick="toggleForm();">로그인</a></p>
                     </form>
                 </div>
-                <div class="imgBx"><img src="/imgs/robbit.jpg" alt=""></div>
+                <div class="imgBx"><img src="/imgs/join.jpg" alt=""></div>
             </div>
         </div>
     </section>

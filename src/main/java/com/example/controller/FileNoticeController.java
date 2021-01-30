@@ -74,7 +74,7 @@ public class FileNoticeController {
 		//int count = noticeService.getCountAll();
 		int count = noticeService.getCountBySearch(category, search);
 		
-		int pageSize = 10;
+		int pageSize = 20;
 		
 		int startRow = (pageNum - 1) * pageSize;		
 		
@@ -109,7 +109,9 @@ public class FileNoticeController {
 			pageDto.setStartPage(startPage);
 			pageDto.setEndPage(endPage);
 		} // if
-		Timestamp onedaysub = new Timestamp(System.currentTimeMillis() - 1000000);
+		Timestamp onedaysub = new Timestamp(System.currentTimeMillis() - 24000000);
+		
+		log.info("onedaysub : " + onedaysub);
 		
 		model.addAttribute("onedaysub", onedaysub);
 		model.addAttribute("noticeList", noticeList);

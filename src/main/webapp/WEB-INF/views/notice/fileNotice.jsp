@@ -15,7 +15,7 @@
 	
 	<article>
 		
-<%-- 	<h1>자료실 게시판 [글갯수: ${ pageDto.count }]</h1> --%>
+		<h1>자유 게시판</h1>
 		
 		<table>
 			<tr>
@@ -30,9 +30,18 @@
 			<c:when test="${ not empty noticeList }"><%-- ${ pageDto.count gt 0 } --%>
 				
 				<c:forEach var="notice" items="${ noticeList }">
-					<tr>						
-						<td class="newMark"><c:if test="${notice.regDate>=onedaysub }">
-							<img src="/imgs/new.png"></c:if>${ notice.num }</td>
+					<tr>
+					<c:set var="onedaysub" value="${ onedaysub }" />		
+						<td class="newMark">
+							<c:choose>
+							    <c:when test="${notice.regDate>=onedaysub }">
+							        <img src="/imgs/new.png">${ notice.num }
+							    </c:when>
+							    <c:otherwise>
+							        <img src="/imgs/old.png">${ notice.num }
+							    </c:otherwise>
+							</c:choose>
+						</td>
 						<td class="title">
 							<c:if test="${ notice.reLev gt 0 }"><%-- 답글이면 --%>
 								<img src="/imgs/level.gif" width="${ notice.reLev * 15 }">

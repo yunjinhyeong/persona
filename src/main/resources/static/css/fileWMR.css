@@ -1,9 +1,12 @@
 body {
 	background: #fff;
+	background:url(/imgs/noticeImg.jpg)no-repeat center center;
+    background-size: cover;
 }
 article {    
     padding: 5% 20%;
     margin: 100px;
+    background: #fff;
 }
 table {
 	text-align: center;

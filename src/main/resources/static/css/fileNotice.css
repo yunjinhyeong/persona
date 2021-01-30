@@ -1,9 +1,19 @@
+body {
+	background:url(/imgs/noticeImg.jpg)no-repeat center center;
+    background-size: cover;
+    z-index: 0;
+}
 article {
 	display: flex;
 	justify-content: center;
 	align-items: center;
-	margin: 500px;
+	margin: 300px;
 	flex-direction: column;
+	z-index: 1;
+	background: #fff;
+}
+article h1 {
+	margin: 20px;
 }
 table {
 	margin-bottom: 100px;
@@ -31,6 +41,9 @@ form select, form input {
     background: #212121;
     cursor: pointer;
     margin-bottom: 10px;
+}
+.pageNumber {
+	margin-bottom: 20px;
 }
 .pageNumber a {
 	padding: 3px;   
