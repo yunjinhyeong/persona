@@ -149,7 +149,7 @@ public class MemberController {
 	
 	
 	@PostMapping("/join")
-	public String join(MemberVo memberVo) {
+	public String join(MemberVo memberVo, @RequestParam String email) {
 		log.info("POST - join() 호출됨");
 		
 		// 회원가입 날짜 설정
@@ -158,6 +158,13 @@ public class MemberController {
 		
 		// 회원가입 처리
 		memberService.addMember(memberVo);
+		
+		SimpleMailMessage message = new SimpleMailMessage();
+		message.setTo(email);
+		message.setSubject("PERSONA에 오신걸 환영합니다.~");
+		message.setText("PERSONA에서 영화도 관람하고 좋은 추억 만드세요~");
+		log.info("message : " + message);
+		javaMailSender.send(message);
 		
 		return "redirect:/member/loginjoin";
 	}

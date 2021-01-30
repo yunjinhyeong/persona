@@ -17,7 +17,13 @@ table th {
 	background: #000;
 	color: #fff;
 }
-
+.newMark {
+	display: flex;
+	align-items: center;
+}
+.newMark img {
+	width: 15px;
+}
 form select, form input {
     font-size: 20px;
     padding: 5px 30px;   

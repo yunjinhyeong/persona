@@ -141,6 +141,22 @@ public class EventController {
 		return "event/eventMain";
 	} // mainlist
 	
+	@GetMapping("/main/one")
+	public String mainone(Model model, @RequestParam int num) {
+		
+		//int count = noticeService.getCountAll();
+		int countMovie = eventService.getCountByMovie();
+		
+		
+		EventImgVo eventByNum = null;
+		
+		if (countMovie > 0) {eventByNum = eventService.getEventByENum(num);}
+		
+		model.addAttribute("eventByNum", eventByNum);
+		
+		return "event/eventDetail";
+	} // mainone
+	
 	@GetMapping("/main/listMovie")
 	public String mainlistMovie(Model model) {
 		

@@ -104,8 +104,9 @@ public class FileNoticeController {
 			pageDto.setStartPage(startPage);
 			pageDto.setEndPage(endPage);
 		} // if
+		Timestamp onedaysub = new Timestamp(System.currentTimeMillis() - 1000000);
 		
-		
+		model.addAttribute("onedaysub", onedaysub);
 		model.addAttribute("noticeList", noticeList);
 		model.addAttribute("pageDto", pageDto);
 		model.addAttribute("pageNum", pageNum);

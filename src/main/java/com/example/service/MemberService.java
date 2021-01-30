@@ -165,6 +165,8 @@ public class MemberService {
 		memberMapper.addMember(memberVo);
 	}
 	
+	
+	
 	public List<MemberVo> getAllMembers() {
 		List<MemberVo> list = memberMapper.getAllMembers();
 		return list;

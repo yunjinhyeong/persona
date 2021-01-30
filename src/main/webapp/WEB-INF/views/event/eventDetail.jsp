@@ -14,36 +14,28 @@
 	<jsp:include page="/WEB-INF/views/include/navbar.jsp" />
 	
 	<article>
-		<h1>HOT 이벤트</h1>
 				
-		<div class="items">
+		<div>
 			<c:choose>
-				<c:when test="${ not empty eventHOTList }">
-					<c:forEach var="hot" items="${ eventHOTList }">
-				       		<div class="oneItem">
+				<c:when test="${ not empty eventByNum }">
+				       	<div>
 				       		<div>					
-								<div class="imgParent">
-									<a href="/eventNotice/main/one?num=${hot.ENum}">
-										<img src="/upload/${ hot.uploadpath }/s_${ hot.uuid }_${ hot.filename }">
+								<div class="imgDetail">
+									<a href="/upload/${ eventByNum.uploadpath }/${ eventByNum.uuid }_${ eventByNum.filename }">
+										<img src="/upload/${ eventByNum.uploadpath }/s_${ eventByNum.uuid }_${ eventByNum.filename }">
 									</a>
-								</div>
-								<div class="eventInfo">
-									<span>${ hot.ETitle }</span>
-									<span>${ hot.startDate } ~ ${ hot.endDate }</span>
 								</div>
 							</div>
 						</div>
-					</c:forEach>
 				</c:when>
 				<c:otherwise>
-					<div>HOT 이벤트 없음</div>
+					<div>이미지 없음</div>
 				</c:otherwise>
 			</c:choose>
+			<input type="button" value="되돌아가기" class="btn" onclick='history.back();'>
 		</div>
 		
-		<input type="button" value="되돌아가기" class="btn" onclick='history.back();'>
-		
-		<img alt="" src="/imgs/moreimg2.png">
+		<img alt="" src="/imgs/eventDetail.png">
 		
 		
 	</article>

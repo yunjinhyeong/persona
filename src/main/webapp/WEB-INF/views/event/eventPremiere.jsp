@@ -23,7 +23,7 @@
 				       		<div class="oneItem">
 				       		<div>					
 								<div class="imgParent">
-									<a href="/upload/${ premiere.uploadpath }/${ premiere.uuid }_${ premiere.filename }">
+									<a href="/eventNotice/main/one?num=${premiere.ENum}">
 										<img src="/upload/${ premiere.uploadpath }/s_${ premiere.uuid }_${ premiere.filename }">
 									</a>
 								</div>
@@ -40,6 +40,8 @@
 				</c:otherwise>
 			</c:choose>
 		</div>
+		
+		<input type="button" value="되돌아가기" class="btn" onclick='history.back();'>
 		
 		<img alt="" src="/imgs/moreimg2.png">
 		

@@ -131,6 +131,10 @@ public class EventService {
 		return count;
 	}
 	
+	public int getCountEvent() {
+		int count = eventMapper.getCountEvent();
+		return count;
+	}
 	public int getCountByMovie() {
 		int count = eventMapper.getCountByMovie();
 		return count;
@@ -146,6 +150,10 @@ public class EventService {
 	public int getCountByDiscount() {
 		int count = eventMapper.getCountByDiscount();
 		return count;
+	}
+	
+	public EventImgVo getEventByENum(int num) {
+		return eventMapper.getEventByENum(num);
 	}
 	
 	

@@ -49,10 +49,13 @@ public interface EventMapper {
 			@Param("category") String category, 
 			@Param("search") String search);
 	
+	int getCountEvent();
 	int getCountByMovie();
 	int getCountByPremiere();
 	int getCountByHOT();
 	int getCountByDiscount();
+	
+	EventImgVo getEventByENum(int num);
 	
 	List<EventVo> getEventsBySearch(
 			@Param("startRow") int startRow, 

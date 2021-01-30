@@ -27,7 +27,7 @@
 					<c:forEach var="movie" items="${ eventMovieList }">
 						<div class="oneItem">
 							<div class="imgParent">
-								<a href="/upload/${ movie.uploadpath }/${ movie.uuid }_${ movie.filename }">
+								<a href="/eventNotice/main/one?num=${movie.ENum}">
 									<img  width='400' src="/upload/${ movie.uploadpath }/s_${ movie.uuid }_${ movie.filename }" width="600px">
 								</a>
 							</div>
@@ -54,7 +54,7 @@
 					<c:forEach var="premiere" items="${ eventPremiereList }">
 						<div class="oneItem">
 							<div class="imgParent">
-								<a href="/upload/${ premiere.uploadpath }/${ premiere.uuid }_${ premiere.filename }">
+								<a href="/eventNotice/main/one?num=${premiere.ENum}">
 									<img  width='400' src="/upload/${ premiere.uploadpath }/s_${ premiere.uuid }_${ premiere.filename }" width="600px">
 								</a>
 							</div>
@@ -81,7 +81,7 @@
 					<c:forEach var="hot" items="${ eventHOTList }">
 						<div class="oneItem">
 							<div class="imgParent">
-								<a href="/upload/${ hot.uploadpath }/${ hot.uuid }_${ hot.filename }">
+								<a href="/eventNotice/main/one?num=${hot.ENum}">
 									<img  width='400' src="/upload/${ hot.uploadpath }/s_${ hot.uuid }_${ hot.filename }" width="600px">
 								</a>
 							</div>
@@ -108,7 +108,7 @@
 					<c:forEach var="discount" items="${ eventDiscountList }">
 						<div class="oneItem">
 							<div class="imgParent">
-								<a href="/upload/${ discount.uploadpath }/${ discount.uuid }_${ discount.filename }">
+								<a href="/eventNotice/main/one?num=${discount.ENum}">
 									<img  width='400' src="/upload/${ discount.uploadpath }/s_${ discount.uuid }_${ discount.filename }" width="600px">
 								</a>
 							</div>

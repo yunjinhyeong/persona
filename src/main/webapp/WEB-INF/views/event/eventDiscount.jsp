@@ -23,7 +23,7 @@
 				       		<div class="oneItem">
 				       		<div>					
 								<div class="imgParent">
-									<a href="/upload/${ discount.uploadpath }/${ discount.uuid }_${ discount.filename }">
+									<a href="/eventNotice/main/one?num=${discount.ENum}">
 										<img src="/upload/${ discount.uploadpath }/s_${ discount.uuid }_${ discount.filename }">
 									</a>
 								</div>
@@ -39,7 +39,10 @@
 					<div>제휴할인 이벤트 없음</div>
 				</c:otherwise>
 			</c:choose>
+			
 		</div>
+		
+		<input type="button" value="되돌아가기" class="btn" onclick='history.back();'>
 		
 		<img alt="" src="/imgs/moreimg2.png">
 		

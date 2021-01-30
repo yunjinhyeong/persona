@@ -57,6 +57,11 @@
 		</if>
 	</select>
 	
+	<select id="getCountEvent" resultType="int">
+		SELECT COUNT(*) 
+		FROM event
+	</select>
+	
 	<select id="getCountByMovie" resultType="int">
 		SELECT COUNT(*) 
 		FROM event 
@@ -175,6 +180,15 @@
 		FROM event e LEFT OUTER JOIN eventposter a
 		ON e.e_num = a.no_num
 		WHERE e_section = '제휴할인'
+		ORDER BY e_num asc
+	</select>
+	
+	<select id="getEventByENum" resultType="eventImgVo">
+		SELECT e.e_num, e.e_section, e.e_title, e.start_date, e.end_date, e.reg_date,
+		       a.num as anum, a.uuid, a.filename, a.uploadpath, a.no_num
+		FROM event e LEFT OUTER JOIN eventposter a
+		ON e.e_num = a.no_num
+		WHERE e_num = #{num}
 		ORDER BY e_num asc
 	</select>
 	
