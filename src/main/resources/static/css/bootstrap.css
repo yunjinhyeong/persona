@@ -1,6 +1,7 @@
 /*!
  * Bootstrap v3.1.1 (http://getbootstrap.com)
  * Copyright 2011-2014 Twitter, Inc.
+ 
  * Licensed under MIT (https://github.com/twbs/bootstrap/blob/master/LICENSE)
  */
 
@@ -268,16 +269,7 @@ th {
           box-sizing: border-box;
 }
 html {
-  font-size: 62.5%;
-
   -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
-}
-body {
-  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-  font-size: 14px;
-  line-height: 1.42857143;
-  color: #333;
-  background-color: #fff;
 }
 input,
 button,
@@ -290,11 +282,6 @@ textarea {
 a {
   color: #428bca;
   text-decoration: none;
-}
-a:hover,
-a:focus {
-  color: #2a6496;
-  text-decoration: underline;
 }
 a:focus {
   outline: thin dotted;

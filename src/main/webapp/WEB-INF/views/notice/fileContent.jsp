@@ -5,15 +5,12 @@
 <!DOCTYPE html>
 <html>
 <head>
-<link href="/css/fileContent.css" rel="stylesheet">
 <link href="/css/bootstrap.css" rel="stylesheet" type="text/css">
 <link href="/css/bootstrap-theme.css" rel="stylesheet" type="text/css">
+<link href="/css/fileContent.css" rel="stylesheet">
 <%-- head 영역 --%>
 <jsp:include page="/WEB-INF/views/include/head.jsp" />
 <style>
-li.media {
-	background-color: lightgray;
-}
 span.reply-toggle {
 	cursor: pointer;
 }
@@ -81,6 +78,36 @@ span.reply-toggle {
 						</c:if></td>
 				</tr>
 			</table>
+			
+			<!-- 추천 기능 -->
+		<div id='likeDiv' align="center">
+		<c:choose>
+		
+			<c:when test="${ id == null }">
+				<a href='javascript: noID();'><img src='/imgs/like1.png' id='like_img' width="150px" height="150px"></a>
+				<h1>${ noticeVo.likes  }</h1>
+			</c:when>
+			
+			<c:otherwise>
+			
+				<c:choose>
+				
+					<c:when test="${ likeStatus == 0 || likeStatus == 2}">
+						<a href='javascript: like_func();'><img src='/imgs/like1.png' id='like_img' width="150px" height="150px"></a>
+						<h1>${ noticeVo.likes  }</h1>
+					</c:when>
+					
+					<c:otherwise>
+						<a href='javascript: like_func();'><img src='/imgs/like2.png' id='like_img' width="150px" height="150px"></a>
+						<h1>${ noticeVo.likes  }</h1>
+					</c:otherwise>
+					
+				</c:choose>
+				
+			</c:otherwise>
+			
+		</c:choose>
+		</div>
 
 			<div class="btns">
 
@@ -602,6 +629,47 @@ span.reply-toggle {
 			}
 		});
 
+		/* 좋아요 */
+		function like_func(){
+		
+		var likeStatus = ${ likeStatus };
+		var noticeNum = ${ noticeVo.num };
+		var userId = '${ sessionScope.id }';
+		
+		var datas = {
+			likeStatus: ${ likeStatus },
+			noticeNum: ${ noticeVo.num },
+			userId: '${ sessionScope.id }'
+		}
+			
+		  $.ajax({
+		    url: "/fileNotice/like",
+		    type: "POST",
+		    data : datas,
+		    success: function(data) {
+		      
+		      if(likeStatus == 0 || likeStatus == 2){
+		        like_img = "/imgs/like1.png";
+		        alert("'좋아요'가 반영되었습니다!") ;
+		        $('#like_img').attr("src", "/imgs/like2.png");
+		        
+		      } else {
+		        like_img = "/imgs/like2.png";
+		        alert("'좋아요'가 취소되었습니다!") ; 
+		        $('#like_img').attr("src", "/imgs/like1.png");
+		      }      
+		    },
+		    error: function(request, status, error){
+		      alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+		    }
+		  });
+		location.reload();
+		}
+		
+		function noID() {
+			alert("'로그인 후'이용 가능합니다!");
+		}
+		
 	</script>
 </body>
 </html>

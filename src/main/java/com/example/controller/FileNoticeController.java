@@ -14,6 +14,7 @@ import java.util.UUID;
 
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.FileSystemResource;
@@ -28,6 +29,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
@@ -39,6 +41,7 @@ import com.example.domain.PageDto;
 import com.example.service.AttachService;
 import com.example.service.CommentService;
 import com.example.service.MySqlService;
+import com.example.service.NoticeLikeService;
 import com.example.service.NoticeService;
 
 import lombok.extern.java.Log;
@@ -57,6 +60,8 @@ public class FileNoticeController {
 	private MySqlService mySqlService;
 	@Autowired
 	private CommentService commentService;
+	@Autowired
+	private NoticeLikeService noticeLikeService;
 
 	
 	@GetMapping("/list")
@@ -278,7 +283,7 @@ public class FileNoticeController {
 	
 	
 	@GetMapping("/content")
-	public String content(int num, @ModelAttribute("pageNum") String pageNum, Model model) {
+	public String content(int num, @ModelAttribute("pageNum") String pageNum, Model model, HttpSession session) {
 		// 조회수 1 증가
 		noticeService.updateReadcount(num);
 		
@@ -295,6 +300,25 @@ public class FileNoticeController {
 			noticeVo.setContent(content);
 		}
 		
+		// noticeLikeService.getIsLikeByNumAndId(noticeVo.getNum(), id);
+		String id = (String) session.getAttribute("id");
+		int noticeNum = noticeVo.getNum();
+		int likeStatus = 0; // 0: 처음, 1: 좋아요를 누른상태 , 2: 좋아요를 눌렀다가 취소한상태
+
+		// 데이터베이스에 기록이 있는지
+		if (noticeLikeService.getCountByNumAndId(noticeNum, id) == 0) { // 없을때
+			likeStatus = 0;
+		} else { // 있을때
+			if (noticeLikeService.getIsLikeByNumAndId(noticeNum, id) == 1) {
+				likeStatus = 1;
+			} else {
+				likeStatus = 2;
+			}
+		}
+		log.info("likeStatus : " + likeStatus);
+		
+		
+		model.addAttribute("likeStatus", likeStatus);
 		model.addAttribute("noticeVo", noticeVo);
 		model.addAttribute("attachList", noticeVo.getAttachList());
 		
@@ -664,7 +688,29 @@ public class FileNoticeController {
 		return new ResponseEntity<Resource>(resource, headers, HttpStatus.OK); // 200코드 정상
 	} // download
 	
-	
+	@RequestMapping(value="/like", method=RequestMethod.POST)
+	@ResponseBody
+	public void like(@RequestParam Map<String, Object> param, HttpServletRequest request, HttpSession session){
+		System.out.println(param);
+		
+		int likeStatus = Integer.parseInt((String) param.get("likeStatus"));
+		int noticeNum = Integer.parseInt((String) param.get("noticeNum"));
+		String userId = (String) param.get("userId");
+		
+		//1 해당 게시판 컬럼의 likes를 증가시키거나 차감시킨다 likeStatus 에따라
+		//2 좋아요를 누른 유저의 정보를담은 notice_like 테이블의 is_like 컬럼을 0 또는 1로 수정한다
+		
+		if(likeStatus == 0) {
+			noticeService.plusLikesByNum(noticeNum);
+			noticeLikeService.addNoticeLike(userId,noticeNum,1);
+		} else if (likeStatus == 1) {
+			noticeService.minusLikesByNum(noticeNum);
+			noticeLikeService.minusNoticeLike(noticeNum, userId);
+		} else if (likeStatus == 2) {
+			noticeService.plusLikesByNum(noticeNum);
+			noticeLikeService.plusNoticeLike(noticeNum, userId);
+		}
+	 }
 }
 
 

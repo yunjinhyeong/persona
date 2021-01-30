@@ -24,6 +24,7 @@ public class NoticeVo {
 	private int reRef;
 	private int reLev;
 	private int reSeq;
+	private int likes;
 	private int totalCount;
 	
 	//private AttachVo attachVo;        // JOIN 쿼리 1:1 관계

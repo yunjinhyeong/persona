@@ -38,3 +38,6 @@ table tr .borderBottomDate::after {
     width: 300px;
     left: 20%;
 }
+#likeDiv h1 {
+	margin-bottom: 20px;
+}

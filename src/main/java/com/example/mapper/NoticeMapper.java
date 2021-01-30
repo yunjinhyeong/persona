@@ -23,6 +23,8 @@ public interface NoticeMapper {
 	
 	void updateReadcount(int num);
 	
+	void plusLikesByNum(int num);
+	void minusLikesByNum(int num);
 	
 //	@Select("SELECT COUNT(*) FROM notice")
 	int getCountAll();

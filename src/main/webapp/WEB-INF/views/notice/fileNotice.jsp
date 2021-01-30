@@ -32,9 +32,7 @@
 				<c:forEach var="notice" items="${ noticeList }">
 					<tr>						
 						<td class="newMark"><c:if test="${notice.regDate>=onedaysub }">
-							<img src="/imgs/new.png">
-							</c:if>							
-							${ notice.num }</td>
+							<img src="/imgs/new.png"></c:if>${ notice.num }</td>
 						<td class="title">
 							<c:if test="${ notice.reLev gt 0 }"><%-- 답글이면 --%>
 								<img src="/imgs/level.gif" width="${ notice.reLev * 15 }">

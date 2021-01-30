@@ -84,7 +84,7 @@
 	
 	<select id="getNoticeAndAttaches" resultMap="noticeAndAttaches">
 		SELECT n.num, n.id, n.subject, n.content, n.readcount, n.reg_date, n.ip,
-		       n.re_ref, n.re_lev, n.re_seq,
+		       n.re_ref, n.re_lev, n.re_seq, n.likes, n.total_count,
 		       a.num as anum, a.uuid, a.filename, a.uploadpath, a.image, a.no_num
 		FROM notice n LEFT OUTER JOIN attach a
 		ON n.num = a.no_num
@@ -102,6 +102,8 @@
 		<result column="re_ref" property="reRef"/>
 		<result column="re_lev" property="reLev"/>
 		<result column="re_seq" property="reSeq"/>
+		<result column="likes" property="likes"/>
+		<result column="total_count" property="totalCount"/>
 		<collection property="attachList" ofType="attachVo" javaType="arraylist">
 			<id column="anum" property="num"/>
 			<result column="uuid" property="uuid"/>
@@ -122,7 +124,17 @@
 		</foreach>
 	</select>
 	
+	<update id="plusLikesByNum">
+		UPDATE notice
+		SET likes = likes + 1 
+		WHERE num = #{num}
+	</update>
 	
+	<update id="minusLikesByNum">
+		UPDATE notice
+		SET likes = likes - 1
+		WHERE num = #{num}
+	</update>
 
 </mapper>
 

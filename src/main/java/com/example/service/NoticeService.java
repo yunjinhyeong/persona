@@ -31,6 +31,14 @@ public class NoticeService {
 		noticeMapper.addTotalReplyCount(totalCount, nno);
 	}
 	
+	public void plusLikesByNum(int num) {
+		noticeMapper.plusLikesByNum(num);
+	}
+	
+	public void minusLikesByNum(int num) {
+		noticeMapper.minusLikesByNum(num);
+	}
+	
 	public NoticeVo getNoticeByNum(int num) {
 		NoticeVo noticeVo = noticeMapper.getNoticeByNum(num);
 		return noticeVo;

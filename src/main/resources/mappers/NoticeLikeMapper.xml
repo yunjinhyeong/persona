@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.mapper.NoticeLikeMapper">
+
+	<select id="getCountByNumAndId" resultType="int">
+		SELECT count(*) FROM notice_like WHERE notice_num = #{notice_num} AND user_id = #{id}
+	</select>
+				
+	<select id="getIsLikeByNumAndId" resultType="int">
+		SELECT is_like FROM notice_like WHERE notice_num = #{notice_num} AND user_id = #{id}
+	</select>
+	
+	<insert id="addNoticeLike">
+		INSERT INTO notice_like (user_id, notice_num, is_like)
+		VALUES (#{userId}, #{noticeNum}, 1)
+	</insert>
+	
+	<update id="plusNoticeLike">
+		UPDATE notice_like set is_like = 1
+		WHERE notice_num = #{notice_num} AND user_id = #{id}
+	</update>
+	
+	<update id="minusNoticeLike">
+		UPDATE notice_like set is_like = 0
+		WHERE notice_num = #{notice_num} AND user_id = #{id}
+	</update>
+	
+</mapper>
+
+
+
+
+
+
