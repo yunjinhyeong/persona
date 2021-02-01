@@ -38,7 +38,7 @@
 						<c:forEach var="event" items="${ eventList }">
 							<tr>
 								<td>${ event.ENum }</td>
-								<td class="title">${ event.ESection }</td>
+								<td class="eventSection">${ event.ESection }</td>
 								<td class="title"><a href="/eventNotice/content?num=${ event.ENum }&pageNum=${ pageNum }">${ event.ETitle }</a></td>								
 								<td>${ event.startDate }</td>
 								<td>${ event.endDate }</td>

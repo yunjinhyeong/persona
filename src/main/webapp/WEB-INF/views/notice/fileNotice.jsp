@@ -44,7 +44,7 @@
 						</td>
 						<td class="title">
 							<c:if test="${ notice.reLev gt 0 }"><%-- 답글이면 --%>
-								<img src="/imgs/level.gif" width="${ notice.reLev * 15 }">
+								<img src="/imgs/level.gif" style="margin-left: ${ notice.reLev * 15}px">
 								<img src="/imgs/re.gif">
 							</c:if>
 							<a href="/fileNotice/content?num=${ notice.num }&pageNum=${ pageNum }">${ notice.subject } </a><span><i class="far fa-comment-dots"></i>${ notice.totalCount }</span>
