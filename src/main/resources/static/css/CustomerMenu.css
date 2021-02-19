@@ -1,0 +1,25 @@
+@charset "UTF-8";
+
+.wrap {
+	width: 1300px;
+	margin: 0 auto;
+	background-color: #212121;
+	border-radius: 10px 10px 10px 10px;
+}
+
+.wrap td{
+	width: 400px;
+	text-align: center;
+	color:#fff
+}
+
+.wrap a{
+	color:#ffffff;
+	font-size: 2em;
+	text-decoration: none;
+}
+
+.wrap a:hover{
+	text-decoration: underline 2px;
+	color: #c1c1c1;
+}

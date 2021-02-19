@@ -21,19 +21,10 @@
             <form action="/movieNotice/modify" method="post" enctype="multipart/form-data" name="frm">
                 <input type="hidden" name="pageNum" value="${ pageNum }">
                 <input type="hidden" name="mNum" value="${ movieVo.MNum }">
+                <input type="hidden" name="mScore" value="${ movieVo.MScore }">
+                <input type="hidden" name="mRate" value="${ movieVo.MRate }">
                 <Table class="addMovieMain">
                     <tr>
-                        <tr>
-                            <th><label for="theater">상영관</label></th>
-                            <td><select name="theater" required>
-                                <option>--관--</option>
-                                <option value="A">A</option>
-                                <option value="B">B</option>
-                                <option value="C">C</option>
-                                <option value="D">D</option>
-                                <option value="E">E</option>
-                            </select></td>
-                        </tr>
                         <tr>
                             <th><label for="mRank">시청등급</label></th>
                             <td><select name="mRank" required>
@@ -52,7 +43,7 @@
                         
                         
                         <tr>
-							<th><label for="mImgTrailer">포스터&트레일러</label></th>
+							<th><label for="mImgTrailer">포스트</label></th>
 							<td class="borderBottom">
 								<div id="oldFileBox">
 													
@@ -69,26 +60,6 @@
 								<input type="button" id="btnAddFile" value="첨부파일 추가">
 							</td>
 						</tr>                                           
-                        <tr>
-                            <th><label for="mScore">영화평점</label></th>
-                            <td><select name="mScore" required>
-                                <option>--평점--</option>
-                                <option value="1">1</option>
-                                <option value="2">2</option>
-                                <option value="3">3</option>
-                                <option value="4">4</option>
-                                <option value="5">5</option>
-                                <option value="6">6</option>
-                                <option value="7">7</option>
-                                <option value="8">8</option>
-                                <option value="9">9</option>
-                                <option value="10">10</option>
-                            </select></td>                            
-                        </tr>
-                        <tr>
-                            <th><label for="mRate">영화예매율</label></th>
-                            <td><input type="number" name="mRate" min="0" max="100" value="${ movieVo.MRate }" required></td>
-                        </tr>
                         <tr>
                             <th><label for="mGenre">영화장르</label></th>
                             <td><select name="mGenre" required>
@@ -118,13 +89,9 @@
                             <td><input type="text" name="mActor" value="${ movieVo.MActor }" required></td>
                         </tr>
                         <tr>
-                            <th><label for="mStart">극장개봉일자</label></th>
-                            <td><input type="date" name="mStart" value="${ movieVo.MStart }" required></td>
+                            <th><label for="mStory">줄거리</label></th>
+                            <td><textarea name="mStory" cols="60" rows="10" required>${ movieVo.MStory }</textarea></td>
                         </tr>
-                        <tr>
-                            <th><label for="mEnd">극장종료일자</label></th>
-                            <td><input type="date" name="mEnd" value="${ movieVo.MEnd }" required></td>
-                        </tr>					
                     </tr>
                 </Table>
             

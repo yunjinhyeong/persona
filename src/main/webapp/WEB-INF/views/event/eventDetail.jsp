@@ -12,17 +12,17 @@
 <body>
 	<%-- header 영역 --%>
 	<jsp:include page="/WEB-INF/views/include/navbar.jsp" />
-	
+
 	<article>
-				
+
 		<div>
 			<c:choose>
 				<c:when test="${ not empty eventByNum }">
 				       	<div>
-				       		<div>					
+				       		<div>
 								<div class="imgDetail">
 									<a href="/upload/${ eventByNum.uploadpath }/${ eventByNum.uuid }_${ eventByNum.filename }">
-										<img src="/upload/${ eventByNum.uploadpath }/s_${ eventByNum.uuid }_${ eventByNum.filename }">
+										<img width='200' src="/upload/${ eventByNum.uploadpath }/${ eventByNum.uuid }_${ eventByNum.filename }">
 									</a>
 								</div>
 							</div>
@@ -34,17 +34,16 @@
 			</c:choose>
 			<input type="button" value="되돌아가기" class="btn" onclick='history.back();'>
 		</div>
-		
+
 		<img alt="" src="/imgs/eventDetail.png">
-		
-		
+
+
 	</article>
-	
+
 	<img alt="" src="/imgs/moreimg.png">
-	
+
 	<%-- footer 영역 --%>
 	<jsp:include page="/WEB-INF/views/include/footer.jsp" />
 </body>
-</html>   
+</html>
 
-    

@@ -47,7 +47,7 @@
 								<c:forEach var="eventPoster" items="${ eventPosterList }">
 									<p>
 										<a href="/upload/${ eventPoster.uploadpath }/${ eventPoster.uuid }_${ eventPoster.filename }">
-											<img  width='400' src="/upload/${ eventPoster.uploadpath }/s_${ eventPoster.uuid }_${ eventPoster.filename }" width="600px">
+											<img  width='400' src="/upload/${ eventPoster.uploadpath }/${ eventPoster.uuid }_${ eventPoster.filename }" width="600px">
 										</a>
 									</p>
 								</c:forEach>

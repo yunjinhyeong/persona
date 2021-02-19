@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.mapper.CardMapper">
+	
+	<!-- 무비+트레일러 함께담아서 현재상영에 forEach돌리기 위함 -->
+	<select id="getCardCardInfo" resultType="cardCardInfoVo">
+		SELECT n.c_num, n.c_name, n.c_sale, n.c_onoff, n.c_discount, n.c_kinds,
+		       a.num as anum, a.uuid, a.filename, a.uploadpath, a.no_num
+		FROM card n LEFT OUTER JOIN cardinfo a
+		ON n.c_num = a.no_num
+		LIMIT #{startPage}, #{pageSize} 
+	</select>
+	
+	<select id="getCardCardInfoByCKinds" resultType="cardCardInfoVo">
+		SELECT n.c_num, n.c_name, n.c_sale, n.c_onoff, n.c_discount, n.c_kinds,
+		       a.num as anum, a.uuid, a.filename, a.uploadpath, a.no_num
+		FROM card n LEFT OUTER JOIN cardinfo a
+		ON n.c_num = a.no_num
+		WHERE n.c_kinds LIKE CONCAT('%', #{CKinds}, '%')
+		LIMIT #{startPage}, #{pageSize} 
+	</select>
+	
+	<select id="countCardCardInfo" resultType="int">
+		SELECT COUNT(*) FROM (SELECT n.c_num, n.c_name, n.c_sale, n.c_onoff, n.c_discount, n.c_kinds,
+		       a.num as anum, a.filename, a.uploadpath, a.no_num
+		FROM card n LEFT OUTER JOIN cardinfo a
+		ON n.c_num = a.no_num
+		LIMIT #{startPage}, #{pageSize} ) t 
+	</select>
+	
+	<select id="countCardCardInfoByCKinds" resultType="int">
+		SELECT COUNT(*) FROM (SELECT n.c_num, n.c_name, n.c_sale, n.c_onoff, n.c_discount, n.c_kinds,
+		       a.num as anum, a.filename, a.uploadpath, a.no_num
+		FROM card n LEFT OUTER JOIN cardinfo a
+		ON n.c_num = a.no_num
+		WHERE n.c_kinds LIKE CONCAT('%', #{CKinds}, '%')
+		LIMIT #{startPage}, #{pageSize} ) t 
+	</select>
+	
+	<select id="getCountBySearch" resultType="int">
+		SELECT COUNT(*)
+		FROM card
+		<if test="category == 'mname'">
+			WHERE m_name LIKE CONCAT('%', #{search}, '%')
+		</if>
+		<if test="category == 'mgenre'">
+			WHERE m_genre LIKE CONCAT('%', #{search}, '%')
+		</if>
+		<if test="category == 'mrank'">
+			WHERE m_rank LIKE CONCAT('%', #{search}, '%')
+		</if>
+	</select>
+	
+	<select id="getCardsBySearch" resultType="cardVo">
+		SELECT *
+		FROM card
+		<if test="category == 'ckinds'">
+			WHERE c_kinds LIKE CONCAT('%', #{search}, '%')
+		</if>
+		<if test="category == 'cname'">
+			WHERE c_name LIKE CONCAT('%', #{search}, '%')
+		</if>
+		<if test="category == 'csale'">
+			WHERE c_sale LIKE CONCAT('%', #{search}, '%')
+		</if>
+		<if test="category == 'conoff'">
+			WHERE c_onoff LIKE CONCAT('%', #{search}, '%')
+		</if>
+		<if test="category == 'cdiscount'">
+			WHERE c_discount LIKE CONCAT('%', #{search}, '%')
+		</if>
+		ORDER BY c_num DESC
+		LIMIT #{startRow}, #{pageSize}
+	</select>
+	
+	<select id="getCardAndCardInfo" resultType="cardCardInfoVo">
+		SELECT n.c_num, n.c_name, n.c_sale, n.c_onoff, n.c_discount, n.c_kinds,
+		a.num as anum, a.uuid, a.filename, a.uploadpath, a.no_num
+		FROM card n LEFT OUTER JOIN cardinfo a
+		ON n.c_num = a.no_num
+		WHERE n.c_num = #{cNum}
+	</select>
+	
+<!-- 	<select id="getCardAndCardInfo" resultType="cardCardInfoVo"> -->
+<!-- 		SELECT n.c_num, n.c_name, n.c_sale, n.c_onoff, n.c_discount, n.c_kinds, -->
+<!-- 		       a.num as anum, a.uuid, a.filename, a.uploadpath, a.no_num -->
+<!-- 		FROM card n LEFT OUTER JOIN cardinfo a -->
+<!-- 		ON n.c_num = a.no_num -->
+<!-- 		WHERE n.c_kinds = #{cKinds} -->
+<!-- 		ORDER BY c_num -->
+<!-- 	</select> -->
+	
+	
+	<update id="updateCard">
+		UPDATE card
+		SET  c_name = #{cName}, c_sale = #{cSale} , c_onoff = #{cOnoff} , c_discount = #{cDiscount} , c_kinds = #{cKinds}
+		WHERE c_num = #{cNum}
+	</update>
+	
+</mapper>
+
+
+

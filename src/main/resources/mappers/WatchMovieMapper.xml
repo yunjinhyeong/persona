@@ -1,0 +1,316 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.mapper.WatchMovieMapper">
+
+	<insert id="addWatchMovie">
+		INSERT INTO watchmovie (name, area, date, theater, reg_date)
+		VALUES (#{name}, #{area}, #{date}, #{theater}, #{regDate})
+	</insert>
+
+	<update id="updateReadcount">
+		UPDATE notice
+		SET readcount = readcount + 1
+		WHERE num = #{num}
+	</update>
+
+	<insert id="addSeat">
+		INSERT INTO movieseat (id, name ,seat, no_num, reg_date, area, date, gender)
+		VALUES (#{id}, #{name}, #{seat}, #{noNum}, #{regDate}, #{area}, #{date}, #{gender})
+	</insert>
+
+	<insert id="addBookedMovie">
+		INSERT INTO bookmovie (id, area, theater, date, name, price)
+		VALUES (#{id}, #{area}, #{theater},#{date},#{name},#{price});
+	</insert>
+
+	<select id="getReservationSeats" resultType="reservationSeatVo">
+		SELECT w.num, m.id, w.name, m.seat, w.area, w.date, w.theater, w.reg_date
+		FROM movieseat AS m JOIN watchmovie AS w
+		ON m.no_num = w.num
+		where id = #{id}
+		order by w.reg_date desc;
+	</select>
+
+	<select id="getCountAll" resultType="int">
+		SELECT COUNT(*) FROM notice
+	</select>
+
+	<select id="getNotices" resultType="noticeVo">
+		SELECT *
+		FROM notice
+		ORDER BY re_ref DESC, re_seq ASC
+		LIMIT #{startRow}, #{pageSize}
+	</select>
+
+	<select id="getNameTheatherCount" resultType="map">
+		SELECT w.name, count(w.theater) AS count FROM movieseat AS m JOIN watchmovie AS w ON m.no_num = w.num group by w.name
+	</select>
+
+	<select id="getCountByArea" resultType="map">
+		SELECT w.area, count(*) as count FROM movieseat AS m JOIN watchmovie AS w ON m.no_num = w.num group by w.area
+	</select>
+
+	<select id="getAreaDateTheaterByArea" resultType="map">
+		SELECT w.area, count(*) as count, count(year(w.date)) as date, w.theater FROM movieseat AS m JOIN watchmovie AS w ON m.no_num = w.num group by w.area
+	</select>
+
+	<select id="getWatchMovie" resultType="watchMovieVo">
+		SELECT *
+		FROM watchmovie
+		where num = #{num}
+	</select>
+
+	<update id="updateBoard">
+		UPDATE event
+		SET e_section = #{ESection}, e_title = #{ETitle} , start_date = #{startDate} , end_date = #{endDate}
+		WHERE e_num = #{ENum}
+	</update>
+
+	<update id="updateWatchMovie">
+		UPDATE watchmovie
+		SET name = #{name}, area = #{area} , date = #{date} , theater = #{theater}
+		WHERE num = #{num}
+	</update>
+
+	<update id="updateReSeq">
+		<![CDATA[
+		UPDATE notice
+		SET re_seq = re_seq + 1
+		WHERE re_ref = #{reRef}
+		AND re_seq > #{reSeq}
+		]]>
+	</update>
+
+	<select id="getMoviesName" resultType="String">
+		SELECT DISTINCT name
+		FROM watchmovie
+		WHERE area = #{area}
+	</select>
+
+	<select id="getMoviesDate" resultType="WatchMovieVo">
+		SELECT DISTINCT  date, theater
+		FROM watchmovie
+		WHERE name = #{name} AND area = #{area}
+	</select>
+
+	<select id="getSeatAble" resultType="int">
+		SELECT count(*)
+		FROM movieseat
+		WHERE no_num = #{noNum} And seat = #{seat}
+	</select>
+
+	<select id="getNoNum" resultType="int">
+		SELECT num
+		FROM watchmovie
+		WHERE area = #{area} and name = #{name} and date = #{date} and theater = #{theater}
+	</select>
+
+	<select id="getCountBySearch" resultType="int">
+		SELECT COUNT(*)
+		FROM watchmovie
+		<if test="category == 'name'">
+			WHERE name LIKE CONCAT('%', #{search}, '%')
+		</if>
+		<if test="category == 'area'">
+			WHERE area LIKE CONCAT('%', #{search}, '%')
+		</if>
+		<if test="category == 'date'">
+			WHERE date LIKE CONCAT('%', #{search}, '%')
+		</if>
+	</select>
+
+	<select id="getCountEvent" resultType="int">
+		SELECT COUNT(*)
+		FROM event
+	</select>
+
+	<select id="getCountByMovie" resultType="int">
+		SELECT COUNT(*)
+		FROM event
+		WHERE e_section LIKE '영화';
+	</select>
+
+	<select id="getMovie" resultType="int">
+		SELECT *
+		FROM event
+		WHERE e_section LIKE '영화';
+	</select>
+
+	<select id="getCountByPremiere" resultType="int">
+		SELECT COUNT(*)
+		FROM event
+		WHERE e_section LIKE '시사회/무대인사';
+	</select>
+
+	<select id="getPremiere" resultType="int">
+		SELECT *
+		FROM event
+		WHERE e_section LIKE '시사회/무대인사';
+	</select>
+
+	<select id="getCountByHOT" resultType="int">
+		SELECT COUNT(*)
+		FROM event
+		WHERE e_section LIKE 'HOT';
+	</select>
+
+	<select id="getHOT" resultType="int">
+		SELECT *
+		FROM event
+		WHERE e_section LIKE 'HOT';
+	</select>
+
+	<select id="getCountByDiscount" resultType="int">
+		SELECT COUNT(*)
+		FROM event
+		WHERE e_section LIKE '제휴할인';
+	</select>
+
+	<select id="getDiscount" resultType="int">
+		SELECT *
+		FROM event
+		WHERE e_section LIKE '제휴할인';
+	</select>
+
+
+	<select id="getEventMovieImg" resultType="eventImgVo">
+		SELECT e.e_num, e.e_section, e.e_title, e.start_date, e.end_date, e.reg_date,
+		       a.num as anum, a.uuid, a.filename, a.uploadpath, a.no_num
+		FROM event e LEFT OUTER JOIN eventposter a
+		ON e.e_num = a.no_num
+		WHERE e_section = '영화'
+		ORDER BY e_num asc
+		LIMIT 3
+	</select>
+	<select id="getEventMovieImgAll" resultType="eventImgVo">
+		SELECT e.e_num, e.e_section, e.e_title, e.start_date, e.end_date, e.reg_date,
+		       a.num as anum, a.uuid, a.filename, a.uploadpath, a.no_num
+		FROM event e LEFT OUTER JOIN eventposter a
+		ON e.e_num = a.no_num
+		WHERE e_section = '영화'
+		ORDER BY e_num asc
+	</select>
+
+	<select id="getEventPremiereImg" resultType="eventImgVo">
+		SELECT e.e_num, e.e_section, e.e_title, e.start_date, e.end_date, e.reg_date,
+		       a.num as anum, a.uuid, a.filename, a.uploadpath, a.no_num
+		FROM event e LEFT OUTER JOIN eventposter a
+		ON e.e_num = a.no_num
+		WHERE e_section = '시사회/무대인사'
+		ORDER BY e_num asc
+		LIMIT 3
+	</select>
+	<select id="getEventPremiereImgAll" resultType="eventImgVo">
+		SELECT e.e_num, e.e_section, e.e_title, e.start_date, e.end_date, e.reg_date,
+		       a.num as anum, a.uuid, a.filename, a.uploadpath, a.no_num
+		FROM event e LEFT OUTER JOIN eventposter a
+		ON e.e_num = a.no_num
+		WHERE e_section = '시사회/무대인사'
+		ORDER BY e_num asc
+	</select>
+
+	<select id="getEventHOTImg" resultType="eventImgVo">
+		SELECT e.e_num, e.e_section, e.e_title, e.start_date, e.end_date, e.reg_date,
+		       a.num as anum, a.uuid, a.filename, a.uploadpath, a.no_num
+		FROM event e LEFT OUTER JOIN eventposter a
+		ON e.e_num = a.no_num
+		WHERE e_section = 'HOT'
+		ORDER BY e_num asc
+		LIMIT 3
+	</select>
+	<select id="getEventHOTImgAll" resultType="eventImgVo">
+		SELECT e.e_num, e.e_section, e.e_title, e.start_date, e.end_date, e.reg_date,
+		       a.num as anum, a.uuid, a.filename, a.uploadpath, a.no_num
+		FROM event e LEFT OUTER JOIN eventposter a
+		ON e.e_num = a.no_num
+		WHERE e_section = 'HOT'
+		ORDER BY e_num asc
+	</select>
+
+	<select id="getEventDiscountImg" resultType="eventImgVo">
+		SELECT e.e_num, e.e_section, e.e_title, e.start_date, e.end_date, e.reg_date,
+		       a.num as anum, a.uuid, a.filename, a.uploadpath, a.no_num
+		FROM event e LEFT OUTER JOIN eventposter a
+		ON e.e_num = a.no_num
+		WHERE e_section = '제휴할인'
+		ORDER BY e_num asc
+		LIMIT 3
+	</select>
+	<select id="getEventDiscountImgAll" resultType="eventImgVo">
+		SELECT e.e_num, e.e_section, e.e_title, e.start_date, e.end_date, e.reg_date,
+		       a.num as anum, a.uuid, a.filename, a.uploadpath, a.no_num
+		FROM event e LEFT OUTER JOIN eventposter a
+		ON e.e_num = a.no_num
+		WHERE e_section = '제휴할인'
+		ORDER BY e_num asc
+	</select>
+
+	<select id="getEventByENum" resultType="eventImgVo">
+		SELECT e.e_num, e.e_section, e.e_title, e.start_date, e.end_date, e.reg_date,
+		       a.num as anum, a.uuid, a.filename, a.uploadpath, a.no_num
+		FROM event e LEFT OUTER JOIN eventposter a
+		ON e.e_num = a.no_num
+		WHERE e_num = #{num}
+		ORDER BY e_num asc
+	</select>
+
+
+	<select id="getWatchMoviesBySearch" resultType="watchMovieVo">
+		SELECT *
+		FROM watchmovie
+		<if test="category == 'name'">
+			WHERE name LIKE CONCAT('%', #{search}, '%')
+		</if>
+		<if test="category == 'area'">
+			WHERE area LIKE CONCAT('%', #{search}, '%')
+		</if>
+		<if test="category == 'date'">
+			WHERE date LIKE CONCAT('%', #{search}, '%')
+		</if>
+		LIMIT #{startRow}, #{pageSize}
+	</select>
+
+
+
+	<select id="getEventAndEventPosters" resultMap="eventAndEventPosters">
+		SELECT n.e_num, n.e_section, n.e_title, n.start_date, n.end_date, n.reg_date,
+		       a.num as anum, a.uuid, a.filename, a.uploadpath, a.no_num
+		FROM event n LEFT OUTER JOIN eventposter a
+		ON n.e_num = a.no_num
+		where n.e_num = #{num}
+	</select>
+	<resultMap id="eventAndEventPosters" type="eventVo">
+		<!-- property 속성은 setter 메소드 이름을 의미함! -->
+		<id column="e_num" property="ENum"/>
+		<result column="e_section" property="ESection"/>
+		<result column="e_title" property="ETitle"/>
+		<result column="start_date" property="startDate"/>
+		<result column="end_date" property="endDate"/>
+		<result column="reg_date" property="regDate"/>
+		<collection property="eventPosterList" ofType="eventPosterVo" javaType="arraylist">
+			<id column="anum" property="num"/>
+			<result column="uuid" property="uuid"/>
+			<result column="filename" property="filename"/>
+			<result column="uploadpath" property="uploadpath"/>
+			<result column="no_num" property="noNum"/>
+		</collection>
+	</resultMap>
+
+
+	<select id="getNoticesByNums" resultType="noticeVo">
+		SELECT *
+		FROM notice
+		WHERE num IN
+		<foreach collection="numList" item="num" open="(" separator="," close=")">
+			#{num}
+		</foreach>
+	</select>
+
+
+
+</mapper>
+
+
+

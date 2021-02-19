@@ -28,7 +28,7 @@ span.reply-toggle {
 <body>
 	<%-- header 영역 --%>
 	<jsp:include page="/WEB-INF/views/include/navbar.jsp" />
-	
+
 		<article>
 			<table>
 				<tr>
@@ -61,14 +61,14 @@ span.reply-toggle {
 									<c:when test="${ attach.image eq 'I' }">
 										<p>
 											<a href="/upload/${ attach.uploadpath }/${ attach.uuid }_${ attach.filename }">
-												<img src="/upload/${ attach.uploadpath }/s_${ attach.uuid }_${ attach.filename }" width="600px">
+												<img src="/upload/${ attach.uploadpath }/${ attach.uuid }_${ attach.filename }" width="600px">
 											</a>
 										</p>
 									</c:when>
 									<c:otherwise>
 										<p>
-											<a href="/upload/${ attach.uploadpath }/${ attach.uuid }_${ attach.filename }">
-												${ attach.filename } 
+											<a href="/fileNotice/download?num=${ attach.num }">
+												${ attach.filename }
 											</a>
 										</p>
 									</c:otherwise>
@@ -78,34 +78,34 @@ span.reply-toggle {
 						</c:if></td>
 				</tr>
 			</table>
-			
+
 			<!-- 추천 기능 -->
 		<div id='likeDiv' align="center">
 		<c:choose>
-		
+
 			<c:when test="${ id == null }">
 				<a href='javascript: noID();'><img src='/imgs/like1.png' id='like_img' width="150px" height="150px"></a>
 				<h1>${ noticeVo.likes  }</h1>
 			</c:when>
-			
+
 			<c:otherwise>
-			
+
 				<c:choose>
-				
+
 					<c:when test="${ likeStatus == 0 || likeStatus == 2}">
 						<a href='javascript: like_func();'><img src='/imgs/like1.png' id='like_img' width="150px" height="150px"></a>
 						<h1>${ noticeVo.likes  }</h1>
 					</c:when>
-					
+
 					<c:otherwise>
 						<a href='javascript: like_func();'><img src='/imgs/like2.png' id='like_img' width="150px" height="150px"></a>
 						<h1>${ noticeVo.likes  }</h1>
 					</c:otherwise>
-					
+
 				</c:choose>
-				
+
 			</c:otherwise>
-			
+
 		</c:choose>
 		</div>
 
@@ -148,7 +148,7 @@ span.reply-toggle {
 								</select>
 							</div>
 						</div>
-					</div>	
+					</div>
 
 				</div>
 
@@ -161,9 +161,9 @@ span.reply-toggle {
 							<li class="media" v-for="(comment, index) in commentList"
 								v-bind:key="comment.cno"
 								v-bind:style="{ marginLeft: comment.reLev * 50 + 'px' }"><span
-								class="pull-left" v-if="comment.reLev > 0">└</span> <a
-								class="pull-left" href="#"> <img
-									src="/images/center/pic.jpg">
+								class="pull-left" v-if="comment.reLev > 0">└</span> 
+							<a class="pull-left" href="#"> 
+								<img src="/imgs/none.jpg" style="width: 50px; height: 50px " class="img-circle">
 							</a>
 
 								<div class="media-body">
@@ -204,17 +204,17 @@ span.reply-toggle {
 								</div></li>
 							</transition-group>
 						</ul>
-						
+
 						<!-- 페이지 블록 영역 -->
 						<ul v-if="totalCount > 0" class="pagination pull-right">
 							<li v-bind:class="{ 'disabled': !isPrevOk }">
 								<a href="#" v-on:click="setPageNo(prevBlockPage)">« 이전</a>
 							</li>
-							
+
 							<li v-for="item in pageBlockList" v-bind:key="item.pageNum" v-bind:class="{ 'active': item.isCurrentPage }">
 								<a href="#" v-on:click="setPageNo(item.pageNum)">{{ item.pageNum }}</a>
 							</li>
-							
+
 							<li v-bind:class="{ 'disabled': !isNextOk }">
 								<a href="#" v-on:click="setPageNo(nextBlockPage)">다음 »</a>
 							</li>
@@ -259,7 +259,7 @@ span.reply-toggle {
 	<script>
 		// 게시글 번호
 		const nno = ${ noticeVo.num };
-	
+
 		new Vue({
 			el: '#app',
 			data: {
@@ -282,15 +282,15 @@ span.reply-toggle {
 			},
 			// 산출속성은 반드시 값을 리턴해야 함!
 			computed: {
-				
+
 				remain: function () { // 댓글입력 남은 글자수
 					return 600 - this.inputComment.length;
 				},
-				
+
 				isPrevOk: function () { // 이전 페이지블록 존재 여부
 					return this.startPage > this.pageBlock;
 				},
-				
+
 				isNextOk: function () { // 다음 페이지블록 존재여부
 					return this.endPage < this.pageCount;
 				},
@@ -331,7 +331,7 @@ span.reply-toggle {
 						}
 					} // for
 				},
-				
+
 				getDate: function (str) {
 					console.log(typeof str);
 					console.log(str);
@@ -358,12 +358,12 @@ span.reply-toggle {
 					this.pageNo = pageNum;
 					this.getList();
 				},
-				
+
 				// 댓글목록 가져오기
 				getList: function () {
 					// jsp의 el언어로 게시판 글번호를 출력해서 자바스크립트 변수에 저장
 					let vm = this; // ViewModel의 약칭. Vue객체 자기자신을 vm 변수로 저장
-					
+
 					$.ajax({
 						url: '/comment/pages/' + nno + '/' + this.pageNo + '/' + this.numOfRows,
 						method: 'GET',
@@ -371,7 +371,7 @@ span.reply-toggle {
 						success: function (response) {
 							console.log(typeof response);
 							console.log(response);
-								
+
 							for (let comment of response.commentList) {
 								comment.writeOk = false; // 오브젝트마다 writeOk 필드 추가
 								console.log(comment);
@@ -403,13 +403,13 @@ span.reply-toggle {
 					// ((3-1) / 5) * 5 + 1  -> 1
 					// ((4-1) / 5) * 5 + 1  -> 1
 					// ((5-1) / 5) * 5 + 1  -> 1
-					
+
 					// ((6-1)) / 5 * 5 + 1  -> 6
 					// ((7-1)) / 5 * 5 + 1  -> 6
 					// ((8-1)) / 5 * 5 + 1  -> 6
 					// ((9-1)) / 5 * 5 + 1  -> 6
 					// ((10-1)) / 5 * 5 + 1 -> 6
-					
+
 					// 페이지블록 내의 시작페이지 구하기
 					this.startPage = Math.floor((this.pageNo - 1) / this.pageBlock) * this.pageBlock + 1;
 
@@ -425,12 +425,12 @@ span.reply-toggle {
 					for (let i=this.startPage; i<=this.endPage; i++) {
 						let obj = {
 								pageNum: i,
-								isCurrentPage: (this.pageNo == i) ? true : false 
+								isCurrentPage: (this.pageNo == i) ? true : false
 						};
-						
+
 						this.pageBlockList.push(obj);
 					} // for
-					
+
 				},
 
 				// 한페이지당 보여줄 댓글갯수 변경시 새로 댓글목록 가져오기
@@ -438,7 +438,7 @@ span.reply-toggle {
 					this.pageNo = 1;
 					this.getList();
 				},
-				
+
 				// 주댓글 등록하기
 				addComment: function () {
 					let obj = {
@@ -452,7 +452,7 @@ span.reply-toggle {
 
 
 					let vm = this;
-					
+
 					$.ajax({
 						url: '/comment/new',
 						data: str,
@@ -463,7 +463,7 @@ span.reply-toggle {
 
 							// 현재 페이지 다시 불러오기
 							vm.getList();
-							
+
 							// 다른방식 구현
 // 							let comment = response.comment;
 // 							comment.writeOk = false; // writeOk 필드 추가
@@ -477,7 +477,7 @@ span.reply-toggle {
 
 							let obj = JSON.parse(req.responseText); // <-> JSON.stringify()
 							console.log(typeof obj) // object
-							
+
 							if (obj.isLogin == false) {
 								alert('로그인 사용자만 댓글 작성이 가능합니다.');
 								location.href = '/member/login';
@@ -489,14 +489,14 @@ span.reply-toggle {
 				// 답댓글 등록하기
 				addReplyComment: function (event) {
 					let btn = event.target;
-					
+
 // 					let reRef = $(btn).data('reref');
 					let reRef = btn.dataset.reref;
 					let reLev = btn.dataset.relev;
 					let reSeq = btn.dataset.reseq;
 					console.log(reRef + ', ' + reLev + ', ' + reSeq);
 
-					
+
 					let obj = {
 							nno: nno,
 							content: this.inputReplyComment,
@@ -510,7 +510,7 @@ span.reply-toggle {
 					console.log(str);
 
 					let vm = this;
-					
+
 					$.ajax({
 						url: '/comment/new/reply', // 답댓글은 /reply
 						data: str,
@@ -526,7 +526,7 @@ span.reply-toggle {
 							location.href = '/member/login';
 						}
 					});
-					
+
 				},
 
 				// 댓글 한개 삭제하기
@@ -538,13 +538,13 @@ span.reply-toggle {
 					if (isRemove == false) {
 						return;
 					}
-					
+
 					let comment = this.commentList[index];
 					let cno = comment.cno;
 					console.log('삭제 cno = ' + cno);
 
 					let vm = this;
-					
+
 					// 삭제 요청
 					$.ajax({
 						url: '/comment/' + cno,
@@ -572,11 +572,11 @@ span.reply-toggle {
 
 					// 선택한 댓글만 토글로 보이고, 나머지는 숨기기
 					this.toggleReplyWriteArea(index);
-					
+
 					// 댓글내용을 수정댓글 입력상자에 배치
 					let comment = this.commentList[index];
 					this.inputReplyComment = comment.content;
-					
+
 					this.type = 'update'; // 등록 버튼의 용도를 수정으로 표시 변경
 				}, // showModifyComment
 
@@ -592,7 +592,7 @@ span.reply-toggle {
 					let strJson = JSON.stringify(obj);
 
 					let vm = this;
-					
+
 					$.ajax({
 						url: '/comment/modify',
 						method: 'PUT',
@@ -615,7 +615,7 @@ span.reply-toggle {
 					});
 				},
 
-				// 답댓글 추가 또는 현재댓글 수정하기 
+				// 답댓글 추가 또는 현재댓글 수정하기
 				addReplyOrUpdateComment: function (index, event) {
 					if (this.type == 'insert') { // 답댓글 추가
 						this.addReplyComment(event);
@@ -631,33 +631,33 @@ span.reply-toggle {
 
 		/* 좋아요 */
 		function like_func(){
-		
+
 		var likeStatus = ${ likeStatus };
 		var noticeNum = ${ noticeVo.num };
 		var userId = '${ sessionScope.id }';
-		
+
 		var datas = {
 			likeStatus: ${ likeStatus },
 			noticeNum: ${ noticeVo.num },
 			userId: '${ sessionScope.id }'
 		}
-			
+
 		  $.ajax({
 		    url: "/fileNotice/like",
 		    type: "POST",
 		    data : datas,
 		    success: function(data) {
-		      
+
 		      if(likeStatus == 0 || likeStatus == 2){
 		        like_img = "/imgs/like1.png";
 		        alert("'좋아요'가 반영되었습니다!") ;
 		        $('#like_img').attr("src", "/imgs/like2.png");
-		        
+
 		      } else {
 		        like_img = "/imgs/like2.png";
-		        alert("'좋아요'가 취소되었습니다!") ; 
+		        alert("'좋아요'가 취소되었습니다!") ;
 		        $('#like_img').attr("src", "/imgs/like1.png");
-		      }      
+		      }
 		    },
 		    error: function(request, status, error){
 		      alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
@@ -665,11 +665,11 @@ span.reply-toggle {
 		  });
 		location.reload();
 		}
-		
+
 		function noID() {
 			alert("'로그인 후'이용 가능합니다!");
 		}
-		
+
 	</script>
 </body>
 </html>

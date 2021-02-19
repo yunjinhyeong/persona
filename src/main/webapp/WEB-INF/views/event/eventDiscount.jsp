@@ -12,19 +12,19 @@
 <body>
 	<%-- header 영역 --%>
 	<jsp:include page="/WEB-INF/views/include/navbar.jsp" />
-	
+
 	<article>
 		<h1>제휴할인 이벤트</h1>
-			
+
 		<div class="items">
 			<c:choose>
 				<c:when test="${ not empty eventDiscountList }">
 					<c:forEach var="discount" items="${ eventDiscountList }">
 				       		<div class="oneItem">
-				       		<div>					
+				       		<div>
 								<div class="imgParent">
 									<a href="/eventNotice/main/one?num=${discount.ENum}">
-										<img src="/upload/${ discount.uploadpath }/s_${ discount.uuid }_${ discount.filename }">
+										<img width='200' src="/upload/${ discount.uploadpath }/${ discount.uuid }_${ discount.filename }">
 									</a>
 								</div>
 								<div class="eventInfo">
@@ -39,21 +39,20 @@
 					<div>제휴할인 이벤트 없음</div>
 				</c:otherwise>
 			</c:choose>
-			
+
 		</div>
-		
+
 		<input type="button" value="되돌아가기" class="btn" onclick='history.back();'>
-		
+
 		<img alt="" src="/imgs/moreimg2.png">
-		
-		
+
+
 	</article>
-	
+
 	<img alt="" src="/imgs/moreimg.png">
-	
+
 	<%-- footer 영역 --%>
 	<jsp:include page="/WEB-INF/views/include/footer.jsp" />
 </body>
-</html>   
+</html>
 
-    

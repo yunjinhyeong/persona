@@ -12,7 +12,7 @@ import lombok.ToString;
 @Setter
 @ToString
 public class MemberVo {
-	
+
 	private String id;
 	private String passwd;
 	private String name;
@@ -25,6 +25,7 @@ public class MemberVo {
 	private String address;
 	private String address2;
 	private Timestamp regDate;
+	private String grade;
 }
 
 

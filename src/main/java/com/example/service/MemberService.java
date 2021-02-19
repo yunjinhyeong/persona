@@ -17,7 +17,9 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.example.domain.MemberVo;
 import com.example.domain.NoticeVo;
+import com.example.domain.PattachVo;
 import com.example.mapper.MemberMapper;
+import com.example.mapper.PattachMapper;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
@@ -32,7 +34,18 @@ public class MemberService {
 	// 스프링 빈으로 등록된 객체들 중에서
 	// 타입으로 객체의 참조를 가져와서 참조변수에 저장해줌
 	private MemberMapper memberMapper;
-	
+
+	@Autowired
+	private PattachMapper pattachMapper;
+
+
+	public String getGender(String id) {
+		String gender = memberMapper.getGender(id);
+
+		return gender;
+	}
+
+
 	 public String getAccessToken (String authorize_code) {
          String access_Token = "";
          String refresh_Token = "";
@@ -53,8 +66,8 @@ public class MemberService {
              StringBuilder sb = new StringBuilder();
              sb.append("grant_type=authorization_code");
              sb.append("&code=" + authorize_code);
-             sb.append("&client_id=eac72a49a12f71733a11b03a516913df&");  //본인이 발급받은 key
-             sb.append("redirect_uri=http://localhost:8082/member/kalogin");     // 본인이 설정해 놓은 경로             
+             sb.append("&client_id=나의레스트풀API&");  //본인이 발급받은 key
+             sb.append("redirect_uri=http://localhost:8082/member/kalogin");     // 본인이 설정해 놓은 경로
              bw.write(sb.toString());
              bw.flush();
 
@@ -91,7 +104,7 @@ public class MemberService {
 
          return access_Token;
      }
-	
+
 	 public HashMap<String, Object> getUserInfo (String access_Token) {
 
          //    요청하는 클라이언트마다 가진 정보가 다를 수 있기에 HashMap타입으로 선언
@@ -139,18 +152,18 @@ public class MemberService {
 
          return userInfo;
      }
-	 
-	 
-	 
+
+
+
 	 public int getCountBySearch(String category, String search) {
 		int count = memberMapper.getCountBySearch(category, search);
 		return count;
 	 }
-	 
+
 	 public List<MemberVo> getMembersBySearch(int startRow, int pageSize, String category, String search) {
 		return memberMapper.getMembersBySearch(startRow, pageSize, category, search);
 	}
-	 
+
 	@Autowired
 	public void setMemberMapper(MemberMapper memberMapper) {
 		this.memberMapper = memberMapper;
@@ -160,24 +173,30 @@ public class MemberService {
 		MemberVo memberVo = memberMapper.getMemberById(id);
 		return memberVo;
 	}
-	
+
+	public String getTotalById(String id){
+		String price = memberMapper.getTotalById(id);
+		return price;
+	}
+
+
 	public void addMember(MemberVo memberVo) {
 		memberMapper.addMember(memberVo);
 	}
-	
-	
-	
+
+
+
 	public List<MemberVo> getAllMembers() {
 		List<MemberVo> list = memberMapper.getAllMembers();
 		return list;
 	}
-	
-	
+
+
 	public int userCheck(String id, String passwd) {
 		int check = -1;
-		
+
 		String dbPasswd = memberMapper.userCheck(id);
-		
+
 		if (dbPasswd != null) {
 			if (passwd.equals(dbPasswd)) {
 				check = 1;
@@ -189,16 +208,16 @@ public class MemberService {
 		}
 		return check;
 	}
-	
+
 	public String getUserPW(String id, String name, String email) {
 		String passwd = "";
-		
+
 		String dbPasswd = memberMapper.findUserPasswd(id, name, email);
-		
+
 		int count = 0;
-		
+
 		count = memberMapper.userCheckPasswd(id, name, email);
-		
+
 		if (count == 0) {
 			passwd = null;
 		} else if (count == 1){ // dbPasswd == null
@@ -206,16 +225,16 @@ public class MemberService {
 		}
 		return passwd;
 	}
-	
+
 	public String getUserID(String name, String email) {
 		String findId = "";
-		
+
 		String dbId = memberMapper.findUserID(name, email);
-		
+
 		int count = 0;
-		
+
 		count = memberMapper.userCheckID(name, email);
-		
+
 		if (count == 0) {
 			findId = null;
 		} else if (count == 1){ // dbPasswd == null
@@ -223,39 +242,58 @@ public class MemberService {
 		}
 		return findId;
 	}
-	
+
 	public int getCountById(String id) {
 		int count = memberMapper.getCountById(id);
 		return count;
 	}
-	
+
 	public int getCountByEmail(String email) {
 		int count = memberMapper.getCountByEmail(email);
 		return count;
 	}
-	
+
 	public void update(MemberVo memberVo) {
 		memberMapper.update(memberVo);
 	}
-	
+
 	public void deleteById(String id) {
 		memberMapper.deleteById(id);
 	}
-	
+
 	public void deleteAll() {
 		memberMapper.deleteAll();
 	}
-	
+
 	public List<Map<String, Object>> getGenderPerCount() {
 		List<Map<String, Object>> list = memberMapper.getGenderPerCount();
 		return list;
 	}
-	
+
 	public List<Map<String, Object>> getAgeRangePerCount() {
 		List<Map<String, Object>> list = memberMapper.getAgeRangePerCount();
 		return list;
 	}
-	
+
+	public void addPattaches(List<PattachVo> pattachList) {
+		// 첨부파일정보 등록
+		for (PattachVo pattachVo : pattachList) {
+			pattachMapper.insertPattach(pattachVo);
+		}
+	}
+
+	public void updateMemberAneAddPattachedAndDeletePattaches(MemberVo memberVo, List<PattachVo> pattachList, List<Integer> delFileNums) {
+		memberMapper.update(memberVo);
+
+		for(PattachVo pattachVo : pattachList) {
+			pattachMapper.insertPattach(pattachVo);
+		}
+
+		if(delFileNums != null) {
+			pattachMapper.deletePattachedByNums(delFileNums);
+		}
+	}
+
 }
 
 

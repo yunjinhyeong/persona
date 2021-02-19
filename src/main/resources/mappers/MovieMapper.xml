@@ -5,81 +5,126 @@
 <mapper namespace="com.example.mapper.MovieMapper">
 
 	<insert id="addMovie">
-		Insert INTO movie (theater, m_rank, m_name, m_score, m_rate, m_genre, m_runtime, m_director, m_actor, m_start, m_end, m_like, reg_date) 
-		VALUES (#{theater}, #{mRank}, #{mName}, #{mScore}, #{mRate}, #{mGenre}, #{mRuntime}, #{mDirector}, #{mActor}, #{mStart}, #{mEnd}, #{mLike}, #{regDate})
+		Insert INTO movie ( m_rank, m_name, m_score, m_rate, m_genre, m_runtime, m_director, m_actor, m_like, reg_date, m_story)
+		VALUES ( #{mRank}, #{mName}, #{mScore}, #{mRate}, #{mGenre}, #{mRuntime}, #{mDirector}, #{mActor}, #{mLike}, #{regDate}, #{mStory})
+	</insert>
+
+	<insert id="addTotalReplyCount">
+		UPDATE notice
+		SET total_count = #{totalCount}
+		WHERE num = #{num}
 	</insert>
 	
+	<select id="getDateAtMovie" resultType="map">
+		SELECT m_name as title, avg(m_score) as score, avg(m_rate) as rate, m_genre as genre FROM bisp.movie group by m_name
+	</select>
+
 	<update id="updateReadcount">
-		UPDATE movie 
-		SET readcount = readcount + 1 
-		WHERE num = #{num} 
+		UPDATE movie
+		SET readcount = readcount + 1
+		WHERE num = #{num}
 	</update>
-	
-	
+
+
 	<select id="getCountAll" resultType="int">
 		SELECT COUNT(*) FROM movie
 	</select>
-	
+
 	<select id="getNotices" resultType="noticeVo">
-		SELECT * 
-		FROM movie 
-		ORDER BY re_ref DESC, re_seq ASC 
-		LIMIT #{startRow}, #{pageSize} 
-	</select>
-	
-	<update id="updateMovie">
-		UPDATE movie 
-		SET theater = #{theater}, m_rank = #{mRank}, m_name = #{mName} , m_score = #{mScore} , m_rate = #{mRate} , m_genre = #{mGenre} , m_runtime = #{mRuntime} 
-		, m_director = #{mDirector} , m_actor = #{mActor} , m_start = #{mStart} , m_end = #{mEnd}  
-		WHERE m_num = #{mNum} 
-	</update>
-	
-	<update id="updateReSeq">
-		<![CDATA[
-		UPDATE notice 
-		SET re_seq = re_seq + 1 
-		WHERE re_ref = #{reRef} 
-		AND re_seq > #{reSeq} 
-		]]>
-	</update>
-	
-	
-	<select id="getCountBySearch" resultType="int">
-		SELECT COUNT(*) 
-		FROM movie 
-		<if test="category == 'mname'">
-			WHERE m_name LIKE CONCAT('%', #{search}, '%') 
-		</if>
-		<if test="category == 'mgenre'">
-			WHERE m_genre LIKE CONCAT('%', #{search}, '%') 
-		</if>
-		<if test="category == 'mrank'">
-			WHERE m_rank LIKE CONCAT('%', #{search}, '%') 
-		</if>
-	</select>
-	
-	
-	<select id="getMoviesBySearch" resultType="movieVo">
-		SELECT * 
-		FROM movie 
-		<if test="category == 'mname'">
-			WHERE m_name LIKE CONCAT('%', #{search}, '%') 
-		</if>
-		<if test="category == 'mgenre'">
-			WHERE m_genre LIKE CONCAT('%', #{search}, '%') 
-		</if>
-		<if test="category == 'mrank'">
-			WHERE m_rank LIKE CONCAT('%', #{search}, '%') 
-		</if>
-		ORDER BY m_num DESC 
+		SELECT *
+		FROM movie
+		ORDER BY re_ref DESC, re_seq ASC
 		LIMIT #{startRow}, #{pageSize}
 	</select>
+
+	<!-- 무비+트레일러 함께담아서 현재상영에 forEach돌리기 위함 -->
+	<select id="getMoviesMImg" resultType="movieMImgVo">
+		SELECT n.m_num,  n.m_rank, n.m_name, n.m_score, n.m_rate, n.m_genre,
+		       n.m_runtime, n.m_director, n.m_actor,  n.m_like, n.reg_date, n.m_story,
+		       a.num as anum, a.uuid, a.filename, a.uploadpath, a.image, a.no_num
+		FROM movie n LEFT OUTER JOIN mimgtrailer a
+		ON n.m_num = a.no_num
+		WHERE a.image = 'P'
+		ORDER BY m_rate DESC
+		LIMIT #{startPage}, #{pageSize}
+	</select>
 	
-	
-	
+	<!-- 메인용 -->
+	<select id="getMoviesMImgForMain" resultType="movieMImgVo">
+		SELECT n.m_num,  n.m_rank, n.m_name, n.m_score, n.m_rate, n.m_genre,
+		       n.m_runtime, n.m_director, n.m_actor,  n.m_like, n.reg_date, 
+		       a.num as anum, a.uuid, a.filename, a.uploadpath, a.image, a.no_num
+		FROM movie n LEFT OUTER JOIN mimgtrailer a
+		ON n.m_num = a.no_num
+		WHERE a.image = 'P'
+		ORDER BY m_rate DESC 
+		LIMIT 5 
+	</select>
+
+	<select id="countMoviesMImg" resultType="int">
+		SELECT COUNT(*) FROM (SELECT n.m_num,  n.m_rank, n.m_name, n.m_score, n.m_rate, n.m_genre,
+		       n.m_runtime, n.m_director, n.m_actor,  n.m_like, n.reg_date, n.m_story,
+		       a.num as anum, a.uuid, a.filename, a.uploadpath, a.image, a.no_num
+		FROM movie n LEFT OUTER JOIN mimgtrailer a
+		ON n.m_num = a.no_num
+		WHERE a.image = 'P'
+		ORDER BY m_rate DESC
+		LIMIT #{startPage}, #{pageSize}) t
+	</select>
+
+	<update id="updateMovie">
+		UPDATE movie
+		SET  m_rank = #{mRank}, m_name = #{mName} , m_score = #{mScore} , m_rate = #{mRate} , m_genre = #{mGenre} , m_runtime = #{mRuntime}
+		, m_director = #{mDirector} , m_actor = #{mActor} ,m_story = #{mStory}
+		WHERE m_num = #{mNum}
+	</update>
+
+	<update id="updateReSeq">
+		<![CDATA[
+		UPDATE notice
+		SET re_seq = re_seq + 1
+		WHERE re_ref = #{reRef}
+		AND re_seq > #{reSeq}
+		]]>
+	</update>
+
+
+	<select id="getCountBySearch" resultType="int">
+		SELECT COUNT(*)
+		FROM movie
+		<if test="category == 'mname'">
+			WHERE m_name LIKE CONCAT('%', #{search}, '%')
+		</if>
+		<if test="category == 'mgenre'">
+			WHERE m_genre LIKE CONCAT('%', #{search}, '%')
+		</if>
+		<if test="category == 'mrank'">
+			WHERE m_rank LIKE CONCAT('%', #{search}, '%')
+		</if>
+	</select>
+
+
+	<select id="getMoviesBySearch" resultType="movieVo">
+		SELECT *
+		FROM movie
+		<if test="category == 'mname'">
+			WHERE m_name LIKE CONCAT('%', #{search}, '%')
+		</if>
+		<if test="category == 'mgenre'">
+			WHERE m_genre LIKE CONCAT('%', #{search}, '%')
+		</if>
+		<if test="category == 'mrank'">
+			WHERE m_rank LIKE CONCAT('%', #{search}, '%')
+		</if>
+		ORDER BY m_num DESC
+		LIMIT #{startRow}, #{pageSize}
+	</select>
+
+
+
 	<select id="getMovieAndMImgTrailers" resultMap="movieAndmImgTrailers">
-		SELECT n.m_num, n.theater, n.m_rank, n.m_name, n.m_score, n.m_rate, n.m_genre,
-		       n.m_runtime, n.m_director, n.m_actor, n.m_start, n.m_end, n.m_like, n.reg_date,
+		SELECT n.m_num, n.m_rank, n.m_name, n.m_score, n.m_rate, n.m_genre,
+		       n.m_runtime, n.m_director, n.m_actor, n.m_like, n.reg_date, n.m_story,
 		       a.num as anum, a.uuid, a.filename, a.uploadpath, a.image, a.no_num
 		FROM movie n LEFT OUTER JOIN mimgtrailer a
 		ON n.m_num = a.no_num
@@ -88,19 +133,17 @@
 	<resultMap id="movieAndmImgTrailers" type="movieVo">
 		<!-- property 속성은 setter 메소드 이름을 의미함! -->
 		<id column="m_num" property="mNum"/>
-		<result column="theater" property="theater"/>
 		<result column="m_rank" property="mRank"/>
-		<result column="m_name" property="mName"/>		
+		<result column="m_name" property="mName"/>
 		<result column="m_score" property="mScore"/>
 		<result column="m_rate" property="mRate"/>
 		<result column="m_genre" property="mGenre"/>
 		<result column="m_runtime" property="mRuntime"/>
 		<result column="m_director" property="mDirector"/>
 		<result column="m_actor" property="mActor"/>
-		<result column="m_start" property="mStart"/>
-		<result column="m_end" property="mEnd"/>
 		<result column="m_like" property="mLike"/>
 		<result column="reg_date" property="regDate"/>
+		<result column="m_story" property="mStory"/>
 		<collection property="mImgTrailerList" ofType="mImgTrailerVo" javaType="arraylist">
 			<id column="anum" property="num"/>
 			<result column="uuid" property="uuid"/>
@@ -110,18 +153,28 @@
 			<result column="no_num" property="noNum"/>
 		</collection>
 	</resultMap>
-	
-	
+
+
 	<select id="getNoticesByNums" resultType="noticeVo">
-		SELECT * 
+		SELECT *
 		FROM notice
-		WHERE num IN 
+		WHERE num IN
 		<foreach collection="numList" item="num" open="(" separator="," close=")">
 			#{num}
 		</foreach>
 	</select>
+
+	<update id="plusLikesByNum">
+		UPDATE movie
+		SET m_like = m_like + 1 
+		WHERE m_num = #{num}
+	</update>
 	
-	
+	<update id="minusLikesByNum">
+		UPDATE movie
+		SET m_like = m_like - 1
+		WHERE m_num = #{num}
+	</update>
 
 </mapper>
 

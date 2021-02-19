@@ -69,7 +69,7 @@
 				</table>
 		
 				<div>
-					<form action="/memberNotice/list" method="get">
+					<form action="/member/list" method="get">
 						<select name="category">
 							<option value="id" ${ pageDto.category eq 'id' ? 'selected' : '' }>아이디</option>
 							<option value="name" ${ pageDto.category eq 'name' ? 'selected' : '' }>이름</option>
@@ -86,7 +86,7 @@
 					<c:if test="${ pageDto.count gt 0 }">
 						<%-- [이전] --%>
 						<c:if test="${ pageDto.startPage gt pageDto.pageBlock }">
-							<a href="/memberNotice/list?pageNum=${ pageDto.startPage - pageDto.pageBlock }&category=${ pageDto.category }&search=${ pageDto.search }">이전</a>
+							<a href="/member/list?pageNum=${ pageDto.startPage - pageDto.pageBlock }&category=${ pageDto.category }&search=${ pageDto.search }">이전</a>
 						</c:if>
 						
 						<%-- 시작페이지 ~ 끝페이지 --%>
@@ -94,10 +94,10 @@
 							
 							<c:choose>
 							<c:when test="${ i eq pageNum }">
-								<a href="/memberNotice/list?pageNum=${ i }&category=${ pageDto.category }&search=${ pageDto.search }" class="active">${ i }</a>
+								<a href="/member/list?pageNum=${ i }&category=${ pageDto.category }&search=${ pageDto.search }" class="active">${ i }</a>
 							</c:when>
 							<c:otherwise>
-								<a href="/memberNotice/list?pageNum=${ i }&category=${ pageDto.category }&search=${ pageDto.search }">${ i }</a>
+								<a href="/member/list?pageNum=${ i }&category=${ pageDto.category }&search=${ pageDto.search }">${ i }</a>
 							</c:otherwise>
 							</c:choose>
 							
@@ -105,7 +105,7 @@
 						
 						<%-- [다음] --%>
 						<c:if test="${ pageDto.endPage lt pageDto.pageCount }">
-							<a href="/memberNotice/list?pageNum=${ pageDto.startPage + pageDto.pageBlock }&category=${ pageDto.category }&search=${ pageDto.search }">다음</a>
+							<a href="/member/list?pageNum=${ pageDto.startPage + pageDto.pageBlock }&category=${ pageDto.category }&search=${ pageDto.search }">다음</a>
 						</c:if>
 					</c:if>
 				</div>		

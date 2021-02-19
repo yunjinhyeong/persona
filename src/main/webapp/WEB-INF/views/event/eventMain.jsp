@@ -12,11 +12,11 @@
 <body>
 	<%-- header 영역 --%>
 	<jsp:include page="/WEB-INF/views/include/navbar.jsp" />
-	
+
 	<article>
-		
+
 		<h1>전체 이벤트</h1>
-		
+
 		<div class="sectionTitle">
 			<h2>영화</h2>
 			<a href="/eventNotice/main/listMovie">더보기 ></a>
@@ -28,7 +28,7 @@
 						<div class="oneItem">
 							<div class="imgParent">
 								<a href="/eventNotice/main/one?num=${movie.ENum}">
-									<img  width='400' src="/upload/${ movie.uploadpath }/s_${ movie.uuid }_${ movie.filename }" width="600px">
+									<img width='200' src="/upload/${ movie.uploadpath }/${ movie.uuid }_${ movie.filename }" >
 								</a>
 							</div>
 							<div class="eventInfo">
@@ -43,7 +43,7 @@
 				</c:otherwise>
 			</c:choose>
 		</div>
-		
+
 		<div class="sectionTitle">
 			<h2>시사회/무대인사</h2>
 			<a href="/eventNotice/main/listPremiere">더보기 ></a>
@@ -55,7 +55,7 @@
 						<div class="oneItem">
 							<div class="imgParent">
 								<a href="/eventNotice/main/one?num=${premiere.ENum}">
-									<img  width='400' src="/upload/${ premiere.uploadpath }/s_${ premiere.uuid }_${ premiere.filename }" width="600px">
+									<img  width='200' src="/upload/${ premiere.uploadpath }/${ premiere.uuid }_${ premiere.filename }" >
 								</a>
 							</div>
 							<div class="eventInfo">
@@ -70,7 +70,7 @@
 				</c:otherwise>
 			</c:choose>
 		</div>
-		
+
 		<div class="sectionTitle">
 			<h2>HOT</h2>
 			<a href="/eventNotice/main/listHOT">더보기 ></a>
@@ -82,7 +82,7 @@
 						<div class="oneItem">
 							<div class="imgParent">
 								<a href="/eventNotice/main/one?num=${hot.ENum}">
-									<img  width='400' src="/upload/${ hot.uploadpath }/s_${ hot.uuid }_${ hot.filename }" width="600px">
+									<img  width='200' src="/upload/${ hot.uploadpath }/${ hot.uuid }_${ hot.filename }" >
 								</a>
 							</div>
 							<div class="eventInfo">
@@ -97,7 +97,7 @@
 				</c:otherwise>
 			</c:choose>
 		</div>
-		
+
 		<div class="sectionTitle">
 			<h2>제휴할인</h2>
 			<a href="/eventNotice/main/listDiscount">더보기 ></a>
@@ -109,7 +109,7 @@
 						<div class="oneItem">
 							<div class="imgParent">
 								<a href="/eventNotice/main/one?num=${discount.ENum}">
-									<img  width='400' src="/upload/${ discount.uploadpath }/s_${ discount.uuid }_${ discount.filename }" width="600px">
+									<img  width='200' src="/upload/${ discount.uploadpath }/${ discount.uuid }_${ discount.filename }">
 								</a>
 							</div>
 							<div class="eventInfo">
@@ -124,17 +124,16 @@
 				</c:otherwise>
 			</c:choose>
 		</div>
-		
-		<img alt="" src="/imgs/eventImg.jpg">		
-		
-		
+
+		<img alt="" src="/imgs/eventImg.jpg">
+
+
 	</article>
-	
+
 	<img alt="" src="/imgs/eventImg2.png">
-	
+
 	<%-- footer 영역 --%>
 	<jsp:include page="/WEB-INF/views/include/footer.jsp" />
 </body>
-</html>   
+</html>
 
-    

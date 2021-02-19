@@ -540,7 +540,7 @@ public class FileNoticeController {
 //		model.addAttribute("reSeq", reSeq);
 //		model.addAttribute("pageNum", pageNum);
 		
-		return "center/fileReplyWriteForm";
+		return "notice/replyWriteForm";
 	} // GET - replyWrite
 	
 	

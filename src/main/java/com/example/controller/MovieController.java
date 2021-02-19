@@ -9,11 +9,13 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 import java.util.logging.Logger;
 
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.apache.commons.io.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,21 +31,28 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.example.domain.AttachVo;
+import com.example.domain.MCommentVo;
 import com.example.domain.MImgTrailerVo;
+import com.example.domain.MovieMImgVo;
 import com.example.domain.MovieVo;
 import com.example.domain.NoticeVo;
 import com.example.domain.PageDto;
 import com.example.service.AttachService;
 import com.example.service.CommentService;
+import com.example.service.MCommentService;
 import com.example.service.MImgTrailerService;
+import com.example.service.MovieLikeService;
 import com.example.service.MovieService;
 import com.example.service.MySqlService;
 import com.example.service.NoticeService;
+import com.example.service.WatchMovieService;
 
 import lombok.extern.java.Log;
 import lombok.extern.slf4j.Slf4j;
@@ -53,53 +62,58 @@ import net.coobird.thumbnailator.Thumbnailator;
 @Controller
 @RequestMapping("/movieNotice/*")
 public class MovieController {
-	
+
 	@Autowired
 	private MovieService movieService;
 	@Autowired
 	private MImgTrailerService mImgTrailerService;
 	@Autowired
 	private MySqlService mySqlService;
+	@Autowired
+	private MovieLikeService movieLikeService;
+	@Autowired
+	private MCommentService mcommentService;
+	@Autowired
+	private WatchMovieService watchMovieService;
 
-	
 	@GetMapping("/list")
 	public String list(
 			@RequestParam(defaultValue = "1") int pageNum,
 			@RequestParam(defaultValue = "") String category,
 			@RequestParam(defaultValue = "") String search,
 			Model model) {
-		
+
 		//int count = noticeService.getCountAll();
 		int count = movieService.getCountBySearch(category, search);
-		
+
 		int pageSize = 10;
-		
-		int startRow = (pageNum - 1) * pageSize;		
-		
+
+		int startRow = (pageNum - 1) * pageSize;
+
 		List<MovieVo> movieList = null;
 		if (count > 0) {
 			//movieList = noticeService.getNotices(startRow, pageSize);
 			movieList = movieService.getMoviesBySearch(startRow, pageSize, category, search);
 		}
-		
-		
+
+
 		PageDto pageDto = new PageDto();
-		
+
 		if (count > 0) {
 			int pageCount = (count / pageSize) + (count % pageSize == 0 ? 0 : 1);
 			//int pageCount = (int) Math.ceil((double) count / pageSize);
-			
+
 			int pageBlock = 5;
-			
+
 			// 1~5          6~10          11~15          16~20       ...
 			// 1~5 => 1     6~10 => 6     11~15 => 11    16~20 => 16
 			int startPage = ((pageNum / pageBlock) - (pageNum % pageBlock == 0 ? 1 : 0)) * pageBlock + 1;
-			
+
 			int endPage = startPage + pageBlock - 1;
 			if (endPage > pageCount) {
 				endPage = pageCount;
 			}
-			
+
 			pageDto.setCategory(category);
 			pageDto.setSearch(search);
 			pageDto.setCount(count);
@@ -108,40 +122,90 @@ public class MovieController {
 			pageDto.setStartPage(startPage);
 			pageDto.setEndPage(endPage);
 		} // if
-		
-		
+
+
 		model.addAttribute("movieList", movieList);
 		model.addAttribute("pageDto", pageDto);
 		model.addAttribute("pageNum", pageNum);
-		
+
 		return "admin/movieNotice";
 	} // list
-	
-	
+
+
+	@GetMapping("/nowList" )
+	public String nowList(
+			@RequestParam(defaultValue = "1") int pageNum,
+			Model model) {
+
+		log.info("GET nowList È£ÃâµÊ");
+
+		// ÃÑ ¿µÈ­ ¼ö
+		int count = movieService.getCount();
+
+		int pageSize = pageNum * 15;
+
+		List<MovieMImgVo> movieList = null;
+
+
+
+		if (count > 0) {
+			movieList = movieService.getMoviesMImg(0, pageSize);
+			log.info("movieList : " + movieList);
+		}
+		for(int i=0; i<count; i++ ) {
+			String mName = movieList.get(i).getMName();
+			log.info(mName);
+
+			//ÃÑ ¿¹¸Å °¹¼ö
+			double rcount1 = watchMovieService.getTotalCount();
+			log.info("rcount1 : " + rcount1);
+
+			log.info("movieName : " + mName);
+			//¼±ÅÃÇÑ ¿µÈ­ ¿¹¸Å °¹¼ö
+			double scount1 = watchMovieService.getScount(mName);
+			log.info("scount1 : " + scount1);
+
+			double a = (scount1/rcount1)*100;
+			log.info("a : " + a);
+
+			double bookrate = (Math.round(a*100)/100);
+			log.info("bookrate : " + bookrate);
+
+			movieService.updateMrateByName(mName, bookrate);
+		}
+		movieList = movieService.getMoviesMImg(0, pageSize);
+
+		model.addAttribute("movieList", movieList);
+		model.addAttribute("pageNum", pageNum);
+
+		return "movie/movieNowList";
+	} // nowList
+
+
 	@GetMapping("/write")
 	public String write(@ModelAttribute("pageNum") String pageNum, Model model) {
-		
+
 //		model.addAttribute("pageNum", pageNum);
-		
+
 		return "admin/movieWriteForm";
 	} // GET - write
-	
-	// ì˜¤ëŠ˜ ë‚ ì§œ í˜•ì‹ì˜ í´ë” ë¬¸ìì—´ ê°€ì ¸ì˜¤ê¸° 
+
+	// ¿À´Ã ³¯Â¥ Çü½ÄÀÇ Æú´õ ¹®ÀÚ¿­ °¡Á®¿À±â
 	private String getFolder() {
 		Date date = new Date();
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
 		String strDate = sdf.format(date); // "2020/11/11"
 		return strDate;
 	}
-	
+
 	private boolean isImage(String filename) {
 		boolean result = false;
-		
+
 		// aaaa.bbb.ccc.ddd
 		int index = filename.lastIndexOf(".");
 		String ext = filename.substring(index + 1);
-		
-		if (ext.equalsIgnoreCase("jpg") 
+
+		if (ext.equalsIgnoreCase("jpg")
 				|| ext.equalsIgnoreCase("jpeg")
 				|| ext.equalsIgnoreCase("gif")
 				|| ext.equalsIgnoreCase("png")) {
@@ -149,331 +213,496 @@ public class MovieController {
 		}
 		return result;
 	}
-	
-	// ì£¼ê¸€ì“°ê¸°
+
+	// ÁÖ±Û¾²±â
 	@PostMapping("/write")
 	public String write(HttpServletRequest request,
-			@RequestParam(name = "mImgTrailer", required = false) List<MultipartFile> mImgTrailers,
+			@RequestParam("poster") MultipartFile poster,
+			@RequestParam("mImgTrailer") List<MultipartFile> mImgTrailers,
 			MovieVo movieVo, String pageNum) throws IOException {
-		
-		//============ ê²Œì‹œê¸€ NoticeVo ì¤€ë¹„í•˜ê¸° ==============
-		// AUTO INCREMENT ë‹¤ìŒë²ˆí˜¸ ê°€ì ¸ì˜¤ê¸°
+
+		//============ °Ô½Ã±Û MovieVo ÁØºñÇÏ±â ==============
+		// AUTO INCREMENT ´ÙÀ½¹øÈ£ °¡Á®¿À±â
 		int mNum = mySqlService.getNextNum("movie");
 		movieVo.setMNum(mNum);
 
-		//ip  regDate  readcount  
+		//ip  regDate  readcount
 		movieVo.setRegDate(new Timestamp(System.currentTimeMillis()));
 		movieVo.setMLike(0);
-		
-		//============ ê²Œì‹œê¸€ NoticeVo ì¤€ë¹„ì™„ë£Œ ==============
-		
-		
-		
-		//============ íŒŒì¼ ì—…ë¡œë“œë¥¼ ìœ„í•œ í´ë” ì¤€ë¹„ ==============
+
+		//============ °Ô½Ã±Û MovieVo ÁØºñ¿Ï·á ==============
+
+
+
+		//============ ÆÄÀÏ ¾÷·Îµå¸¦ À§ÇÑ Æú´õ ÁØºñ ==============
 		ServletContext application = request.getServletContext();
-		String realPath = application.getRealPath("/");  // webapp í´ë”ì˜ ì‹¤ì œê²½ë¡œ
+		String realPath = application.getRealPath("/");  // webapp Æú´õÀÇ ½ÇÁ¦°æ·Î
 		log.info("realPath : " + realPath);
-		
+
 		String strDate = this.getFolder();
-		
+
 		File dir = new File(realPath + "/upload", strDate);
 		log.info("dir : " + dir.getPath());
 
 		if (!dir.exists()) {
 			dir.mkdirs();
 		}
-		
-		
-		//============ MultipartFileì„ ì´ìš©í•´ íŒŒì¼ì—…ë¡œë“œ ìˆ˜í–‰ ==============
-		
-		// MimgVo ì²¨ë¶€íŒŒì¼ì •ë³´ ë‹´ì„ ë¦¬ìŠ¤íŠ¸ ì¤€ë¹„
+
+
+		//============ MultipartFileÀ» ÀÌ¿ëÇØ ÆÄÀÏ¾÷·Îµå ¼öÇà ==============
+
 		List<MImgTrailerVo> mimgtrailerList = new ArrayList<>();
-		
-		if (mImgTrailers != null) {
-			for (MultipartFile multipartFile : mImgTrailers) {
-				// íŒŒì¼ì…ë ¥ìƒìì—ì„œ ì„ íƒí•˜ì§€ì•Šì€ ìš”ì†ŒëŠ” ê±´ë„ˆë›°ê¸°
-				if (multipartFile.isEmpty()) {
-					continue;
+
+		for (MultipartFile multipartFile : mImgTrailers) {
+			// ÆÄÀÏÀÔ·Â»óÀÚ¿¡¼­ ¼±ÅÃÇÏÁö¾ÊÀº ¿ä¼Ò´Â °Ç³Ê¶Ù±â
+			if (multipartFile.isEmpty()) {
+				continue;
+			}
+
+			// ½ÇÁ¦ ¾÷·ÎµåÇÑ ÆÄÀÏÀÌ¸§ ±¸ÇÏ±â
+			String filename = multipartFile.getOriginalFilename();
+
+			// ÀÍ½ºÇÃ·Î·¯´Â ÆÄÀÏÀÌ¸§¿¡ °æ·Î°¡ Æ÷ÇÔµÇ¾î ÀÖÀ¸¹Ç·Î
+			// ¼ø¼ö ÆÄÀÏÀÌ¸§¸¸ ºÎºĞ¹®ÀÚ¿­·Î °¡Á®¿À±â
+			int beginIndex = filename.lastIndexOf("\\") + 1;
+			filename = filename.substring(beginIndex);
+
+			// ÆÄÀÏ¸í Áßº¹À» ÇÇÇÏ±â À§ÇØ¼­ ÆÄÀÏÀÌ¸§ ¾Õ¿¡ ºÙÀÏ UUID ¹®ÀÚ¿­ ±¸ÇÏ±â
+			UUID uuid = UUID.randomUUID();
+			String strUuid = uuid.toString();
+
+			// ¾÷·Îµå(»ı¼º)ÇÒ ÆÄÀÏÀÌ¸§
+			String uploadFilename = strUuid + "_" + filename;
+
+			// »ı¼ºÇÒ ÆÄÀÏÁ¤º¸¸¦ File °´Ã¼·Î ÁØºñ
+			File saveFile = new File(dir, uploadFilename);
+
+			// ÀÓ½Ã¾÷·ÎµåµÈ ÆÄÀÏÀ» ÁöÁ¤°æ·ÎÀÇ ÆÄÀÏ¸íÀ¸·Î »ı¼º(º¹»ç)
+			multipartFile.transferTo(saveFile);
+
+
+			//============ Ã·ºÎÆÄÀÏ AttachVo ÁØºñÇÏ±â ==============
+			MImgTrailerVo mImgTrailerVo = new MImgTrailerVo();
+			// °Ô½ÃÆÇ ±Û¹øÈ£ ¼³Á¤
+			mImgTrailerVo.setNoNum(movieVo.getMNum());
+
+			mImgTrailerVo.setUuid(strUuid);
+			mImgTrailerVo.setFilename(filename);
+			mImgTrailerVo.setUploadpath(strDate);
+
+			if (isImage(filename)) { // ÀÌ¹ÌÁöÀÎ°¡? -> Æ÷½ºÅÍÀÎ°¡?
+				mImgTrailerVo.setImage("T");
+
+				// »ı¼ºÇÒ ½æ³×ÀÏ ÀÌ¹ÌÁö ÆÄÀÏ °æ·Î¿Í ÀÌ¸§À» ÁØºñ
+				File thumbnailFile = new File(dir, "s_" + uploadFilename);
+				// ½æ³×ÀÏ ÀÌ¹ÌÁö ÆÄÀÏ »ı¼ºÇÏ±â
+				try (FileOutputStream fos = new FileOutputStream(thumbnailFile)) {
+					Thumbnailator.createThumbnail(multipartFile.getInputStream(), fos, 100, 100);
 				}
-				
-				// ì‹¤ì œ ì—…ë¡œë“œí•œ íŒŒì¼ì´ë¦„ êµ¬í•˜ê¸°
-				String filename = multipartFile.getOriginalFilename();
-				
-				// ìµìŠ¤í”Œë¡œëŸ¬ëŠ” íŒŒì¼ì´ë¦„ì— ê²½ë¡œê°€ í¬í•¨ë˜ì–´ ìˆìœ¼ë¯€ë¡œ
-				// ìˆœìˆ˜ íŒŒì¼ì´ë¦„ë§Œ ë¶€ë¶„ë¬¸ìì—´ë¡œ ê°€ì ¸ì˜¤ê¸°
-				int beginIndex = filename.lastIndexOf("\\") + 1;
-				filename = filename.substring(beginIndex);
-				
-				// íŒŒì¼ëª… ì¤‘ë³µì„ í”¼í•˜ê¸° ìœ„í•´ì„œ íŒŒì¼ì´ë¦„ ì•ì— ë¶™ì¼ UUID ë¬¸ìì—´ êµ¬í•˜ê¸°
-				UUID uuid = UUID.randomUUID();
-				String strUuid = uuid.toString();
-				
-				// ì—…ë¡œë“œ(ìƒì„±)í•  íŒŒì¼ì´ë¦„
-				String uploadFilename = strUuid + "_" + filename;
-				
-				// ìƒì„±í•  íŒŒì¼ì •ë³´ë¥¼ File ê°ì²´ë¡œ ì¤€ë¹„
-				File saveFile = new File(dir, uploadFilename);
-				
-				// ì„ì‹œì—…ë¡œë“œëœ íŒŒì¼ì„ ì§€ì •ê²½ë¡œì˜ íŒŒì¼ëª…ìœ¼ë¡œ ìƒì„±(ë³µì‚¬)
-				multipartFile.transferTo(saveFile);
-				
-				
-				//============ ì²¨ë¶€íŒŒì¼ AttachVo ì¤€ë¹„í•˜ê¸° ==============
-				MImgTrailerVo mImgTrailerVo = new MImgTrailerVo();
-				// ê²Œì‹œíŒ ê¸€ë²ˆí˜¸ ì„¤ì •
-				mImgTrailerVo.setNoNum(movieVo.getMNum());
-				
-				mImgTrailerVo.setUuid(strUuid);
-				mImgTrailerVo.setFilename(filename);
-				mImgTrailerVo.setUploadpath(strDate);
-				
-				if (isImage(filename)) {
-					mImgTrailerVo.setImage("I");
-					
-					// ìƒì„±í•  ì¸ë„¤ì¼ ì´ë¯¸ì§€ íŒŒì¼ ê²½ë¡œì™€ ì´ë¦„ì„ ì¤€ë¹„
-					File thumbnailFile = new File(dir, "s_" + uploadFilename);
-					// ì¸ë„¤ì¼ ì´ë¯¸ì§€ íŒŒì¼ ìƒì„±í•˜ê¸°
-					try (FileOutputStream fos = new FileOutputStream(thumbnailFile)) {
-						Thumbnailator.createThumbnail(multipartFile.getInputStream(), fos, 100, 100);
-					}
-				} else {
-					mImgTrailerVo.setImage("O");
-				}
-				
-				// AttachVo ë¥¼ DBì— insertí•˜ê¸°
-				//attachService.insertAttach(attachVo);
-				
-				mimgtrailerList.add(mImgTrailerVo);
-			} // for
+			} else {
+				mImgTrailerVo.setImage("N");
+			}
+
+			// AttachVo ¸¦ DB¿¡ insertÇÏ±â
+			//attachService.insertAttach(attachVo);
+
+			mimgtrailerList.add(mImgTrailerVo);
+		} // for
+
+		//============ MultipartFileÀ» ÀÌ¿ëÇØ ÆÄÀÏ¾÷·Îµå ¼öÇà ==============
+
+		// MimgVo Ã·ºÎÆÄÀÏÁ¤º¸ ´ãÀ» ¸®½ºÆ® ÁØºñ
+		MImgTrailerVo posterVo = new MImgTrailerVo();
+
+		// ½ÇÁ¦ ¾÷·ÎµåÇÑ ÆÄÀÏÀÌ¸§ ±¸ÇÏ±â
+		String filename = poster.getOriginalFilename();
+
+		// ÀÍ½ºÇÃ·Î·¯´Â ÆÄÀÏÀÌ¸§¿¡ °æ·Î°¡ Æ÷ÇÔµÇ¾î ÀÖÀ¸¹Ç·Î
+		// ¼ø¼ö ÆÄÀÏÀÌ¸§¸¸ ºÎºĞ¹®ÀÚ¿­·Î °¡Á®¿À±â
+		int beginIndex = filename.lastIndexOf("\\") + 1;
+		filename = filename.substring(beginIndex);
+
+		// ÆÄÀÏ¸í Áßº¹À» ÇÇÇÏ±â À§ÇØ¼­ ÆÄÀÏÀÌ¸§ ¾Õ¿¡ ºÙÀÏ UUID ¹®ÀÚ¿­ ±¸ÇÏ±â
+		UUID uuid = UUID.randomUUID();
+		String strUuid = uuid.toString();
+
+		// ¾÷·Îµå(»ı¼º)ÇÒ ÆÄÀÏÀÌ¸§
+		String uploadFilename = strUuid + "_" + filename;
+
+		// »ı¼ºÇÒ ÆÄÀÏÁ¤º¸¸¦ File °´Ã¼·Î ÁØºñ
+		File saveFile = new File(dir, uploadFilename);
+
+		// ÀÓ½Ã¾÷·ÎµåµÈ ÆÄÀÏÀ» ÁöÁ¤°æ·ÎÀÇ ÆÄÀÏ¸íÀ¸·Î »ı¼º(º¹»ç)
+		poster.transferTo(saveFile);
+
+
+		//============ Ã·ºÎÆÄÀÏ AttachVo ÁØºñÇÏ±â ==============
+		// °Ô½ÃÆÇ ±Û¹øÈ£ ¼³Á¤
+		posterVo.setNoNum(movieVo.getMNum());
+
+		posterVo.setUuid(strUuid);
+		posterVo.setFilename(filename);
+		posterVo.setUploadpath(strDate);
+
+		if (isImage(filename)) { // ÀÌ¹ÌÁöÀÎ°¡? -> Æ÷½ºÅÍÀÎ°¡?
+			posterVo.setImage("P");
+
+			// »ı¼ºÇÒ ½æ³×ÀÏ ÀÌ¹ÌÁö ÆÄÀÏ °æ·Î¿Í ÀÌ¸§À» ÁØºñ
+			File thumbnailFile = new File(dir, "s_" + uploadFilename);
+			// ½æ³×ÀÏ ÀÌ¹ÌÁö ÆÄÀÏ »ı¼ºÇÏ±â
+			try (FileOutputStream fos = new FileOutputStream(thumbnailFile)) {
+				Thumbnailator.createThumbnail(poster.getInputStream(), fos, 100, 100);
+			}
+		} else {
+			posterVo.setImage("N");
 		}
-		
-		
-		
-		// NoticeVo ë¥¼ DBì— insertí•˜ê¸°
+
+		// AttachVo ¸¦ DB¿¡ insertÇÏ±â
+		//attachService.insertAttach(attachVo);
+
+		mimgtrailerList.add(posterVo);
+
+
+
+		// AttachVo ¸¦ DB¿¡ insertÇÏ±â
+		//attachService.insertAttach(attachVo);
+
+//		posterService.insertPoster(posterVo);
+
+
+		// NoticeVo ¸¦ DB¿¡ insertÇÏ±â
 		//noticeService.addNotice(noticeVo);
-		
-		// NoticeVoì™€ AttachVo ì—¬ëŸ¬ê°œë¥¼ íŠ¸ëœì­ì…˜ìœ¼ë¡œ insertí•˜ê¸°
+
+		// NoticeVo¿Í AttachVo ¿©·¯°³¸¦ Æ®·£Àè¼ÇÀ¸·Î insertÇÏ±â
 		movieService.addMovieAndMImgTrailer(movieVo, mimgtrailerList);
 
-		// ìë£Œì‹¤ ê²Œì‹œíŒ ìƒì„¸ë³´ê¸°ë¡œ ë¦¬ë‹¤ì´ë ‰íŠ¸
+		// ÀÚ·á½Ç °Ô½ÃÆÇ »ó¼¼º¸±â·Î ¸®´ÙÀÌ·ºÆ®
 		return "redirect:/movieNotice/content?num=" + movieVo.getMNum() + "&pageNum=" + pageNum;
 	} // POST - write
-	
-	
+
+
 	@GetMapping("/content")
-	public String content(int num, @ModelAttribute("pageNum") String pageNum, Model model) {		
-		
-		// ë°©ë²•1) ë”°ë¡œë”°ë¡œ selectí•´ì„œ ê°€ì ¸ì˜¤ê¸°
+	public String content(int num, @ModelAttribute("pageNum") String pageNum, Model model) {
+
+		// ¹æ¹ı1) µû·Îµû·Î selectÇØ¼­ °¡Á®¿À±â
 //		NoticeVo noticeVo = noticeService.getNoticeByNum(num);
 //		List<AttachVo> attachList = attachService.getAttachesByNoNum(num);
-		
-		// ë°©ë²•2) ì¡°ì¸ ì¿¼ë¦¬ë¡œ í•œë²ˆì— ê°€ì ¸ì˜¤ê¸°
+
+		// ¹æ¹ı2) Á¶ÀÎ Äõ¸®·Î ÇÑ¹ø¿¡ °¡Á®¿À±â
 		MovieVo movieVo = movieService.getMovieAndMImgTrailers(num);
-		
+
 		model.addAttribute("movieVo", movieVo);
 		model.addAttribute("mImgTrailerList", movieVo.getMImgTrailerList());
-		
+
 		return "admin/movieContent";
 	} // content
-	
-	
+
+
+	@GetMapping("/detail")
+	public String detail(int num, @ModelAttribute("pageNum") String pageNum, String movieName, Model model, HttpSession session) {
+
+		// ¹æ¹ı1) µû·Îµû·Î selectÇØ¼­ °¡Á®¿À±â
+//		NoticeVo noticeVo = noticeService.getNoticeByNum(num);
+//		List<AttachVo> attachList = attachService.getAttachesByNoNum(num);
+
+		// ¹æ¹ı2) Á¶ÀÎ Äõ¸®·Î ÇÑ¹ø¿¡ °¡Á®¿À±â
+		MovieVo movieVo = movieService.getMovieAndMImgTrailers(num);
+
+		String id = (String) session.getAttribute("id");
+		int MovieNum = movieVo.getMNum();
+
+		//ÃÑ ´ñ±Û °¹¼ö
+		double count = mcommentService.getTotalCountByMno(MovieNum);
+
+		//ÃÑ ¿¹¸Å °¹¼ö
+		double rcount = watchMovieService.getTotalCount();
+		log.info("rcount : " + rcount);
+
+		log.info("movieName : " + movieName);
+		//¼±ÅÃÇÑ ¿µÈ­ ¿¹¸Å °¹¼ö
+		double scount = watchMovieService.getScount(movieName);
+		log.info("scount : " + scount);
+
+		double a = (scount/rcount)*100;
+		log.info("a : " + a);
+
+		double bookrate = (Math.round(a*100)/100);
+		log.info("bookrate : " + bookrate);
+
+
+		if(count>0) {
+			double scoreSum = mcommentService.getTotalScoreByMno(MovieNum);
+			if(scoreSum>0) {
+				double result= (Math.round((scoreSum / count)* 100)/100.0);
+				movieService.updateScoreByMnum(result, MovieNum);
+			}
+
+
+		}
+//scoreSum / count => 4.333333 * 100 = 433.333333 / 100.0 = 4.33
+
+
+
+		int likeStatus = 0; // 0: Ã³À½, 1: ÁÁ¾Æ¿ä¸¦ ´©¸¥»óÅÂ , 2: ÁÁ¾Æ¿ä¸¦ ´­·¶´Ù°¡ Ãë¼ÒÇÑ»óÅÂ
+
+
+		if (movieLikeService.getCountByNumAndId(MovieNum, id) == 0) { // ¾øÀ»¶§
+			likeStatus = 0;
+		} else { // ÀÖÀ»¶§
+			if (movieLikeService.getIsLikeByNumAndId(MovieNum, id) == 1) {
+				likeStatus = 1;
+			} else {
+				likeStatus = 2;
+			}
+		}
+		log.info("likeStatus : " + likeStatus);
+
+
+		model.addAttribute("movieVo", movieVo);
+		model.addAttribute("likeStatus", likeStatus);
+		model.addAttribute("mImgTrailerList", movieVo.getMImgTrailerList());
+		model.addAttribute("bookrate", bookrate);
+
+		return "movie/movieDetail";
+	} // content
+
 	@GetMapping("delete")
 	public String delete(int num, String pageNum, HttpServletRequest request) {
-		// ê²Œì‹œê¸€ë²ˆí˜¸ì— ì²¨ë¶€ëœ ì²¨ë¶€íŒŒì¼ ë¦¬ìŠ¤íŠ¸ ê°€ì ¸ì˜¤ê¸°
+		// °Ô½Ã±Û¹øÈ£¿¡ Ã·ºÎµÈ Ã·ºÎÆÄÀÏ ¸®½ºÆ® °¡Á®¿À±â
 		List<MImgTrailerVo> imgTrailerList = mImgTrailerService.getImgTrailersByNoNum(num);
-		
-		// application ê°ì²´ ì°¸ì¡° ê°€ì ¸ì˜¤ê¸°
+
+		// application °´Ã¼ ÂüÁ¶ °¡Á®¿À±â
 		ServletContext application = request.getServletContext();
-		// ì—…ë¡œë“œ ê¸°ì¤€ê²½ë¡œ
+		// ¾÷·Îµå ±âÁØ°æ·Î
 		String realPath = application.getRealPath("/"); // webapp
-		
-		// ì²¨ë¶€íŒŒì¼ ì‚­ì œí•˜ê¸°
+
+		// Ã·ºÎÆÄÀÏ »èÁ¦ÇÏ±â
 		for (MImgTrailerVo mImgTrailerVo : imgTrailerList) {
 			String dir = realPath + "/upload/" + mImgTrailerVo.getUploadpath();
 			String filename = mImgTrailerVo.getUuid() + "_" + mImgTrailerVo.getFilename();
-			// ì‚­ì œí•  íŒŒì¼ì„ File íƒ€ì… ê°ì²´ë¡œ ì¤€ë¹„
+			// »èÁ¦ÇÒ ÆÄÀÏÀ» File Å¸ÀÔ °´Ã¼·Î ÁØºñ
 			File file = new File(dir, filename);
-			
-			// íŒŒì¼ ì¡´ì¬ í™•ì¸ í›„ ì‚­ì œí•˜ê¸°
+
+			// ÆÄÀÏ Á¸Àç È®ÀÎ ÈÄ »èÁ¦ÇÏ±â
 			if (file.exists()) {
 				file.delete();
 			}
-			
-			// ì´ë¯¸ì§€ íŒŒì¼ì´ë©´
+
+			// ÀÌ¹ÌÁö ÆÄÀÏÀÌ¸é
 			if (isImage(mImgTrailerVo.getFilename())) {
-				// ì„¬ë„¤ì¼ ì´ë¯¸ì§€ ì¡´ì¬ì—¬ë¶€ í™•ì¸ í›„ ì‚­ì œí•˜ê¸°
+				// ¼¶³×ÀÏ ÀÌ¹ÌÁö Á¸Àç¿©ºÎ È®ÀÎ ÈÄ »èÁ¦ÇÏ±â
 				File thumbnailFile = new File(dir, "s_" + filename);
 				if (thumbnailFile.exists()) {
 					thumbnailFile.delete();
 				}
 			}
 		} // for
-		
-		
-		// attach ì²¨ë¶€íŒŒì¼ë‚´ìš© ì‚­ì œí•˜ê¸°
+
+
+		// attach Ã·ºÎÆÄÀÏ³»¿ë »èÁ¦ÇÏ±â
 //		attachService.deleteAttachesByNoNum(num);
-		// notice ê²Œì‹œê¸€ ì‚­ì œí•˜ê¸°
+		// notice °Ô½Ã±Û »èÁ¦ÇÏ±â
 //		noticeService.deleteNoticeByNum(num);
-		
-		// notice ê²Œì‹œê¸€ í•œê°œì™€ attach ì²¨ë¶€íŒŒì¼ ì—¬ëŸ¬ê°œë¥¼ íŠ¸ëœì­ì…˜ìœ¼ë¡œ ì‚­ì œí•˜ê¸°
+
+		// notice °Ô½Ã±Û ÇÑ°³¿Í attach Ã·ºÎÆÄÀÏ ¿©·¯°³¸¦ Æ®·£Àè¼ÇÀ¸·Î »èÁ¦ÇÏ±â
 		movieService.deleteMovieAndMImgTrailer(num);
-		
-		// ê¸€ëª©ë¡ìœ¼ë¡œ ë¦¬ë‹¤ì´ë ‰íŠ¸ ì´ë™
+		mcommentService.deleteByMno(num);
+
+		// ±Û¸ñ·ÏÀ¸·Î ¸®´ÙÀÌ·ºÆ® ÀÌµ¿
 		return "redirect:/movieNotice/list?pageNum=" + pageNum;
 	} // delete
-	
+
 	@GetMapping("/modify")
 	public String modify(int num, @ModelAttribute("pageNum") String pageNum, Model model) {
-		// ê¸€ë²ˆí˜¸ numì— í•´ë‹¹í•˜ëŠ” ê¸€ë‚´ìš© VOë¡œ ê°€ì ¸ì˜¤ê¸°
+		// ±Û¹øÈ£ num¿¡ ÇØ´çÇÏ´Â ±Û³»¿ë VO·Î °¡Á®¿À±â
 //		NoticeVo noticeVo = noticeService.getNoticeByNum(num);
 //		List<AttachVo> attachList = attachService.getAttachesByNoNum(num);
-		// ì¡°ì¸ìœ¼ë¡œ í•œë²ˆì— ê°€ì ¸ì˜¤ê¸°
+		// Á¶ÀÎÀ¸·Î ÇÑ¹ø¿¡ °¡Á®¿À±â
 		MovieVo movieVo = movieService.getMovieAndMImgTrailers(num);
 		List<MImgTrailerVo> mImgTrailerList = movieVo.getMImgTrailerList();
 		int fileCount = mImgTrailerList.size();
-		
+
 		model.addAttribute("movieVo", movieVo);
 		model.addAttribute("mImgTrailerList", mImgTrailerList);
 		model.addAttribute("fileCount", fileCount);
-		
+
 		return "admin/movieModifyForm";
 	} // GET - modify
-	
-	
+
+
 	@PostMapping("/modify")
 	public String modify(HttpServletRequest request,
 			@RequestParam(name = "filename", required = false) List<MultipartFile> multipartFiles,
 			MovieVo movieVo, String pageNum,
 			@RequestParam(name = "delfile", required = false) List<Integer> delFileNums,
 			RedirectAttributes rttr) throws IOException {
-		
-		//============ íŒŒì¼ ì—…ë¡œë“œë¥¼ ìœ„í•œ í´ë” ì¤€ë¹„ ==============
+
+		//============ ÆÄÀÏ ¾÷·Îµå¸¦ À§ÇÑ Æú´õ ÁØºñ ==============
 		ServletContext application = request.getServletContext();
-		String realPath = application.getRealPath("/");  // webapp í´ë”ì˜ ì‹¤ì œê²½ë¡œ
+		String realPath = application.getRealPath("/");  // webapp Æú´õÀÇ ½ÇÁ¦°æ·Î
 		log.info("realPath : " + realPath);
-		
+
 		String strDate = this.getFolder();
-		
+
 		File dir = new File(realPath + "/upload", strDate);
 		log.info("dir : " + dir.getPath());
 
 		if (!dir.exists()) {
 			dir.mkdirs();
 		}
-		
-		
-		
-		//============ MultipartFileì„ ì´ìš©í•´ ì‹ ê·œíŒŒì¼ ì—…ë¡œë“œ ìˆ˜í–‰ ==============
-		
-		// AttachVo ì²¨ë¶€íŒŒì¼ì •ë³´ ë‹´ì„ ë¦¬ìŠ¤íŠ¸ ì¤€ë¹„
+
+
+
+		//============ MultipartFileÀ» ÀÌ¿ëÇØ ½Å±ÔÆÄÀÏ ¾÷·Îµå ¼öÇà ==============
+
+		// AttachVo Ã·ºÎÆÄÀÏÁ¤º¸ ´ãÀ» ¸®½ºÆ® ÁØºñ
 		List<MImgTrailerVo> addMImgTrailers = new ArrayList<>();
-		
+
 		if (multipartFiles != null) {
 			for (MultipartFile multipartFile : multipartFiles) {
-				// íŒŒì¼ì…ë ¥ìƒìì—ì„œ ì„ íƒí•˜ì§€ì•Šì€ ìš”ì†ŒëŠ” ê±´ë„ˆë›°ê¸°
+				// ÆÄÀÏÀÔ·Â»óÀÚ¿¡¼­ ¼±ÅÃÇÏÁö¾ÊÀº ¿ä¼Ò´Â °Ç³Ê¶Ù±â
 				if (multipartFile.isEmpty()) {
 					continue;
 				}
-				
-				// ì‹¤ì œ ì—…ë¡œë“œí•œ íŒŒì¼ì´ë¦„ êµ¬í•˜ê¸°
+
+				// ½ÇÁ¦ ¾÷·ÎµåÇÑ ÆÄÀÏÀÌ¸§ ±¸ÇÏ±â
 				String filename = multipartFile.getOriginalFilename();
-				
-				// ìµìŠ¤í”Œë¡œëŸ¬ëŠ” íŒŒì¼ì´ë¦„ì— ê²½ë¡œê°€ í¬í•¨ë˜ì–´ ìˆìœ¼ë¯€ë¡œ
-				// ìˆœìˆ˜ íŒŒì¼ì´ë¦„ë§Œ ë¶€ë¶„ë¬¸ìì—´ë¡œ ê°€ì ¸ì˜¤ê¸°
+
+				// ÀÍ½ºÇÃ·Î·¯´Â ÆÄÀÏÀÌ¸§¿¡ °æ·Î°¡ Æ÷ÇÔµÇ¾î ÀÖÀ¸¹Ç·Î
+				// ¼ø¼ö ÆÄÀÏÀÌ¸§¸¸ ºÎºĞ¹®ÀÚ¿­·Î °¡Á®¿À±â
 				int beginIndex = filename.lastIndexOf("\\") + 1;
 				filename = filename.substring(beginIndex);
-				
-				// íŒŒì¼ëª… ì¤‘ë³µì„ í”¼í•˜ê¸° ìœ„í•´ì„œ íŒŒì¼ì´ë¦„ ì•ì— ë¶™ì¼ UUID ë¬¸ìì—´ êµ¬í•˜ê¸°
+
+				// ÆÄÀÏ¸í Áßº¹À» ÇÇÇÏ±â À§ÇØ¼­ ÆÄÀÏÀÌ¸§ ¾Õ¿¡ ºÙÀÏ UUID ¹®ÀÚ¿­ ±¸ÇÏ±â
 				UUID uuid = UUID.randomUUID();
 				String strUuid = uuid.toString();
-				
-				// ì—…ë¡œë“œ(ìƒì„±)í•  íŒŒì¼ì´ë¦„
+
+				// ¾÷·Îµå(»ı¼º)ÇÒ ÆÄÀÏÀÌ¸§
 				String uploadFilename = strUuid + "_" + filename;
-				
-				// ìƒì„±í•  íŒŒì¼ì •ë³´ë¥¼ File ê°ì²´ë¡œ ì¤€ë¹„
+
+				// »ı¼ºÇÒ ÆÄÀÏÁ¤º¸¸¦ File °´Ã¼·Î ÁØºñ
 				File saveFile = new File(dir, uploadFilename);
-				
-				// ì„ì‹œì—…ë¡œë“œëœ íŒŒì¼ì„ ì§€ì •ê²½ë¡œì˜ íŒŒì¼ëª…ìœ¼ë¡œ ìƒì„±(ë³µì‚¬)
+
+				// ÀÓ½Ã¾÷·ÎµåµÈ ÆÄÀÏÀ» ÁöÁ¤°æ·ÎÀÇ ÆÄÀÏ¸íÀ¸·Î »ı¼º(º¹»ç)
 				multipartFile.transferTo(saveFile);
-				
-				
-				//============ ì²¨ë¶€íŒŒì¼ AttachVo ì¤€ë¹„í•˜ê¸° ==============
+
+
+				//============ Ã·ºÎÆÄÀÏ AttachVo ÁØºñÇÏ±â ==============
 				MImgTrailerVo mImgTrailerVo = new MImgTrailerVo();
-				// ê²Œì‹œíŒ ê¸€ë²ˆí˜¸ ì„¤ì •
-				mImgTrailerVo.setNoNum(movieVo.getMNum());				
+				// °Ô½ÃÆÇ ±Û¹øÈ£ ¼³Á¤
+				mImgTrailerVo.setNoNum(movieVo.getMNum());
 				mImgTrailerVo.setUuid(strUuid);
 				mImgTrailerVo.setFilename(filename);
 				mImgTrailerVo.setUploadpath(strDate);
-				
+
 				if (isImage(filename)) {
-					mImgTrailerVo.setImage("I");
-					
-					// ìƒì„±í•  ì¸ë„¤ì¼ ì´ë¯¸ì§€ íŒŒì¼ ê²½ë¡œì™€ ì´ë¦„ì„ ì¤€ë¹„
+					mImgTrailerVo.setImage("P");
+
+					// »ı¼ºÇÒ ½æ³×ÀÏ ÀÌ¹ÌÁö ÆÄÀÏ °æ·Î¿Í ÀÌ¸§À» ÁØºñ
 					File thumbnailFile = new File(dir, "s_" + uploadFilename);
-					// ì¸ë„¤ì¼ ì´ë¯¸ì§€ íŒŒì¼ ìƒì„±í•˜ê¸°
+					// ½æ³×ÀÏ ÀÌ¹ÌÁö ÆÄÀÏ »ı¼ºÇÏ±â
 					try (FileOutputStream fos = new FileOutputStream(thumbnailFile)) {
 						Thumbnailator.createThumbnail(multipartFile.getInputStream(), fos, 100, 100);
 					}
 				} else {
-					mImgTrailerVo.setImage("O");
+					mImgTrailerVo.setImage("N");
 				}
-				
-				// AttachVo ë¥¼ DBì— insertí•˜ê¸°
+
+				// AttachVo ¸¦ DB¿¡ insertÇÏ±â
 				//attachService.insertAttach(attachVo);
 
-				// íŠ¸ëœì­ì…˜ ì²˜ë¦¬ë¥¼ ìœ„í•´ attachVoë¥¼ ë¦¬ìŠ¤íŠ¸ì— ì¶”ê°€í•´ì„œ ëª¨ìœ¼ê¸°
+				// Æ®·£Àè¼Ç Ã³¸®¸¦ À§ÇØ attachVo¸¦ ¸®½ºÆ®¿¡ Ãß°¡ÇØ¼­ ¸ğÀ¸±â
 				addMImgTrailers.add(mImgTrailerVo);
 			} // for
 		}
-		
-		
-		//============ delFileNums ë¡œ ì²¨ë¶€íŒŒì¼ ì‚­ì œì‘ì—… ìˆ˜í–‰ ==============
-		
+
+
+		//============ delFileNums ·Î Ã·ºÎÆÄÀÏ »èÁ¦ÀÛ¾÷ ¼öÇà ==============
+
 		if (delFileNums != null) {
 			for (int num : delFileNums) {
-				// ì²¨ë¶€íŒŒì¼ ë²ˆí˜¸ì— í•´ë‹¹í•˜ëŠ” ì²¨ë¶€íŒŒì¼ ì •ë³´ í•œê°œë¥¼ VOë¡œ ê°€ì ¸ì˜¤ê¸°
+				// Ã·ºÎÆÄÀÏ ¹øÈ£¿¡ ÇØ´çÇÏ´Â Ã·ºÎÆÄÀÏ Á¤º¸ ÇÑ°³¸¦ VO·Î °¡Á®¿À±â
 				MImgTrailerVo mImgTrailerVo = mImgTrailerService.getImgTrailerByNum(num);
-				
-				// íŒŒì¼ì •ë³´ë¡œ ì‹¤ì œíŒŒì¼ ì¡´ì¬ì—¬ë¶€ í™•ì¸í•´ì„œ ì‚­ì œí•˜ê¸°
+
+				// ÆÄÀÏÁ¤º¸·Î ½ÇÁ¦ÆÄÀÏ Á¸Àç¿©ºÎ È®ÀÎÇØ¼­ »èÁ¦ÇÏ±â
 				String path = realPath + "/upload/" + mImgTrailerVo.getUploadpath();
 				String file = mImgTrailerVo.getUuid() + "_" + mImgTrailerVo.getFilename();
-				
+
 				File delFile = new File(path, file);
 				if (delFile.exists()) {
 					delFile.delete();
 				}
-				
+
 				if (isImage(mImgTrailerVo.getFilename())) {
 					File thumbnailFile = new File(path, "s_" + file);
 					if (thumbnailFile.exists()) {
 						thumbnailFile.delete();
 					}
 				}
-				
-				// ì²¨ë¶€íŒŒì¼ DBí…Œì´ë¸”ì— ì²¨ë¶€íŒŒì¼ë²ˆí˜¸ì— í•´ë‹¹í•˜ëŠ” ë ˆì½”ë“œ í•œê°œ ì‚­ì œí•˜ê¸°
+
+				// Ã·ºÎÆÄÀÏ DBÅ×ÀÌºí¿¡ Ã·ºÎÆÄÀÏ¹øÈ£¿¡ ÇØ´çÇÏ´Â ·¹ÄÚµå ÇÑ°³ »èÁ¦ÇÏ±â
 				//attachService.deleteAttachByNum(num);
 			} // for
 		} //if
-		
-		
-		// ì²¨ë¶€íŒŒì¼ë²ˆí˜¸ë“¤ì— í•´ë‹¹í•˜ëŠ” ì²¨ë¶€íŒŒì¼ ë ˆì½”ë“œë“¤ ì¼ê´„ ì‚­ì œí•˜ê¸°
+
+
+		// Ã·ºÎÆÄÀÏ¹øÈ£µé¿¡ ÇØ´çÇÏ´Â Ã·ºÎÆÄÀÏ ·¹ÄÚµåµé ÀÏ°ı »èÁ¦ÇÏ±â
 		//attachService.deleteAttachesByNums(delFileNums);
-		
-		
-		// ê²Œì‹œíŒ í…Œì´ë¸” ê¸€ updateí•˜ê¸°
+
+
+		// °Ô½ÃÆÇ Å×ÀÌºí ±Û updateÇÏ±â
 		//noticeService.updateBoard(noticeVo);
-		
-		// íŠ¸ëœì­ì…˜ ë‹¨ìœ„ë¡œ í…Œì´ë¸” ë°ì´í„° ì²˜ë¦¬
+
+		// Æ®·£Àè¼Ç ´ÜÀ§·Î Å×ÀÌºí µ¥ÀÌÅÍ Ã³¸®
 		movieService.updateMovieAndAddMImgTrailersAndDeleteMImgTrailers(movieVo, addMImgTrailers, delFileNums);
-		
-		
+
+
 		rttr.addAttribute("num", movieVo.getMNum());
 		rttr.addAttribute("pageNum", pageNum);
-		
-		// ìƒì„¸ë³´ê¸° í™”ë©´ìœ¼ë¡œ ë¦¬ë‹¤ì´ë ‰íŠ¸ ì´ë™
+
+		// »ó¼¼º¸±â È­¸éÀ¸·Î ¸®´ÙÀÌ·ºÆ® ÀÌµ¿
 		return "redirect:/movieNotice/content";
 	} // POST - modify
-	
+
+
+	@RequestMapping(value="/like", method=RequestMethod.POST)
+	@ResponseBody
+	public void like(@RequestParam Map<String, Object> param, HttpServletRequest request, HttpSession session){
+		System.out.println(param);
+
+		int likeStatus = Integer.parseInt((String) param.get("likeStatus"));
+		int movieNum = Integer.parseInt((String) param.get("movieNum"));
+		String userId = (String) param.get("userId");
+
+		//1 ÇØ´ç °Ô½ÃÆÇ ÄÃ·³ÀÇ likes¸¦ Áõ°¡½ÃÅ°°Å³ª Â÷°¨½ÃÅ²´Ù likeStatus ¿¡µû¶ó
+		//2 ÁÁ¾Æ¿ä¸¦ ´©¸¥ À¯ÀúÀÇ Á¤º¸¸¦´ãÀº notice_like Å×ÀÌºíÀÇ is_like ÄÃ·³À» 0 ¶Ç´Â 1·Î ¼öÁ¤ÇÑ´Ù
+
+		if(likeStatus == 0) {
+			movieService.plusLikesByNum(movieNum);
+			movieLikeService.addMovieLike(userId,movieNum,1);
+		} else if (likeStatus == 1) {
+			movieService.minusLikesByNum(movieNum);
+			movieLikeService.minusMovieLike(movieNum, userId);
+		} else if (likeStatus == 2) {
+			movieService.plusLikesByNum(movieNum);
+			movieLikeService.plusMovieLike(movieNum, userId);
+		}
+	 }
+
+	@RequestMapping(value="/score", method=RequestMethod.POST)
+	@ResponseBody
+	public void score(@RequestParam Map<String, Object> param, HttpServletRequest request){
+
+
+		String score = (String) param.get("score");
+
+		HttpSession session = request.getSession();
+		session.setAttribute("score", score);
+	 }
+
+
+
+
 }
 
 

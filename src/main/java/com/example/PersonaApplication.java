@@ -3,6 +3,7 @@ package com.example;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.web.socket.config.annotation.EnableWebSocket;
 
 /*
 @SpringBootApplication 애노테이션이 수행하는 일
@@ -13,10 +14,10 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 */
 @SpringBootApplication  // 스프링 애노테이션
 @MapperScan("com.example.mapper")  // 마이바티스 애노테이션
+@EnableWebSocket
 public class PersonaApplication {
-	
+
 	public static void main(String[] args) {
 		SpringApplication.run(PersonaApplication.class, args);
 	}
-
 }

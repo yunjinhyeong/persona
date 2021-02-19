@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.mapper.StoreMapper">
+
+
+	<select id="getProductByName" resultType="productVo">
+		SELECT * FROM bisp.product where name = #{name}
+	</select>
+
+	<insert id="addOrderDate">
+		INSERT INTO orderstore (name, price, content, count, total, id)
+		VALUES (#{name}, #{price}, #{content}, #{count}, #{total}, #{id})
+	</insert>
+	
+	<select id="getOrderDate" resultType="OrderStoreVo">
+		SELECT * 
+		FROM orderstore 
+		WHERE num = #{num}
+	</select>
+
+	<select id="getSalesByDay" resultType="map">
+		SELECT DATE_FORMAT(reg_date,'%Y-%m-%d') as day, sum(total) as total FROM bisp.orderstore group by day(reg_date)
+	</select>
+
+	<insert id="addProduct">
+		INSERT INTO bisp.product (name, content, id, price)
+		VALUES (#{name},#{content},#{id},#{price})
+	</insert>
+
+	<select id="getCountBySearch" resultType="int">
+		SELECT COUNT(*)
+		FROM bisp.product
+		<if test="category == 'subject'">
+			WHERE subject LIKE CONCAT('%', #{search}, '%')
+		</if>
+		<if test="category == 'content'">
+			WHERE content LIKE CONCAT('%', #{search}, '%')
+		</if>
+		<if test="category == 'id'">
+			WHERE id LIKE CONCAT('%', #{search}, '%')
+		</if>
+	</select>
+	
+	<select id="getOrderDateById" resultType="OrderStoreVo">
+		Select *
+		FROM orderstore
+		WHERE id = #{ id }
+	</select>
+
+	<select id="getProductImg" resultType="ProductImgVo">
+		Select n.num, n.name, n.content, n.id, n.price,
+			   a.nnum as annum, a.uuid, a.filename, a.uploadpath, a.image, a.pname
+		FROM product n LEFT OUTER JOIN sattach a
+		ON n.name = a.pname
+		WHERE a.image = 'I'
+		ORDER BY n.num DESC
+		LIMIT 0, #{pageSize}
+	</select>
+	
+	<select id="getOneProduct" resultType="ProductImgVo">
+		Select n.num, n.name, n.content, n.id, n.price,
+			   a.nnum as annum, a.uuid, a.filename, a.uploadpath, a.image, a.pname
+		FROM product n LEFT OUTER JOIN sattach a
+		ON n.name = a.pname
+		WHERE a.image = 'I' And num = #{num}
+	</select>
+
+	<select id="getNoticesBySearch" resultType="ProductVo">
+		SELECT *
+		FROM bisp.product
+		<if test="category == 'name'">
+			WHERE subject LIKE CONCAT('%', #{search}, '%')
+		</if>
+		<if test="category == 'content'">
+			WHERE content LIKE CONCAT('%', #{search}, '%')
+		</if>
+		<if test="category == 'id'">
+			WHERE id LIKE CONCAT('%', #{search}, '%')
+		</if>
+		ORDER BY num DESC
+		LIMIT #{startRow}, #{pageSize}
+	</select>
+</mapper>

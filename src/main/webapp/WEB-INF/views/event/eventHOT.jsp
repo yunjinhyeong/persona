@@ -12,19 +12,19 @@
 <body>
 	<%-- header 영역 --%>
 	<jsp:include page="/WEB-INF/views/include/navbar.jsp" />
-	
+
 	<article>
 		<h1>HOT 이벤트</h1>
-				
+
 		<div class="items">
 			<c:choose>
 				<c:when test="${ not empty eventHOTList }">
 					<c:forEach var="hot" items="${ eventHOTList }">
 				       		<div class="oneItem">
-				       		<div>					
+				       		<div>
 								<div class="imgParent">
 									<a href="/eventNotice/main/one?num=${hot.ENum}">
-										<img src="/upload/${ hot.uploadpath }/s_${ hot.uuid }_${ hot.filename }">
+										<img width='200' src="/upload/${ hot.uploadpath }/${ hot.uuid }_${ hot.filename }">
 									</a>
 								</div>
 								<div class="eventInfo">
@@ -40,19 +40,18 @@
 				</c:otherwise>
 			</c:choose>
 		</div>
-		
+
 		<input type="button" value="되돌아가기" class="btn" onclick='history.back();'>
-		
+
 		<img alt="" src="/imgs/moreimg2.png">
-		
-		
+
+
 	</article>
-	
+
 	<img alt="" src="/imgs/moreimg.png">
-	
+
 	<%-- footer 영역 --%>
 	<jsp:include page="/WEB-INF/views/include/footer.jsp" />
 </body>
-</html>   
+</html>
 
-    

@@ -12,7 +12,7 @@ import com.example.interceptor.MemberStayLoggedInInterceptor;
 
 @Configuration
 public class MyWebMvcConfig implements WebMvcConfigurer {
-	
+
 	@Autowired
 	private  MemberLoginCheckInterceptor memberLoginCheckInterceptor;
 	@Autowired
@@ -29,16 +29,17 @@ public class MyWebMvcConfig implements WebMvcConfigurer {
 		registration.addPathPatterns("/fileNotice/*");
 		// 인터셉터 수행에서 제외할 URL 주소 경로 추가
 		registration.excludePathPatterns("/fileNotice/list", "/fileNotice/content");
-		
-		
+
+
 		registry.addInterceptor(ajaxLoginCheckInterceptor)
 		.addPathPatterns("/comment/*")
-		.excludePathPatterns("/comment/one/*", "/comment/pages/*");
-		
-		
+		.excludePathPatterns("/comment/one/*", "/comment/pages/*")
+		.excludePathPatterns("/mcomment/one/*", "/mcomment/pages/*");
+
+
 		// 회원 로그인 상태유지 인터셉터 등록하기
 		registry.addInterceptor(memberStayLoggedInInterceptor)
 		.addPathPatterns("/*");
 	} // addInterceptors
-	
+
 }

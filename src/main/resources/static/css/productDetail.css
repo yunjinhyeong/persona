@@ -1,0 +1,79 @@
+.hearderWizard, #getCount {
+  padding-top: 150px;
+}
+.hearderWizard .navWizard .tabs {
+    list-style-type: none;
+    display: flex;
+    justify-content: center;
+}
+.hearderWizard .navWizard .tabs .tab a[data-switcher] {
+    display: block;
+    padding: 15px 300px;
+    border: 1px solid #000;
+    text-decoration: none;
+    cursor: pointer;
+}
+.pages .page {
+    display: none;
+    text-align: left;
+    margin: 20px 300px;    
+}
+.pages .page.is-active {
+    display: block;
+}
+button, input[type="button"], input[type="submit"]{
+	cursor: pointer;
+}    
+.storeDetailInfo {
+}
+input[name="content"] {
+	width: -webkit-fill-available;
+}
+#getCount {
+    display: flex;
+    align-items: center;
+    text-align: center;
+    width: 100%;
+    justify-content: space-around;
+}
+#getCount input, label{
+    border: none;
+    text-align: center;
+    margin: 20px auto;
+    font-size: 50px;
+}
+#getCount input:after {
+    content: "";
+    display: block;
+    width: 60px;
+    border-bottom: 1px solid #000;
+    margin: 20px 0px;
+}
+
+#getCount button {
+    font-size: 50px;
+    border: none;
+    background: none;
+}
+#getCount .count {
+    border: 1px solid #808080;
+    border-radius: 5px;
+    margin: 40px 5px;
+}
+#getCount img {
+    width: 500px;
+}
+#getCount .btn {
+    background: #000;
+    color: #fff;
+    font-size: 50px;
+    margin: 10px 20px;
+    padding: 10px 15%;
+}
+.imgbuttom1 {
+	margin: 30px 23%;
+}
+
+.imgbuttom2 {
+	margin: 50px 0;
+}

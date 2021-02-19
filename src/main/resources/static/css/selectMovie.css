@@ -1,0 +1,263 @@
+@charset "UTF-8";
+
+/*-------------------- 영화선택------------------- */
+body {
+	background: #464646;
+	}
+
+#wrap { /* 공통 */
+	width: 1000px; 
+	height: 1000px; 
+	margin: 0 auto; 
+	font-size: 40px; 
+	color: #fff; 
+	text-align: center; 
+    text-transform: uppercase;
+    margin-top: 200px; 
+	}
+	
+#wrap ul {
+	list-style: none;
+	padding-left: 0px;
+}
+#wrap ul li input {
+	padding: 10px;
+	font-size: 20px;
+	text-align: center;
+	background-color: #282828;
+	color: #fff;
+	border: none;
+}
+#wrap ul li input:checked {
+	background: #c68a12;
+}
+#header1, #header2, #header3 {
+	float: left;
+	width: 300px; 
+	height: 100px;
+	font-size: 20px;
+	line-height: 100px;
+	background: #3c3c3c;
+	border: 1px solid black;
+    box-sizing: border-box;
+	}
+	
+#side {
+	float: left; 
+	width: 100px; 
+	height: 800px; 
+	line-height: 600px; 
+	background: #43a047;
+	}
+
+#nav1, #nav2 {
+	float: left;
+	width: 300px; 
+	height: 50px; 
+	line-height: 50px; 
+	background: #323232;
+	font-size: 20px;
+	border: 1px solid black;
+    box-sizing: border-box;
+	}
+	
+#nav3 {
+	float: left;
+	width: 300px; 
+	height: 50px; 
+	line-height: 50px; 
+	background: #323232;
+	font-size: 20px;
+	border: 1px solid black;
+    box-sizing: border-box;
+}
+	
+#menuBar{
+	float: left;
+	width: 300px; 
+	height: 50px; 
+	line-height: 50px;
+	background: #323232;
+	font-size: 20px;
+	border: 1px solid black;
+    box-sizing: border-box;
+}
+
+#menuBar select{
+	width: 100px;
+}
+
+#menuBar img{
+	width: 30px;
+	vertical-align: middle;
+}
+
+
+#contents1 {
+	float: left; 
+	width: 300px; 
+	height: 650px; 
+	background: #282828;
+	border: 1px solid black;
+    box-sizing: border-box;
+    font-size: 50px;
+	
+}
+.datetheater {
+	display: flex;
+}
+.oneTheater {
+	width: 55px;
+}
+.screen {
+	width: 100%;
+	border-right: 1px solid #000;
+}
+#SeatChoice {
+	display: grid;
+	grid-template-columns: repeat(10, 1fr);
+	grid-gap: 10px;
+	grid-auto-rows: minmax(100px, auto);
+}
+#contents1 {
+	font-size: 30px;
+	line-height:300%;
+	
+}
+#contents1 input {
+	cursor: pointer;	
+}
+
+#contents3, #contents4 {
+	float: left;
+	width: 300px;
+	font-size: 20px;
+	height: 650px;
+	background: #282828;
+	align-items: center;
+	border: 1px solid black;
+    box-sizing: border-box;
+    overflow: auto;
+    
+}
+#contents3 input {
+	text-align: center;
+}
+#contents4 input.oneDate {
+    width: 240px;
+}
+#contents3 input, #contents4 input {
+	padding: 10px;
+	font-size: 20px;
+	background-color: #282828;
+	color: #fff;
+	border: none;
+	cursor: pointer;
+}
+#contents3::-webkit-scrollbar, #contents4::-webkit-scrollbar {
+	width: 5px;
+}	
+#contents3::-webkit-scrollbar-thumb, #contents4::-webkit-scrollbar-thumb {
+	background-color: #2f3542;
+    border-radius: 10px;
+    background-clip: padding-box;
+    border: 2px solid transparent;
+}
+#contents3::-webkit-scrollbar-track, #contents4::-webkit-scrollbar-track {
+	background-color: grey;
+    border-radius: 10px;
+    box-shadow: inset 0px 0px 5px white;
+}
+/*-------------------- 예약하기------------------- */
+#wrap .wrap {
+	float: left;
+	line-height: 600px; 
+	}
+	
+#side1, #side2, #side3, #side4 {
+	width: 100px;
+	height: 400px;
+	line-height: 400px;
+	background: #3c3c3c;
+	text-align: center;
+	color: #ffffff;
+	font-size: 15px;
+	border: 1px solid black;
+    box-sizing: border-box;
+}
+.sideSelect {
+	color: #99CCCC;
+}
+#seatHeader {
+	float: left;
+	width: 900px; 
+	height: 50px;
+	font-size: 20px;
+	line-height: 50px; 
+	background: #3c3c3c;
+	border: 1px solid black;
+    box-sizing: border-box;
+}
+
+.num {
+	float: left;
+	width: 900px; 
+	height: 50px;
+	font-size: 20px;
+	line-height: 50px; 
+	background: #000000;
+	border: 1px solid black;
+    box-sizing: border-box;
+}
+
+#SeatChoice {
+	float: left;
+	width: 900px; 
+	height: 645px;
+	font-size: 20px;
+	line-height: 50px; 
+	background: #400040;
+	border: 1px solid black;
+    box-sizing: border-box;    
+    align-items: center;
+    text-align: center;
+}
+
+#SeatChoice input{
+	text-align: center;
+	width: 45px;
+	height: 32px;
+	margin-left: 15px;
+	cursor: pointer;
+}
+#SeatChoice input[type="text"] {
+	border-radius: 5px;
+}
+.finalBtns{
+	display: flex;
+	align-items: center;
+	text-align: center;
+	justify-content: center;
+	
+}
+.finalPrice {
+	margin-left: 80px;
+	width: 200px;
+	cursor: pointer;
+	padding: 10px 0;
+}
+.finalBtns input[type="text"] {
+    font-size: 20px;
+    text-align: right;
+}
+.finalBtns input[type="button"] {
+	font-size: 20px;
+    padding: 5px 30px;
+    color: #e0e0e0;
+    background: #212121;
+    cursor: pointer;
+    margin-bottom: 10px;
+}
+#SeatChoice input.add{
+	background-color: #99CCCC;
+}

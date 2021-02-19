@@ -7,110 +7,110 @@
 	<select id="getMemberById" resultType="memberVo">
 		SELECT * FROM member WHERE id = #{id}
 	</select>
-	
+
 	<select id="getAllMembers" resultType="memberVo">
 		SELECT * FROM member ORDER BY id
 	</select>
-	
+
 	<select id="getCountBySearch" resultType="int">
-		SELECT COUNT(*) 
-		FROM member 
+		SELECT COUNT(*)
+		FROM member
 		<if test="category == 'id'">
-			WHERE id LIKE CONCAT('%', #{search}, '%') 
+			WHERE id LIKE CONCAT('%', #{search}, '%')
 		</if>
 		<if test="category == 'name'">
-			WHERE name LIKE CONCAT('%', #{search}, '%') 
+			WHERE name LIKE CONCAT('%', #{search}, '%')
 		</if>
 		<if test="category == 'email'">
-			WHERE email LIKE CONCAT('%', #{search}, '%') 
+			WHERE email LIKE CONCAT('%', #{search}, '%')
 		</if>
 	</select>
-	
+
 	<select id="getMembersBySearch" resultType="memberVo">
-		SELECT * 
-		FROM member 
+		SELECT *
+		FROM member
 		<if test="category == 'id'">
-			WHERE id LIKE CONCAT('%', #{search}, '%') 
+			WHERE id LIKE CONCAT('%', #{search}, '%')
 		</if>
 		<if test="category == 'name'">
-			WHERE name LIKE CONCAT('%', #{search}, '%') 
+			WHERE name LIKE CONCAT('%', #{search}, '%')
 		</if>
 		<if test="category == 'email'">
-			WHERE email LIKE CONCAT('%', #{search}, '%') 
+			WHERE email LIKE CONCAT('%', #{search}, '%')
 		</if>
-		ORDER BY reg_date DESC 
-		LIMIT #{startRow}, #{pageSize} 
+		ORDER BY reg_date DESC
+		LIMIT #{startRow}, #{pageSize}
 	</select>
-	
+
 	<insert id="addMember">
-		INSERT INTO member (id, passwd, name, yy, mm, dd, gender, email, postcode, address, address2, reg_date) 
-		VALUES (#{id}, #{passwd}, #{name}, #{yy}, #{mm}, #{dd}, #{gender}, #{email}, #{postcode}, #{address}, #{address2}, #{regDate}) 
+		INSERT INTO member (id, passwd, name, yy, mm, dd, gender, email, postcode, address, address2, reg_date)
+		VALUES (#{id}, #{passwd}, #{name}, #{yy}, #{mm}, #{dd}, #{gender}, #{email}, #{postcode}, #{address}, #{address2}, #{regDate})
 	</insert>
-	
+
 	<select id="userCheck" resultType="string">
 		SELECT passwd FROM member WHERE id = #{id}
 	</select>
-	
+
 	<select id="findUserPasswd" resultType="string">
 		SELECT passwd FROM member WHERE id = #{id} And name = #{name} And email = #{email}
 	</select>
-	
+
 	<select id="findUserID" resultType="string">
 		SELECT id FROM member WHERE name = #{name} And email = #{email}
 	</select>
-	
+
 	<select id="getCountById" resultType="int">
 		SELECT COUNT(*) FROM member WHERE id = #{id}
 	</select>
-	
+
 	<select id="getCountByEmail" resultType="int">
 		SELECT COUNT(*) FROM member WHERE email = #{email}
 	</select>
-	
+
 	<select id="userCheckPasswd" resultType="int">
 		SELECT COUNT(*) FROM member WHERE id = #{id} And name = #{name} And email = #{email}
 	</select>
-	
+
 	<select id="userCheckID" resultType="int">
 		SELECT COUNT(*) FROM member WHERE name = #{name} And email = #{email}
 	</select>
-	
+
 	<update id="update">
-		UPDATE member 
-		SET name = #{name}, age = #{age}, gender = #{gender}, email = #{email}, address = #{address}, tel = #{tel} 
-		WHERE id = #{id} 
+		UPDATE member
+		SET name = #{name}, gender = #{gender}, email = #{email}, address = #{address}
+		WHERE id = #{id}
 	</update>
-	
+
 	<delete id="deleteById">
 		DELETE FROM member WHERE id = #{id}
 	</delete>
-	
+
 	<delete id="deleteAll">
 		DELETE FROM member
 	</delete>
-	
+
 	<select id="getGenderPerCount" resultType="map">
-		SELECT gender, count(*) as cnt 
-		FROM member 
-		GROUP BY gender 
+		SELECT gender, count(*) as cnt
+		FROM member
+		GROUP BY gender
 	</select>
-	
-	
+
+
 	<select id="getAgeRangePerCount" resultType="map">
 		<![CDATA[
 		SELECT CASE 
-		         WHEN age BETWEEN 10 AND 19 THEN '10대'
-		         WHEN age BETWEEN 20 AND 39 THEN '청년층'
-		         WHEN age BETWEEN 40 AND 59 THEN '장년층'
-		         WHEN age >= 60 THEN '노년층'
-		         WHEN age < 10 OR age IS NULL THEN '기타'
+		         WHEN (SELECT year(now()) - yy) BETWEEN 10 AND 19 THEN '10대'
+		         WHEN (SELECT year(now()) - yy) BETWEEN 20 AND 39 THEN '청년층'
+		         WHEN (SELECT year(now()) - yy) BETWEEN 40 AND 59 THEN '장년층'
+		         WHEN (SELECT year(now()) - yy) >= 60 THEN '노년층'
+		         WHEN (SELECT year(now()) - yy) < 10 OR (SELECT year(now()) - yy) IS NULL THEN '기타'
 		       END as age_range
-				, count(*) as cnt
-		FROM member
+				, count(*) as count
+		FROM bisp.member
 		GROUP BY age_range
 		]]>
 	</select>
-	
+
 
 </mapper>
 

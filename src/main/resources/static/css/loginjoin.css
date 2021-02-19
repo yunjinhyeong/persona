@@ -36,7 +36,7 @@ section .loginjoinbox .square {
 }
 section .loginjoinbox .square:nth-child(1) {
     top: -350px;
-    right: -60px;
+    right: -20px;
     width: 100px;
     height: 100px;
     z-index: 2;
@@ -56,7 +56,7 @@ section .loginjoinbox .square:nth-child(3) {
     z-index: 2;
 }
 section .loginjoinbox .square:nth-child(4) {
-    bottom: -400px;
+    bottom: -500px;
     left: 200px;
     width: 100px;
     height: 100px;

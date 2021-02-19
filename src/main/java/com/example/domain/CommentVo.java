@@ -14,7 +14,7 @@ import lombok.ToString;
 @Setter
 @ToString
 public class CommentVo {
-	
+
 	private int cno;
 	private int nno;
 	private String id;

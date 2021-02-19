@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.mapper.CSMapper">
+
+	<insert id="addNotice">
+		INSERT INTO csnotice (num, id, csSubject, csContents, regDate, rank)
+		VALUES (#{num}, #{id}, #{csSubject}, #{csContents}, #{regDate}, #{rank})
+	</insert>
+
+	<insert id="MtmaddNotice">
+		INSERT INTO csmtm (mnum, mid, mquestion, mkinds, msubject, mcontents, regDate, reRef, reLev, reSeq, questioner)
+		VALUES (#{mnum}, #{mid}, #{mquestion}, #{mkinds}, #{msubject}, #{mcontents}, #{regDate}, #{reRef}, #{reLev}, #{reSeq}, #{questioner})
+	</insert>
+
+	<update id="updateReadcount">
+		UPDATE csnotice
+		SET readcount = readcount + 1
+		WHERE num = #{num}
+	</update>
+
+
+	<select id="getCountAll" resultType="int">
+		SELECT COUNT(*) FROM csnotice
+	</select>
+	
+	<select id="getCountOfNotice" resultType="int">
+		SELECT COUNT(*)
+		FROM csnotice
+		WHERE rank = 1
+	</select>
+
+	<select id="getNotices" resultType="csNoticeVo">
+		SELECT *
+		FROM csnotice
+		ORDER BY rank ASC
+		LIMIT #{startRow}, #{pageSize}
+	</select>
+
+	<select id="getNoticesOnly" resultType="csNoticeVo">
+		SELECT *
+		FROM csnotice
+		WHERE rank = 1
+	</select>
+	
+	<update id="updateBoard">
+		UPDATE csnotice
+		SET csSubject = #{csSubject}, csContents = #{csContents}, rank = #{rank}
+		WHERE num = #{num}
+	</update>
+
+	<update id="updateReSeq">
+		<![CDATA[
+ 		UPDATE csmtm 
+ 		SET reseq = reseq + 1  
+ 		WHERE reref = #{reRef}  
+ 		AND reseq > #{reSeq}  
+ 		]]> 
+	</update>
+
+
+	<select id="getCountBySearch" resultType="int">
+		SELECT COUNT(*)
+		FROM csnotice
+		<if test="category == 'subject'">
+			WHERE cssubject LIKE CONCAT('%', #{search}, '%')
+		</if>
+		<if test="category == 'content'">
+			WHERE cscontents LIKE CONCAT('%', #{search}, '%')
+		</if>
+	</select>
+
+	<select id="mtmgetCountBySearch" resultType="int">
+		SELECT COUNT(*)
+		FROM csmtm
+		<if test="category == 'subject'">
+			WHERE msubject LIKE CONCAT('%', #{search}, '%')
+		</if>
+		<if test="category == 'content'">
+			WHERE mcontents LIKE CONCAT('%', #{search}, '%')
+		</if>
+	</select>
+
+	<select id="NoticeCountById" resultType="int">
+		SELECT COUNT(*)
+		FROM csmtm
+	</select>
+
+
+	<select id="getNoticesBySearch" resultType="CSNoticeVo">
+		SELECT *
+		FROM csnotice
+		<if test="category == 'subject'">
+			WHERE cssubject LIKE CONCAT('%', #{search}, '%')
+		</if>
+		<if test="category == 'contents'">
+			WHERE cscontents LIKE CONCAT('%', #{search}, '%')
+		</if>
+		ORDER BY rank ASC
+		LIMIT #{startRow}, #{pageSize}
+	</select>
+
+	<select id="mtmgetNoticesBySearch" resultType="CSMtmVo">
+		SELECT *
+		FROM csmtm
+		<if test="category == 'subject'">
+			WHERE msubject LIKE CONCAT('%', #{search}, '%')
+		</if>
+		<if test="category == 'contents'">
+			WHERE mcontents LIKE CONCAT('%', #{search}, '%')
+		</if>
+		WHERE questioner =#{id} 
+		ORDER BY mnum ASC
+		LIMIT #{startRow}, #{pageSize}
+	</select>
+
+	<select id="NoticeById" resultType="CSMtmVo">
+		SELECT *
+		FROM csmtm
+		<if test="category == 'subject'">
+			WHERE msubject LIKE CONCAT('%', #{search}, '%')
+		</if>
+		<if test="category == 'contents'">
+			WHERE mcontents LIKE CONCAT('%', #{search}, '%')
+		</if>
+
+		ORDER BY mquestion ASC
+		LIMIT #{startRow}, #{pageSize}
+	</select>
+
+
+
+	<select id="getNoticeAndAttaches" resultMap="noticeAndAttaches">
+		SELECT n.num, n.id, n.subject, n.content, n.readcount, n.reg_date, n.ip,
+		       n.re_ref, n.re_lev, n.re_seq,
+		       a.num as anum, a.uuid, a.filename, a.uploadpath, a.image, a.no_num
+		FROM csnotice n LEFT OUTER JOIN attach a
+		ON n.num = a.no_num
+		where n.num = #{num}
+	</select>
+	<resultMap id="noticeAndAttaches" type="csNoticeVo">
+		<!-- property 속성은 setter 메소드 이름을 의미함! -->
+		<id column="num" property="num"/>
+		<result column="id" property="id"/>
+		<result column="cs_subject" property="cs_subject"/>
+		<result column="cs_contents" property="cs_contents"/>
+		<result column="reg_date" property="regDate"/>
+		<result column="rank" property="rank" />
+	</resultMap>
+
+
+	<select id="getNoticesByNums" resultType="csNoticeVo">
+		SELECT *
+		FROM csnotice
+		WHERE num IN
+		<foreach collection="numList" item="num" open="(" separator="," close=")">
+			#{num}
+		</foreach>
+	</select>
+
+
+
+</mapper>
+
+
+

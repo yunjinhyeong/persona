@@ -1,0 +1,184 @@
+@charset "UTF-8";
+
+body{
+	background-color: #000000;
+}
+/* 브라우저 마진과 패딩 리셋 */
+	* {margin:0;padding:0;}
+	
+	hr{
+		width: 100%;	
+	}
+
+	.section{background-color:black;  margin: 120px 0 0 0;}
+	
+	.section h1{color:black;}
+	/* INPUT 가리기 */
+	.section [id*="slide"] {display:none;}
+	
+	/* 슬라이드 영역 - max-width 크기를 조절해주면 됩니다*/
+	.section .slidewrap {max-width:1200px;margin:0 auto;overflow:hidden;position:relative;}
+	.section .slidelist {white-space:nowrap;font-size:0;}
+	.section .slidelist > li {display:inline-block;vertical-align:middle;width:100%; transition:all .5s; animation:slide 8s infinite;}
+	.section .slidelist > li > a > img {display:block;position:relative;width:100%;height:100%;}
+	
+	/* 좌우로 넘기는 LABEL버튼에 대한 스타일 */
+	.section .slide-control {position:absolute;top:0;left:0;z-index:10;width:100%;height:100%;}
+	.section .slide-control label {position:absolute;z-index:1;top:50%;transform:translateY(-50%);padding:50px;cursor:pointer;}
+	.section .slide-control .left {left:30px;background:url('/imgs/left.png') center center / 100% no-repeat;}
+	.section .slide-control .right {right:30px;background:url('/imgs/right.png') center center / 100% no-repeat;}
+	.section .slide-control [class*="control"] {display:none;}
+
+	/* INPUT이 체크되면 변화값이 li까지 전달되는 스타일 */
+	.section [id="slide01"]:checked ~ .slidewrap .slidelist > li {transform:translateX(0%);}
+	.section [id="slide02"]:checked ~ .slidewrap .slidelist > li {transform:translateX(-100%);}
+	.section [id="slide03"]:checked ~ .slidewrap .slidelist > li {transform:translateX(-200%);}
+	
+	/*  INPUT이 체크되면 변화값이 좌우 슬라이드 버튼을 담고 있는 div 까지 전달되는 스타일 */
+	.section [id="slide01"]:checked ~ .slidewrap .control01 {display:block;}
+	.section [id="slide02"]:checked ~ .slidewrap .control02 {display:block;}
+	.section [id="slide03"]:checked ~ .slidewrap .control03 {display:block;}
+	
+	
+	
+	/*===================================================================================================================================*/
+	
+.movie_box {
+	margin: 300px;
+	margin-top: 50px;
+	margin-bottom: 0;
+	color: #ffffff;
+}
+	
+.movie_box h1{
+	margin: 0 0 10px 0;
+	color:#ffffff
+}	
+
+.movie_content {
+    position: relative;
+    width: 100%;
+    height: auto;
+    display: flex;
+  	flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    transition: 0.6s;
+    padding: 0px 100px;
+    z-index: 7;
+    color: #ffffff;
+    
+}
+
+#rankNum p {
+	position: absolute;
+/* 	background-color: #ffff00; */
+	text-align: center;
+	border-radius:10px;
+} 
+
+#rankNum p:nth-child(2){
+	position: absolute;
+	margin: 10px 15px;
+	font-weight:bold;
+	color:#000000;
+}
+
+.movie_box ul {
+    padding: 10px 10px 30px 10px;
+    list-style: none;
+    text-align: center;
+}
+.movie_box ul li:nth-child(2) {
+    font-weight: bold;
+    font-size: 13px;
+}
+.movie_box ul li:nth-child(3) {
+    font-size: 11px;
+}
+
+/*====================== 이벤트부분 ===============================*/
+
+.article2 {
+	margin: 300px;
+	margin-top: 50px;
+	margin-bottom: 0;
+	color: #ffffff;
+}
+
+.article2 a {
+	color: #000;
+	text-decoration: none;
+}
+
+.article2>img {
+	width: 100%;
+	margin-top: 200px;
+}
+body>img {
+	width: 100%;
+	margin: 0;
+}
+.article2 h1 {
+	margin-bottom: 10px;	
+}
+
+.sectionTitle {
+	display: flex;
+	justify-content: space-between;
+	margin-bottom: 25px;
+	margin-top: 25px;
+}
+
+.sectionTitle a {
+	color: #ffffff;
+}
+.items {
+	display: grid;
+	grid-template-columns: repeat(3, 1fr);
+	grid-gap: 10px;
+	grid-auto-rows: minmax(100px, auto);
+}
+.oneItem {
+	max-width: 400px;
+}
+
+.eventInfo {
+	display: flex;
+	flex-direction: column;
+}
+.imgParent img {
+	min-width: 300px;
+	height: 300px;
+}
+.imgDetail img {
+	width: 100%;
+}
+.article2 input {
+	font-size: 20px;
+    padding: 5px 30px;   
+    color: #e0e0e0;
+    background: #212121;
+    cursor: pointer;
+    margin-bottom: 10px;
+    display: flex;
+    margin: 200px auto 0px auto;
+    margin-inline: auto;
+}    
+
+/*=================== 공지사항 롤링 ===================*/
+
+.noticeWrap {
+	margin-top: 50px;
+	margin-bottom: 0;
+	color: #ffffff;
+}
+
+.noticeWrap h1 {
+	margin-bottom: 10px;
+}
+
+.notice{width:100%; height:50px; overflow:hidden; background-color:#000000;}
+.rolling{position:relative; width:100%; height:100px;}
+.rolling li{width:100%; height:50px; line-height:50px;}
+.rolling li a{color:#ffffff;}

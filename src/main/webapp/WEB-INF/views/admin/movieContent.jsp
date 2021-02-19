@@ -13,20 +13,16 @@
 <body>
 	<%-- header 영역 --%>
 	<jsp:include page="/WEB-INF/views/include/navbar.jsp" />
-	
+
 	<div class="wrapper">
 	<%-- sidebar 영역 --%>
 	<jsp:include page="/WEB-INF/views/include/sidebarForAdmin.jsp" />
-        <div class="main_content">            
+        <div class="main_content">
                 <Table class="addMovieMain">
                     <tr>
                     	<tr>
                             <th><label for="MNum">번호</label></th>
                             <td>${ movieVo.MNum }</td>
-                        </tr>
-                        <tr>
-                            <th><label for="theater">상영관</label></th>
-                            <td>${ movieVo.theater }</td>
                         </tr>
                         <tr>
                             <th><label for="rank">시청등급</label></th>
@@ -38,13 +34,13 @@
                         </tr>
                         <tr>
 							<th><label for="MImg">포스트</label></th>
-							
+
 							<td><c:if test="${ not empty mImgTrailerList }">
 								<c:forEach var="mImgTrailer" items="${ mImgTrailerList }">
-										<c:if test="${ mImgTrailer.image eq 'I' }">
+										<c:if test="${ mImgTrailer.image eq 'P' }">
 											<p>
 												<a href="/upload/${ mImgTrailer.uploadpath }/${ mImgTrailer.uuid }_${ mImgTrailer.filename }">
-													<img  width='400' src="/upload/${ mImgTrailer.uploadpath }/s_${ mImgTrailer.uuid }_${ mImgTrailer.filename }" width="600px">
+													<img  width='200' src="/upload/${ mImgTrailer.uploadpath }/${ mImgTrailer.uuid }_${ mImgTrailer.filename }" width="600px">
 												</a>
 											</p>
 										</c:if>
@@ -54,16 +50,16 @@
 						</tr>
 						<tr>
 							<th><label for="MTrailer">트레일러</label></th>
-							
+
 							<td><c:if test="${ not empty mImgTrailerList }">
 								<c:forEach var="mImgTrailer" items="${ mImgTrailerList }">
-										<c:if test="${ mImgTrailer.image eq 'O' }">
+										<c:if test="${ mImgTrailer.image eq 'N' }">
 											<p>
 												<a href="/upload/${ mImgTrailer.uploadpath }/${ mImgTrailer.uuid }_${ mImgTrailer.filename }">
-													<video src="/upload/${ mImgTrailer.uploadpath }/s_${ mImgTrailer.uuid }_${ mImgTrailer.filename }"  width='400' controls autoplay>비디오</video> 
+													<video src="/upload/${ mImgTrailer.uploadpath }/s_${ mImgTrailer.uuid }_${ mImgTrailer.filename }"  width='400' controls autoplay>비디오</video>
 												</a>
 											</p>
-										</c:if>								
+										</c:if>
 								</c:forEach>
 							</c:if>
 							</td>
@@ -92,24 +88,20 @@
                             <th><label for="mActor">배우</label></th>
                             <td>${ movieVo.MActor }</td>
                         </tr>
-                        <tr>
-                            <th><label for="mStart">극장개봉일자</label></th>
-                            <td>${ movieVo.MStart }</td>
-                        </tr>
-                        <tr>
-                            <th><label for="mEnd">극장종료일자</label></th>
-                            <td>${ movieVo.MEnd }</td>
-                        </tr>                        
+						<tr>
+							<th><label for="mStory">줄거리</label></th>
+							<td><textarea name="mStory" cols="60" rows="10" readonly>${ movieVo.MStory }</textarea></td>
+						</tr>
                     </tr>
                 </Table>
-            
+
                 <div class="btns">
                 	<c:if test="${ not empty id }">
 						<%-- 로그인 아이디와 글작성자 아이디가 같을때 --%>
 						<input type="button" value="수정" class="btn" onclick="location.href = '/movieNotice/modify?num=${ movieVo.MNum }&pageNum=${ pageNum }'">
 						<input type="button" value="삭제" class="btn" onclick="remove()">
 					</c:if>
-					<input type="button" value="목록보기" class="btn" onclick="location.href = '/movieNotice/list?pageNum=${ pageNum }'">                	
+					<input type="button" value="목록보기" class="btn" onclick="location.href = '/movieNotice/list?pageNum=${ pageNum }'">
                 </div>
         </div>
     </div>
@@ -126,10 +118,9 @@
 	}
 </script>
 </body>
-</html>   
+</html>
 
 
 
 
 
-    

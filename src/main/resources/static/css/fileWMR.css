@@ -12,6 +12,10 @@ table {
 	text-align: center;
 	min-width: 100%;
 }
+td.borderBottom select {
+    width: 85%;
+    padding: 5px 0;
+}
 table tr th {
     padding: 30px;
 }
