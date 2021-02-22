@@ -1,13 +1,32 @@
 @charset "UTF-8";
 
 body{
-	background-color: #000000;
+	background-color: #ffffff;
 }
+
+body a{
+	text-decoration:none;
+}
+
+.items img:hover{
+    width:200px;
+    transform:scale(1.1);
+    transition: transform.5s;
+}
+
+.main_content a:link {color: black; text-decoration: none;}
+.main_content a:visited {color: black; text-decoration: none;}
+.main_content a:hover {color: grey; text-decoration: none;}
+
+.noticeWrap a:hover {color: grey; text-decoration: none;}
+.sectionTitle a:hover {color: grey; text-decoration: none;}
+
+
 /* 브라우저 마진과 패딩 리셋 */
 	* {margin:0;padding:0;}
 	
 	hr{
-		width: 100%;	
+		width: 100%;
 	}
 
 	.section{background-color:black;  margin: 120px 0 0 0;}
@@ -33,11 +52,19 @@ body{
 	.section [id="slide01"]:checked ~ .slidewrap .slidelist > li {transform:translateX(0%);}
 	.section [id="slide02"]:checked ~ .slidewrap .slidelist > li {transform:translateX(-100%);}
 	.section [id="slide03"]:checked ~ .slidewrap .slidelist > li {transform:translateX(-200%);}
+	.section [id="slide04"]:checked ~ .slidewrap .slidelist > li {transform:translateX(-300%);}
+	.section [id="slide05"]:checked ~ .slidewrap .slidelist > li {transform:translateX(-400%);}
+	.section [id="slide06"]:checked ~ .slidewrap .slidelist > li {transform:translateX(-500%);}
+	.section [id="slide07"]:checked ~ .slidewrap .slidelist > li {transform:translateX(-600%);}
 	
 	/*  INPUT이 체크되면 변화값이 좌우 슬라이드 버튼을 담고 있는 div 까지 전달되는 스타일 */
 	.section [id="slide01"]:checked ~ .slidewrap .control01 {display:block;}
 	.section [id="slide02"]:checked ~ .slidewrap .control02 {display:block;}
 	.section [id="slide03"]:checked ~ .slidewrap .control03 {display:block;}
+	.section [id="slide04"]:checked ~ .slidewrap .control04 {display:block;}
+	.section [id="slide05"]:checked ~ .slidewrap .control05 {display:block;}
+	.section [id="slide06"]:checked ~ .slidewrap .control06 {display:block;}
+	.section [id="slide07"]:checked ~ .slidewrap .control07 {display:block;}
 	
 	
 	
@@ -47,12 +74,12 @@ body{
 	margin: 300px;
 	margin-top: 50px;
 	margin-bottom: 0;
-	color: #ffffff;
+	color: #000000;
 }
 	
 .movie_box h1{
 	margin: 0 0 10px 0;
-	color:#ffffff
+	color:#000000
 }	
 
 .movie_content {
@@ -66,7 +93,7 @@ body{
     transition: 0.6s;
     padding: 0px 100px;
     z-index: 7;
-    color: #ffffff;
+    color: #000000;
     
 }
 
@@ -103,22 +130,31 @@ body{
 	margin: 300px;
 	margin-top: 50px;
 	margin-bottom: 0;
-	color: #ffffff;
+	color: #000000;
 }
 
 .article2 a {
-	color: #000;
+	color: #000000;
 	text-decoration: none;
 }
 
 .article2>img {
-	width: 100%;
+	width: 200px;
+	height: 100px;
 	margin-top: 200px;
 }
 body>img {
 	width: 100%;
 	margin: 0;
 }
+
+#ad1 {
+	margin: 50px 0 20px 0;
+	width: 100%;
+	height: 100%;
+	text-align: center;
+}
+
 .article2 h1 {
 	margin-bottom: 10px;	
 }
@@ -126,18 +162,24 @@ body>img {
 .sectionTitle {
 	display: flex;
 	justify-content: space-between;
-	margin-bottom: 25px;
-	margin-top: 25px;
+	margin-bottom: 10px;
+	margin-top: 40px;
 }
 
 .sectionTitle a {
-	color: #ffffff;
+	color: #000000;
 }
+
+hr {
+	border-style: 2px dotted black;
+}
+
 .items {
 	display: grid;
 	grid-template-columns: repeat(3, 1fr);
 	grid-gap: 10px;
 	grid-auto-rows: minmax(100px, auto);
+	margin-top: 10px;
 }
 .oneItem {
 	max-width: 400px;
@@ -148,8 +190,8 @@ body>img {
 	flex-direction: column;
 }
 .imgParent img {
-	min-width: 300px;
-	height: 300px;
+	min-width: 200px;
+	height: 100px;
 }
 .imgDetail img {
 	width: 100%;
@@ -171,14 +213,27 @@ body>img {
 .noticeWrap {
 	margin-top: 50px;
 	margin-bottom: 0;
-	color: #ffffff;
+	color: #000000;
+}
+
+#mainNotice{
+	display:inline;
+}
+
+#mainNotice>h1 {
+	float:left;
+}
+
+.noticeWrap #more {
+	float:right;
+	margin-top:10px;
 }
 
 .noticeWrap h1 {
 	margin-bottom: 10px;
 }
 
-.notice{width:100%; height:50px; overflow:hidden; background-color:#000000;}
+.notice{width:100%; height:50px; overflow:hidden; background-color:#ffffff;}
 .rolling{position:relative; width:100%; height:100px;}
 .rolling li{width:100%; height:50px; line-height:50px;}
-.rolling li a{color:#ffffff;}
+.rolling li a{color:#000000;}

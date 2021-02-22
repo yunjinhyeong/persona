@@ -137,9 +137,9 @@ public class MovieController {
 			@RequestParam(defaultValue = "1") int pageNum,
 			Model model) {
 
-		log.info("GET nowList È£ÃâµÊ");
+		log.info("GET nowList È£ï¿½ï¿½ï¿½");
 
-		// ÃÑ ¿µÈ­ ¼ö
+		// ï¿½ï¿½ ï¿½ï¿½È­ ï¿½ï¿½
 		int count = movieService.getCount();
 
 		int pageSize = pageNum * 15;
@@ -156,12 +156,12 @@ public class MovieController {
 			String mName = movieList.get(i).getMName();
 			log.info(mName);
 
-			//ÃÑ ¿¹¸Å °¹¼ö
+			//ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 			double rcount1 = watchMovieService.getTotalCount();
 			log.info("rcount1 : " + rcount1);
 
 			log.info("movieName : " + mName);
-			//¼±ÅÃÇÑ ¿µÈ­ ¿¹¸Å °¹¼ö
+			//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½È­ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 			double scount1 = watchMovieService.getScount(mName);
 			log.info("scount1 : " + scount1);
 
@@ -190,7 +190,7 @@ public class MovieController {
 		return "admin/movieWriteForm";
 	} // GET - write
 
-	// ¿À´Ã ³¯Â¥ Çü½ÄÀÇ Æú´õ ¹®ÀÚ¿­ °¡Á®¿À±â
+	// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Â¥ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ú¿ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	private String getFolder() {
 		Date date = new Date();
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
@@ -214,15 +214,15 @@ public class MovieController {
 		return result;
 	}
 
-	// ÁÖ±Û¾²±â
+	// ï¿½Ö±Û¾ï¿½ï¿½ï¿½
 	@PostMapping("/write")
 	public String write(HttpServletRequest request,
 			@RequestParam("poster") MultipartFile poster,
 			@RequestParam("mImgTrailer") List<MultipartFile> mImgTrailers,
 			MovieVo movieVo, String pageNum) throws IOException {
 
-		//============ °Ô½Ã±Û MovieVo ÁØºñÇÏ±â ==============
-		// AUTO INCREMENT ´ÙÀ½¹øÈ£ °¡Á®¿À±â
+		//============ ï¿½Ô½Ã±ï¿½ MovieVo ï¿½Øºï¿½ï¿½Ï±ï¿½ ==============
+		// AUTO INCREMENT ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½È£ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 		int mNum = mySqlService.getNextNum("movie");
 		movieVo.setMNum(mNum);
 
@@ -230,13 +230,13 @@ public class MovieController {
 		movieVo.setRegDate(new Timestamp(System.currentTimeMillis()));
 		movieVo.setMLike(0);
 
-		//============ °Ô½Ã±Û MovieVo ÁØºñ¿Ï·á ==============
+		//============ ï¿½Ô½Ã±ï¿½ MovieVo ï¿½Øºï¿½Ï·ï¿½ ==============
 
 
 
-		//============ ÆÄÀÏ ¾÷·Îµå¸¦ À§ÇÑ Æú´õ ÁØºñ ==============
+		//============ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Îµå¸¦ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Øºï¿½ ==============
 		ServletContext application = request.getServletContext();
-		String realPath = application.getRealPath("/");  // webapp Æú´õÀÇ ½ÇÁ¦°æ·Î
+		String realPath = application.getRealPath("/");  // webapp ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 		log.info("realPath : " + realPath);
 
 		String strDate = this.getFolder();
@@ -249,53 +249,53 @@ public class MovieController {
 		}
 
 
-		//============ MultipartFileÀ» ÀÌ¿ëÇØ ÆÄÀÏ¾÷·Îµå ¼öÇà ==============
+		//============ MultipartFileï¿½ï¿½ ï¿½Ì¿ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ï¾ï¿½ï¿½Îµï¿½ ï¿½ï¿½ï¿½ï¿½ ==============
 
 		List<MImgTrailerVo> mimgtrailerList = new ArrayList<>();
 
 		for (MultipartFile multipartFile : mImgTrailers) {
-			// ÆÄÀÏÀÔ·Â»óÀÚ¿¡¼­ ¼±ÅÃÇÏÁö¾ÊÀº ¿ä¼Ò´Â °Ç³Ê¶Ù±â
+			// ï¿½ï¿½ï¿½ï¿½ï¿½Ô·Â»ï¿½ï¿½Ú¿ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ò´ï¿½ ï¿½Ç³Ê¶Ù±ï¿½
 			if (multipartFile.isEmpty()) {
 				continue;
 			}
 
-			// ½ÇÁ¦ ¾÷·ÎµåÇÑ ÆÄÀÏÀÌ¸§ ±¸ÇÏ±â
+			// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Îµï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ì¸ï¿½ ï¿½ï¿½ï¿½Ï±ï¿½
 			String filename = multipartFile.getOriginalFilename();
 
-			// ÀÍ½ºÇÃ·Î·¯´Â ÆÄÀÏÀÌ¸§¿¡ °æ·Î°¡ Æ÷ÇÔµÇ¾î ÀÖÀ¸¹Ç·Î
-			// ¼ø¼ö ÆÄÀÏÀÌ¸§¸¸ ºÎºÐ¹®ÀÚ¿­·Î °¡Á®¿À±â
+			// ï¿½Í½ï¿½ï¿½Ã·Î·ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ì¸ï¿½ï¿½ï¿½ ï¿½ï¿½Î°ï¿½ ï¿½ï¿½ï¿½ÔµÇ¾ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ç·ï¿½
+			// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ì¸ï¿½ï¿½ï¿½ ï¿½ÎºÐ¹ï¿½ï¿½Ú¿ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 			int beginIndex = filename.lastIndexOf("\\") + 1;
 			filename = filename.substring(beginIndex);
 
-			// ÆÄÀÏ¸í Áßº¹À» ÇÇÇÏ±â À§ÇØ¼­ ÆÄÀÏÀÌ¸§ ¾Õ¿¡ ºÙÀÏ UUID ¹®ÀÚ¿­ ±¸ÇÏ±â
+			// ï¿½ï¿½ï¿½Ï¸ï¿½ ï¿½ßºï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ï±ï¿½ ï¿½ï¿½ï¿½Ø¼ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ì¸ï¿½ ï¿½Õ¿ï¿½ ï¿½ï¿½ï¿½ï¿½ UUID ï¿½ï¿½ï¿½Ú¿ï¿½ ï¿½ï¿½ï¿½Ï±ï¿½
 			UUID uuid = UUID.randomUUID();
 			String strUuid = uuid.toString();
 
-			// ¾÷·Îµå(»ý¼º)ÇÒ ÆÄÀÏÀÌ¸§
+			// ï¿½ï¿½ï¿½Îµï¿½(ï¿½ï¿½ï¿½ï¿½)ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ì¸ï¿½
 			String uploadFilename = strUuid + "_" + filename;
 
-			// »ý¼ºÇÒ ÆÄÀÏÁ¤º¸¸¦ File °´Ã¼·Î ÁØºñ
+			// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ File ï¿½ï¿½Ã¼ï¿½ï¿½ ï¿½Øºï¿½
 			File saveFile = new File(dir, uploadFilename);
 
-			// ÀÓ½Ã¾÷·ÎµåµÈ ÆÄÀÏÀ» ÁöÁ¤°æ·ÎÀÇ ÆÄÀÏ¸íÀ¸·Î »ý¼º(º¹»ç)
+			// ï¿½Ó½Ã¾ï¿½ï¿½Îµï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ï¸ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½(ï¿½ï¿½ï¿½ï¿½)
 			multipartFile.transferTo(saveFile);
 
 
-			//============ Ã·ºÎÆÄÀÏ AttachVo ÁØºñÇÏ±â ==============
+			//============ Ã·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ AttachVo ï¿½Øºï¿½ï¿½Ï±ï¿½ ==============
 			MImgTrailerVo mImgTrailerVo = new MImgTrailerVo();
-			// °Ô½ÃÆÇ ±Û¹øÈ£ ¼³Á¤
+			// ï¿½Ô½ï¿½ï¿½ï¿½ ï¿½Û¹ï¿½È£ ï¿½ï¿½ï¿½ï¿½
 			mImgTrailerVo.setNoNum(movieVo.getMNum());
 
 			mImgTrailerVo.setUuid(strUuid);
 			mImgTrailerVo.setFilename(filename);
 			mImgTrailerVo.setUploadpath(strDate);
 
-			if (isImage(filename)) { // ÀÌ¹ÌÁöÀÎ°¡? -> Æ÷½ºÅÍÀÎ°¡?
+			if (isImage(filename)) { // ï¿½Ì¹ï¿½ï¿½ï¿½ï¿½Î°ï¿½? -> ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Î°ï¿½?
 				mImgTrailerVo.setImage("T");
 
-				// »ý¼ºÇÒ ½æ³×ÀÏ ÀÌ¹ÌÁö ÆÄÀÏ °æ·Î¿Í ÀÌ¸§À» ÁØºñ
+				// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ì¹ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Î¿ï¿½ ï¿½Ì¸ï¿½ï¿½ï¿½ ï¿½Øºï¿½
 				File thumbnailFile = new File(dir, "s_" + uploadFilename);
-				// ½æ³×ÀÏ ÀÌ¹ÌÁö ÆÄÀÏ »ý¼ºÇÏ±â
+				// ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ì¹ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï±ï¿½
 				try (FileOutputStream fos = new FileOutputStream(thumbnailFile)) {
 					Thumbnailator.createThumbnail(multipartFile.getInputStream(), fos, 100, 100);
 				}
@@ -303,53 +303,53 @@ public class MovieController {
 				mImgTrailerVo.setImage("N");
 			}
 
-			// AttachVo ¸¦ DB¿¡ insertÇÏ±â
+			// AttachVo ï¿½ï¿½ DBï¿½ï¿½ insertï¿½Ï±ï¿½
 			//attachService.insertAttach(attachVo);
 
 			mimgtrailerList.add(mImgTrailerVo);
 		} // for
 
-		//============ MultipartFileÀ» ÀÌ¿ëÇØ ÆÄÀÏ¾÷·Îµå ¼öÇà ==============
+		//============ MultipartFileï¿½ï¿½ ï¿½Ì¿ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ï¾ï¿½ï¿½Îµï¿½ ï¿½ï¿½ï¿½ï¿½ ==============
 
-		// MimgVo Ã·ºÎÆÄÀÏÁ¤º¸ ´ãÀ» ¸®½ºÆ® ÁØºñ
+		// MimgVo Ã·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Æ® ï¿½Øºï¿½
 		MImgTrailerVo posterVo = new MImgTrailerVo();
 
-		// ½ÇÁ¦ ¾÷·ÎµåÇÑ ÆÄÀÏÀÌ¸§ ±¸ÇÏ±â
+		// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Îµï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ì¸ï¿½ ï¿½ï¿½ï¿½Ï±ï¿½
 		String filename = poster.getOriginalFilename();
 
-		// ÀÍ½ºÇÃ·Î·¯´Â ÆÄÀÏÀÌ¸§¿¡ °æ·Î°¡ Æ÷ÇÔµÇ¾î ÀÖÀ¸¹Ç·Î
-		// ¼ø¼ö ÆÄÀÏÀÌ¸§¸¸ ºÎºÐ¹®ÀÚ¿­·Î °¡Á®¿À±â
+		// ï¿½Í½ï¿½ï¿½Ã·Î·ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ì¸ï¿½ï¿½ï¿½ ï¿½ï¿½Î°ï¿½ ï¿½ï¿½ï¿½ÔµÇ¾ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ç·ï¿½
+		// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ì¸ï¿½ï¿½ï¿½ ï¿½ÎºÐ¹ï¿½ï¿½Ú¿ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 		int beginIndex = filename.lastIndexOf("\\") + 1;
 		filename = filename.substring(beginIndex);
 
-		// ÆÄÀÏ¸í Áßº¹À» ÇÇÇÏ±â À§ÇØ¼­ ÆÄÀÏÀÌ¸§ ¾Õ¿¡ ºÙÀÏ UUID ¹®ÀÚ¿­ ±¸ÇÏ±â
+		// ï¿½ï¿½ï¿½Ï¸ï¿½ ï¿½ßºï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ï±ï¿½ ï¿½ï¿½ï¿½Ø¼ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ì¸ï¿½ ï¿½Õ¿ï¿½ ï¿½ï¿½ï¿½ï¿½ UUID ï¿½ï¿½ï¿½Ú¿ï¿½ ï¿½ï¿½ï¿½Ï±ï¿½
 		UUID uuid = UUID.randomUUID();
 		String strUuid = uuid.toString();
 
-		// ¾÷·Îµå(»ý¼º)ÇÒ ÆÄÀÏÀÌ¸§
+		// ï¿½ï¿½ï¿½Îµï¿½(ï¿½ï¿½ï¿½ï¿½)ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ì¸ï¿½
 		String uploadFilename = strUuid + "_" + filename;
 
-		// »ý¼ºÇÒ ÆÄÀÏÁ¤º¸¸¦ File °´Ã¼·Î ÁØºñ
+		// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ File ï¿½ï¿½Ã¼ï¿½ï¿½ ï¿½Øºï¿½
 		File saveFile = new File(dir, uploadFilename);
 
-		// ÀÓ½Ã¾÷·ÎµåµÈ ÆÄÀÏÀ» ÁöÁ¤°æ·ÎÀÇ ÆÄÀÏ¸íÀ¸·Î »ý¼º(º¹»ç)
+		// ï¿½Ó½Ã¾ï¿½ï¿½Îµï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ï¸ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½(ï¿½ï¿½ï¿½ï¿½)
 		poster.transferTo(saveFile);
 
 
-		//============ Ã·ºÎÆÄÀÏ AttachVo ÁØºñÇÏ±â ==============
-		// °Ô½ÃÆÇ ±Û¹øÈ£ ¼³Á¤
+		//============ Ã·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ AttachVo ï¿½Øºï¿½ï¿½Ï±ï¿½ ==============
+		// ï¿½Ô½ï¿½ï¿½ï¿½ ï¿½Û¹ï¿½È£ ï¿½ï¿½ï¿½ï¿½
 		posterVo.setNoNum(movieVo.getMNum());
 
 		posterVo.setUuid(strUuid);
 		posterVo.setFilename(filename);
 		posterVo.setUploadpath(strDate);
 
-		if (isImage(filename)) { // ÀÌ¹ÌÁöÀÎ°¡? -> Æ÷½ºÅÍÀÎ°¡?
+		if (isImage(filename)) { // ï¿½Ì¹ï¿½ï¿½ï¿½ï¿½Î°ï¿½? -> ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Î°ï¿½?
 			posterVo.setImage("P");
 
-			// »ý¼ºÇÒ ½æ³×ÀÏ ÀÌ¹ÌÁö ÆÄÀÏ °æ·Î¿Í ÀÌ¸§À» ÁØºñ
+			// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ì¹ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Î¿ï¿½ ï¿½Ì¸ï¿½ï¿½ï¿½ ï¿½Øºï¿½
 			File thumbnailFile = new File(dir, "s_" + uploadFilename);
-			// ½æ³×ÀÏ ÀÌ¹ÌÁö ÆÄÀÏ »ý¼ºÇÏ±â
+			// ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ì¹ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï±ï¿½
 			try (FileOutputStream fos = new FileOutputStream(thumbnailFile)) {
 				Thumbnailator.createThumbnail(poster.getInputStream(), fos, 100, 100);
 			}
@@ -357,26 +357,26 @@ public class MovieController {
 			posterVo.setImage("N");
 		}
 
-		// AttachVo ¸¦ DB¿¡ insertÇÏ±â
+		// AttachVo ï¿½ï¿½ DBï¿½ï¿½ insertï¿½Ï±ï¿½
 		//attachService.insertAttach(attachVo);
 
 		mimgtrailerList.add(posterVo);
 
 
 
-		// AttachVo ¸¦ DB¿¡ insertÇÏ±â
+		// AttachVo ï¿½ï¿½ DBï¿½ï¿½ insertï¿½Ï±ï¿½
 		//attachService.insertAttach(attachVo);
 
 //		posterService.insertPoster(posterVo);
 
 
-		// NoticeVo ¸¦ DB¿¡ insertÇÏ±â
+		// NoticeVo ï¿½ï¿½ DBï¿½ï¿½ insertï¿½Ï±ï¿½
 		//noticeService.addNotice(noticeVo);
 
-		// NoticeVo¿Í AttachVo ¿©·¯°³¸¦ Æ®·£Àè¼ÇÀ¸·Î insertÇÏ±â
+		// NoticeVoï¿½ï¿½ AttachVo ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ Æ®ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ insertï¿½Ï±ï¿½
 		movieService.addMovieAndMImgTrailer(movieVo, mimgtrailerList);
 
-		// ÀÚ·á½Ç °Ô½ÃÆÇ »ó¼¼º¸±â·Î ¸®´ÙÀÌ·ºÆ®
+		// ï¿½Ú·ï¿½ï¿½ ï¿½Ô½ï¿½ï¿½ï¿½ ï¿½ó¼¼ºï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ì·ï¿½Æ®
 		return "redirect:/movieNotice/content?num=" + movieVo.getMNum() + "&pageNum=" + pageNum;
 	} // POST - write
 
@@ -384,11 +384,11 @@ public class MovieController {
 	@GetMapping("/content")
 	public String content(int num, @ModelAttribute("pageNum") String pageNum, Model model) {
 
-		// ¹æ¹ý1) µû·Îµû·Î selectÇØ¼­ °¡Á®¿À±â
+		// ï¿½ï¿½ï¿½1) ï¿½ï¿½ï¿½Îµï¿½ï¿½ï¿½ selectï¿½Ø¼ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 //		NoticeVo noticeVo = noticeService.getNoticeByNum(num);
 //		List<AttachVo> attachList = attachService.getAttachesByNoNum(num);
 
-		// ¹æ¹ý2) Á¶ÀÎ Äõ¸®·Î ÇÑ¹ø¿¡ °¡Á®¿À±â
+		// ï¿½ï¿½ï¿½2) ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ñ¹ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 		MovieVo movieVo = movieService.getMovieAndMImgTrailers(num);
 
 		model.addAttribute("movieVo", movieVo);
@@ -401,25 +401,25 @@ public class MovieController {
 	@GetMapping("/detail")
 	public String detail(int num, @ModelAttribute("pageNum") String pageNum, String movieName, Model model, HttpSession session) {
 
-		// ¹æ¹ý1) µû·Îµû·Î selectÇØ¼­ °¡Á®¿À±â
+		// ï¿½ï¿½ï¿½1) ï¿½ï¿½ï¿½Îµï¿½ï¿½ï¿½ selectï¿½Ø¼ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 //		NoticeVo noticeVo = noticeService.getNoticeByNum(num);
 //		List<AttachVo> attachList = attachService.getAttachesByNoNum(num);
 
-		// ¹æ¹ý2) Á¶ÀÎ Äõ¸®·Î ÇÑ¹ø¿¡ °¡Á®¿À±â
+		// ï¿½ï¿½ï¿½2) ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ñ¹ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 		MovieVo movieVo = movieService.getMovieAndMImgTrailers(num);
 
 		String id = (String) session.getAttribute("id");
 		int MovieNum = movieVo.getMNum();
 
-		//ÃÑ ´ñ±Û °¹¼ö
+		//ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 		double count = mcommentService.getTotalCountByMno(MovieNum);
 
-		//ÃÑ ¿¹¸Å °¹¼ö
+		//ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 		double rcount = watchMovieService.getTotalCount();
 		log.info("rcount : " + rcount);
 
 		log.info("movieName : " + movieName);
-		//¼±ÅÃÇÑ ¿µÈ­ ¿¹¸Å °¹¼ö
+		//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½È­ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 		double scount = watchMovieService.getScount(movieName);
 		log.info("scount : " + scount);
 
@@ -443,12 +443,12 @@ public class MovieController {
 
 
 
-		int likeStatus = 0; // 0: Ã³À½, 1: ÁÁ¾Æ¿ä¸¦ ´©¸¥»óÅÂ , 2: ÁÁ¾Æ¿ä¸¦ ´­·¶´Ù°¡ Ãë¼ÒÇÑ»óÅÂ
+		int likeStatus = 0; // 0: Ã³ï¿½ï¿½, 1: ï¿½ï¿½ï¿½Æ¿ä¸¦ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ , 2: ï¿½ï¿½ï¿½Æ¿ä¸¦ ï¿½ï¿½ï¿½ï¿½ï¿½Ù°ï¿½ ï¿½ï¿½ï¿½ï¿½Ñ»ï¿½ï¿½ï¿½
 
 
-		if (movieLikeService.getCountByNumAndId(MovieNum, id) == 0) { // ¾øÀ»¶§
+		if (movieLikeService.getCountByNumAndId(MovieNum, id) == 0) { // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 			likeStatus = 0;
-		} else { // ÀÖÀ»¶§
+		} else { // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 			if (movieLikeService.getIsLikeByNumAndId(MovieNum, id) == 1) {
 				likeStatus = 1;
 			} else {
@@ -468,29 +468,29 @@ public class MovieController {
 
 	@GetMapping("delete")
 	public String delete(int num, String pageNum, HttpServletRequest request) {
-		// °Ô½Ã±Û¹øÈ£¿¡ Ã·ºÎµÈ Ã·ºÎÆÄÀÏ ¸®½ºÆ® °¡Á®¿À±â
+		// ï¿½Ô½Ã±Û¹ï¿½È£ï¿½ï¿½ Ã·ï¿½Îµï¿½ Ã·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Æ® ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 		List<MImgTrailerVo> imgTrailerList = mImgTrailerService.getImgTrailersByNoNum(num);
 
-		// application °´Ã¼ ÂüÁ¶ °¡Á®¿À±â
+		// application ï¿½ï¿½Ã¼ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 		ServletContext application = request.getServletContext();
-		// ¾÷·Îµå ±âÁØ°æ·Î
+		// ï¿½ï¿½ï¿½Îµï¿½ ï¿½ï¿½ï¿½Ø°ï¿½ï¿½
 		String realPath = application.getRealPath("/"); // webapp
 
-		// Ã·ºÎÆÄÀÏ »èÁ¦ÇÏ±â
+		// Ã·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï±ï¿½
 		for (MImgTrailerVo mImgTrailerVo : imgTrailerList) {
 			String dir = realPath + "/upload/" + mImgTrailerVo.getUploadpath();
 			String filename = mImgTrailerVo.getUuid() + "_" + mImgTrailerVo.getFilename();
-			// »èÁ¦ÇÒ ÆÄÀÏÀ» File Å¸ÀÔ °´Ã¼·Î ÁØºñ
+			// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ File Å¸ï¿½ï¿½ ï¿½ï¿½Ã¼ï¿½ï¿½ ï¿½Øºï¿½
 			File file = new File(dir, filename);
 
-			// ÆÄÀÏ Á¸Àç È®ÀÎ ÈÄ »èÁ¦ÇÏ±â
+			// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ È®ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï±ï¿½
 			if (file.exists()) {
 				file.delete();
 			}
 
-			// ÀÌ¹ÌÁö ÆÄÀÏÀÌ¸é
+			// ï¿½Ì¹ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ì¸ï¿½
 			if (isImage(mImgTrailerVo.getFilename())) {
-				// ¼¶³×ÀÏ ÀÌ¹ÌÁö Á¸Àç¿©ºÎ È®ÀÎ ÈÄ »èÁ¦ÇÏ±â
+				// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ì¹ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ç¿©ï¿½ï¿½ È®ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï±ï¿½
 				File thumbnailFile = new File(dir, "s_" + filename);
 				if (thumbnailFile.exists()) {
 					thumbnailFile.delete();
@@ -499,29 +499,32 @@ public class MovieController {
 		} // for
 
 
-		// attach Ã·ºÎÆÄÀÏ³»¿ë »èÁ¦ÇÏ±â
+		// attach Ã·ï¿½ï¿½ï¿½ï¿½ï¿½Ï³ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï±ï¿½
 //		attachService.deleteAttachesByNoNum(num);
-		// notice °Ô½Ã±Û »èÁ¦ÇÏ±â
+		// notice ï¿½Ô½Ã±ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï±ï¿½
 //		noticeService.deleteNoticeByNum(num);
 
-		// notice °Ô½Ã±Û ÇÑ°³¿Í attach Ã·ºÎÆÄÀÏ ¿©·¯°³¸¦ Æ®·£Àè¼ÇÀ¸·Î »èÁ¦ÇÏ±â
+		// notice ï¿½Ô½Ã±ï¿½ ï¿½Ñ°ï¿½ï¿½ï¿½ attach Ã·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ Æ®ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï±ï¿½
 		movieService.deleteMovieAndMImgTrailer(num);
 		mcommentService.deleteByMno(num);
 
-		// ±Û¸ñ·ÏÀ¸·Î ¸®´ÙÀÌ·ºÆ® ÀÌµ¿
+		// ï¿½Û¸ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ì·ï¿½Æ® ï¿½Ìµï¿½
 		return "redirect:/movieNotice/list?pageNum=" + pageNum;
 	} // delete
 
 	@GetMapping("/modify")
 	public String modify(int num, @ModelAttribute("pageNum") String pageNum, Model model) {
-		// ±Û¹øÈ£ num¿¡ ÇØ´çÇÏ´Â ±Û³»¿ë VO·Î °¡Á®¿À±â
+		// ï¿½Û¹ï¿½È£ numï¿½ï¿½ ï¿½Ø´ï¿½ï¿½Ï´ï¿½ ï¿½Û³ï¿½ï¿½ï¿½ VOï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 //		NoticeVo noticeVo = noticeService.getNoticeByNum(num);
 //		List<AttachVo> attachList = attachService.getAttachesByNoNum(num);
-		// Á¶ÀÎÀ¸·Î ÇÑ¹ø¿¡ °¡Á®¿À±â
+		// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ñ¹ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 		MovieVo movieVo = movieService.getMovieAndMImgTrailers(num);
 		List<MImgTrailerVo> mImgTrailerList = movieVo.getMImgTrailerList();
+		//mImgTrailerList.
 		int fileCount = mImgTrailerList.size();
+		log.info("mImgTrailerList : " + mImgTrailerList);
 
+		log.info("movieVo : " + movieVo);
 		model.addAttribute("movieVo", movieVo);
 		model.addAttribute("mImgTrailerList", mImgTrailerList);
 		model.addAttribute("fileCount", fileCount);
@@ -536,10 +539,11 @@ public class MovieController {
 			MovieVo movieVo, String pageNum,
 			@RequestParam(name = "delfile", required = false) List<Integer> delFileNums,
 			RedirectAttributes rttr) throws IOException {
+		log.info("MovieVo : " + movieVo);
 
-		//============ ÆÄÀÏ ¾÷·Îµå¸¦ À§ÇÑ Æú´õ ÁØºñ ==============
+		//============ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Îµå¸¦ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Øºï¿½ ==============
 		ServletContext application = request.getServletContext();
-		String realPath = application.getRealPath("/");  // webapp Æú´õÀÇ ½ÇÁ¦°æ·Î
+		String realPath = application.getRealPath("/");  // webapp ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 		log.info("realPath : " + realPath);
 
 		String strDate = this.getFolder();
@@ -553,43 +557,43 @@ public class MovieController {
 
 
 
-		//============ MultipartFileÀ» ÀÌ¿ëÇØ ½Å±ÔÆÄÀÏ ¾÷·Îµå ¼öÇà ==============
+		//============ MultipartFileï¿½ï¿½ ï¿½Ì¿ï¿½ï¿½ï¿½ ï¿½Å±ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Îµï¿½ ï¿½ï¿½ï¿½ï¿½ ==============
 
-		// AttachVo Ã·ºÎÆÄÀÏÁ¤º¸ ´ãÀ» ¸®½ºÆ® ÁØºñ
+		// AttachVo Ã·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Æ® ï¿½Øºï¿½
 		List<MImgTrailerVo> addMImgTrailers = new ArrayList<>();
 
 		if (multipartFiles != null) {
 			for (MultipartFile multipartFile : multipartFiles) {
-				// ÆÄÀÏÀÔ·Â»óÀÚ¿¡¼­ ¼±ÅÃÇÏÁö¾ÊÀº ¿ä¼Ò´Â °Ç³Ê¶Ù±â
+				// ï¿½ï¿½ï¿½ï¿½ï¿½Ô·Â»ï¿½ï¿½Ú¿ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ò´ï¿½ ï¿½Ç³Ê¶Ù±ï¿½
 				if (multipartFile.isEmpty()) {
 					continue;
 				}
 
-				// ½ÇÁ¦ ¾÷·ÎµåÇÑ ÆÄÀÏÀÌ¸§ ±¸ÇÏ±â
+				// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Îµï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ì¸ï¿½ ï¿½ï¿½ï¿½Ï±ï¿½
 				String filename = multipartFile.getOriginalFilename();
 
-				// ÀÍ½ºÇÃ·Î·¯´Â ÆÄÀÏÀÌ¸§¿¡ °æ·Î°¡ Æ÷ÇÔµÇ¾î ÀÖÀ¸¹Ç·Î
-				// ¼ø¼ö ÆÄÀÏÀÌ¸§¸¸ ºÎºÐ¹®ÀÚ¿­·Î °¡Á®¿À±â
+				// ï¿½Í½ï¿½ï¿½Ã·Î·ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ì¸ï¿½ï¿½ï¿½ ï¿½ï¿½Î°ï¿½ ï¿½ï¿½ï¿½ÔµÇ¾ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ç·ï¿½
+				// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ì¸ï¿½ï¿½ï¿½ ï¿½ÎºÐ¹ï¿½ï¿½Ú¿ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 				int beginIndex = filename.lastIndexOf("\\") + 1;
 				filename = filename.substring(beginIndex);
 
-				// ÆÄÀÏ¸í Áßº¹À» ÇÇÇÏ±â À§ÇØ¼­ ÆÄÀÏÀÌ¸§ ¾Õ¿¡ ºÙÀÏ UUID ¹®ÀÚ¿­ ±¸ÇÏ±â
+				// ï¿½ï¿½ï¿½Ï¸ï¿½ ï¿½ßºï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ï±ï¿½ ï¿½ï¿½ï¿½Ø¼ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ì¸ï¿½ ï¿½Õ¿ï¿½ ï¿½ï¿½ï¿½ï¿½ UUID ï¿½ï¿½ï¿½Ú¿ï¿½ ï¿½ï¿½ï¿½Ï±ï¿½
 				UUID uuid = UUID.randomUUID();
 				String strUuid = uuid.toString();
 
-				// ¾÷·Îµå(»ý¼º)ÇÒ ÆÄÀÏÀÌ¸§
+				// ï¿½ï¿½ï¿½Îµï¿½(ï¿½ï¿½ï¿½ï¿½)ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ì¸ï¿½
 				String uploadFilename = strUuid + "_" + filename;
 
-				// »ý¼ºÇÒ ÆÄÀÏÁ¤º¸¸¦ File °´Ã¼·Î ÁØºñ
+				// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ File ï¿½ï¿½Ã¼ï¿½ï¿½ ï¿½Øºï¿½
 				File saveFile = new File(dir, uploadFilename);
 
-				// ÀÓ½Ã¾÷·ÎµåµÈ ÆÄÀÏÀ» ÁöÁ¤°æ·ÎÀÇ ÆÄÀÏ¸íÀ¸·Î »ý¼º(º¹»ç)
+				// ï¿½Ó½Ã¾ï¿½ï¿½Îµï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ï¸ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½(ï¿½ï¿½ï¿½ï¿½)
 				multipartFile.transferTo(saveFile);
 
 
-				//============ Ã·ºÎÆÄÀÏ AttachVo ÁØºñÇÏ±â ==============
+				//============ Ã·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ AttachVo ï¿½Øºï¿½ï¿½Ï±ï¿½ ==============
 				MImgTrailerVo mImgTrailerVo = new MImgTrailerVo();
-				// °Ô½ÃÆÇ ±Û¹øÈ£ ¼³Á¤
+				// ï¿½Ô½ï¿½ï¿½ï¿½ ï¿½Û¹ï¿½È£ ï¿½ï¿½ï¿½ï¿½
 				mImgTrailerVo.setNoNum(movieVo.getMNum());
 				mImgTrailerVo.setUuid(strUuid);
 				mImgTrailerVo.setFilename(filename);
@@ -598,9 +602,9 @@ public class MovieController {
 				if (isImage(filename)) {
 					mImgTrailerVo.setImage("P");
 
-					// »ý¼ºÇÒ ½æ³×ÀÏ ÀÌ¹ÌÁö ÆÄÀÏ °æ·Î¿Í ÀÌ¸§À» ÁØºñ
+					// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ì¹ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Î¿ï¿½ ï¿½Ì¸ï¿½ï¿½ï¿½ ï¿½Øºï¿½
 					File thumbnailFile = new File(dir, "s_" + uploadFilename);
-					// ½æ³×ÀÏ ÀÌ¹ÌÁö ÆÄÀÏ »ý¼ºÇÏ±â
+					// ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ì¹ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï±ï¿½
 					try (FileOutputStream fos = new FileOutputStream(thumbnailFile)) {
 						Thumbnailator.createThumbnail(multipartFile.getInputStream(), fos, 100, 100);
 					}
@@ -608,23 +612,23 @@ public class MovieController {
 					mImgTrailerVo.setImage("N");
 				}
 
-				// AttachVo ¸¦ DB¿¡ insertÇÏ±â
+				// AttachVo ï¿½ï¿½ DBï¿½ï¿½ insertï¿½Ï±ï¿½
 				//attachService.insertAttach(attachVo);
 
-				// Æ®·£Àè¼Ç Ã³¸®¸¦ À§ÇØ attachVo¸¦ ¸®½ºÆ®¿¡ Ãß°¡ÇØ¼­ ¸ðÀ¸±â
+				// Æ®ï¿½ï¿½ï¿½ï¿½ï¿½ Ã³ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ attachVoï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Æ®ï¿½ï¿½ ï¿½ß°ï¿½ï¿½Ø¼ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 				addMImgTrailers.add(mImgTrailerVo);
 			} // for
 		}
 
 
-		//============ delFileNums ·Î Ã·ºÎÆÄÀÏ »èÁ¦ÀÛ¾÷ ¼öÇà ==============
+		//============ delFileNums ï¿½ï¿½ Ã·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Û¾ï¿½ ï¿½ï¿½ï¿½ï¿½ ==============
 
 		if (delFileNums != null) {
 			for (int num : delFileNums) {
-				// Ã·ºÎÆÄÀÏ ¹øÈ£¿¡ ÇØ´çÇÏ´Â Ã·ºÎÆÄÀÏ Á¤º¸ ÇÑ°³¸¦ VO·Î °¡Á®¿À±â
+				// Ã·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½È£ï¿½ï¿½ ï¿½Ø´ï¿½ï¿½Ï´ï¿½ Ã·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ñ°ï¿½ï¿½ï¿½ VOï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 				MImgTrailerVo mImgTrailerVo = mImgTrailerService.getImgTrailerByNum(num);
 
-				// ÆÄÀÏÁ¤º¸·Î ½ÇÁ¦ÆÄÀÏ Á¸Àç¿©ºÎ È®ÀÎÇØ¼­ »èÁ¦ÇÏ±â
+				// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ç¿©ï¿½ï¿½ È®ï¿½ï¿½ï¿½Ø¼ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï±ï¿½
 				String path = realPath + "/upload/" + mImgTrailerVo.getUploadpath();
 				String file = mImgTrailerVo.getUuid() + "_" + mImgTrailerVo.getFilename();
 
@@ -640,27 +644,27 @@ public class MovieController {
 					}
 				}
 
-				// Ã·ºÎÆÄÀÏ DBÅ×ÀÌºí¿¡ Ã·ºÎÆÄÀÏ¹øÈ£¿¡ ÇØ´çÇÏ´Â ·¹ÄÚµå ÇÑ°³ »èÁ¦ÇÏ±â
+				// Ã·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ DBï¿½ï¿½ï¿½Ìºï¿½ Ã·ï¿½ï¿½ï¿½ï¿½ï¿½Ï¹ï¿½È£ï¿½ï¿½ ï¿½Ø´ï¿½ï¿½Ï´ï¿½ ï¿½ï¿½ï¿½Úµï¿½ ï¿½Ñ°ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï±ï¿½
 				//attachService.deleteAttachByNum(num);
 			} // for
 		} //if
 
 
-		// Ã·ºÎÆÄÀÏ¹øÈ£µé¿¡ ÇØ´çÇÏ´Â Ã·ºÎÆÄÀÏ ·¹ÄÚµåµé ÀÏ°ý »èÁ¦ÇÏ±â
+		// Ã·ï¿½ï¿½ï¿½ï¿½ï¿½Ï¹ï¿½È£ï¿½é¿¡ ï¿½Ø´ï¿½ï¿½Ï´ï¿½ Ã·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Úµï¿½ï¿½ ï¿½Ï°ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï±ï¿½
 		//attachService.deleteAttachesByNums(delFileNums);
 
 
-		// °Ô½ÃÆÇ Å×ÀÌºí ±Û updateÇÏ±â
+		// ï¿½Ô½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ìºï¿½ ï¿½ï¿½ updateï¿½Ï±ï¿½
 		//noticeService.updateBoard(noticeVo);
 
-		// Æ®·£Àè¼Ç ´ÜÀ§·Î Å×ÀÌºí µ¥ÀÌÅÍ Ã³¸®
+		// Æ®ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ìºï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ Ã³ï¿½ï¿½
 		movieService.updateMovieAndAddMImgTrailersAndDeleteMImgTrailers(movieVo, addMImgTrailers, delFileNums);
 
 
 		rttr.addAttribute("num", movieVo.getMNum());
 		rttr.addAttribute("pageNum", pageNum);
 
-		// »ó¼¼º¸±â È­¸éÀ¸·Î ¸®´ÙÀÌ·ºÆ® ÀÌµ¿
+		// ï¿½ó¼¼ºï¿½ï¿½ï¿½ È­ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ì·ï¿½Æ® ï¿½Ìµï¿½
 		return "redirect:/movieNotice/content";
 	} // POST - modify
 
@@ -674,8 +678,8 @@ public class MovieController {
 		int movieNum = Integer.parseInt((String) param.get("movieNum"));
 		String userId = (String) param.get("userId");
 
-		//1 ÇØ´ç °Ô½ÃÆÇ ÄÃ·³ÀÇ likes¸¦ Áõ°¡½ÃÅ°°Å³ª Â÷°¨½ÃÅ²´Ù likeStatus ¿¡µû¶ó
-		//2 ÁÁ¾Æ¿ä¸¦ ´©¸¥ À¯ÀúÀÇ Á¤º¸¸¦´ãÀº notice_like Å×ÀÌºíÀÇ is_like ÄÃ·³À» 0 ¶Ç´Â 1·Î ¼öÁ¤ÇÑ´Ù
+		//1 ï¿½Ø´ï¿½ ï¿½Ô½ï¿½ï¿½ï¿½ ï¿½Ã·ï¿½ï¿½ï¿½ likesï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Å°ï¿½Å³ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Å²ï¿½ï¿½ likeStatus ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+		//2 ï¿½ï¿½ï¿½Æ¿ä¸¦ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ notice_like ï¿½ï¿½ï¿½Ìºï¿½ï¿½ï¿½ is_like ï¿½Ã·ï¿½ï¿½ï¿½ 0 ï¿½Ç´ï¿½ 1ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ñ´ï¿½
 
 		if(likeStatus == 0) {
 			movieService.plusLikesByNum(movieNum);

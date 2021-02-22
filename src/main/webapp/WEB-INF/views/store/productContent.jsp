@@ -6,9 +6,9 @@
 <head>
 <%-- head 영역 --%>
 <jsp:include page="/WEB-INF/views/include/head.jsp" />
-<link href="/css/mypage.css" rel="stylesheet">
-<link href="/css/bootstrap.css" rel="stylesheet" type="text/css">
-<link href="/css/bootstrap-theme.css" rel="stylesheet" type="text/css">
+<link href="/css/mypage1.css" rel="stylesheet">
+<!-- <link href="/css/bootstrap.css" rel="stylesheet" type="text/css"> -->
+<!-- <link href="/css/bootstrap-theme.css" rel="stylesheet" type="text/css"> -->
 </head>
 <body>
 
@@ -20,7 +20,7 @@
 
 		<div class="bbb">
 		<form  action="/member/modify" method="post" name="frm" id="uploadForm">
-			<table class="table table-striped" style="width: 600px" align: center>
+			<table class="table table-striped" style="width: 600px; border:1px solid; border-collapse: collapse;" align: center>
 				<tr>
 					<td width="200px">상품 번호</td>
 					<td width="400px">${productVo.num}</td>
@@ -51,7 +51,7 @@
 							<c:when test="${sattach.image eq 'I' }">
 								<p>
 									<a href="/upload3/${sattach.uploadpath }/${sattach.uuid}_${sattach.filename }">
-										<img alt="사진등록이 필요합니다" src="/upload3/${sattach.uploadpath }/s_${sattach.uuid }_${sattach.filename }">
+										<img alt="사진등록이 필요합니다" src="/upload3/${sattach.uploadpath }/${sattach.uuid }_${sattach.filename }">
 									</a>
 								</p>
 							</c:when>
@@ -64,7 +64,9 @@
 			</table>
 
 			</form>
-			<input type="button" value="수정하러가기"  class="btnUpdate" onclick="location.href = '/member/modify?id=${memberVo.getId()}+&memberVo=+${memberVo}'"/>
+
+			<input type="button" value="수정하러가기"  class="btnUpdate" onclick="location.href = '/store/modify?pname=${productVo.name}&id=${productVo.id}&pageNum=${pageNum} '"/>
+			<input type="button" value="목록으로" class="btnList" onclick="location.href = '/store/list?pageNum=${pageNum}'"/>
 
 		</div>
 	</div>

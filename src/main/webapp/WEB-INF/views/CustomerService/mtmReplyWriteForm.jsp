@@ -44,7 +44,7 @@
          <tr>
             <th class="borderTitle">글제목</th>
             <td class="borderBottom">
-           		<input type="text" name="msubject">
+           		<input type="text" name="msubject" value="RE : ${ csMtmVo.msubject }에 대한 안내">
             </td>
          </tr>
          <tr>

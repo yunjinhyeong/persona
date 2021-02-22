@@ -2,20 +2,21 @@
 
 /*-------------------- 영화선택------------------- */
 body {
-	background: #464646;
-	}
+	background:url(/imgs/noticeImg.jpg)no-repeat center center;
+    background-size: cover;
+}
 
 #wrap { /* 공통 */
-	width: 1000px; 
-	height: 1000px; 
-	margin: 0 auto; 
-	font-size: 40px; 
-	color: #fff; 
-	text-align: center; 
+	width: 1000px;
+	height: 1000px;
+	margin: 0 auto;
+	font-size: 40px;
+	color: #fff;
+	text-align: center;
     text-transform: uppercase;
-    margin-top: 200px; 
+    margin-top: 200px;
 	}
-	
+
 #wrap ul {
 	list-style: none;
 	padding-left: 0px;
@@ -33,7 +34,7 @@ body {
 }
 #header1, #header2, #header3 {
 	float: left;
-	width: 300px; 
+	width: 300px;
 	height: 100px;
 	font-size: 20px;
 	line-height: 100px;
@@ -41,41 +42,41 @@ body {
 	border: 1px solid black;
     box-sizing: border-box;
 	}
-	
+
 #side {
-	float: left; 
-	width: 100px; 
-	height: 800px; 
-	line-height: 600px; 
+	float: left;
+	width: 100px;
+	height: 800px;
+	line-height: 600px;
 	background: #43a047;
 	}
 
 #nav1, #nav2 {
 	float: left;
-	width: 300px; 
-	height: 50px; 
-	line-height: 50px; 
+	width: 300px;
+	height: 50px;
+	line-height: 50px;
 	background: #323232;
 	font-size: 20px;
 	border: 1px solid black;
     box-sizing: border-box;
 	}
-	
+
 #nav3 {
 	float: left;
-	width: 300px; 
-	height: 50px; 
-	line-height: 50px; 
+	width: 300px;
+	height: 50px;
+	line-height: 50px;
 	background: #323232;
 	font-size: 20px;
 	border: 1px solid black;
     box-sizing: border-box;
 }
-	
+
 #menuBar{
 	float: left;
-	width: 300px; 
-	height: 50px; 
+	width: 300px;
+	height: 50px;
 	line-height: 50px;
 	background: #323232;
 	font-size: 20px;
@@ -94,14 +95,14 @@ body {
 
 
 #contents1 {
-	float: left; 
-	width: 300px; 
-	height: 650px; 
+	float: left;
+	width: 300px;
+	height: 650px;
 	background: #282828;
 	border: 1px solid black;
     box-sizing: border-box;
     font-size: 50px;
-	
+
 }
 .datetheater {
 	display: flex;
@@ -112,6 +113,7 @@ body {
 .screen {
 	width: 100%;
 	border-right: 1px solid #000;
+	background: #181818;
 }
 #SeatChoice {
 	display: grid;
@@ -122,10 +124,13 @@ body {
 #contents1 {
 	font-size: 30px;
 	line-height:300%;
-	
+
+}
+.priceLabel {
+	background: #181818;
 }
 #contents1 input {
-	cursor: pointer;	
+	cursor: pointer;
 }
 
 #contents3, #contents4 {
@@ -138,7 +143,7 @@ body {
 	border: 1px solid black;
     box-sizing: border-box;
     overflow: auto;
-    
+
 }
 #contents3 input {
 	text-align: center;
@@ -156,7 +161,7 @@ body {
 }
 #contents3::-webkit-scrollbar, #contents4::-webkit-scrollbar {
 	width: 5px;
-}	
+}
 #contents3::-webkit-scrollbar-thumb, #contents4::-webkit-scrollbar-thumb {
 	background-color: #2f3542;
     border-radius: 10px;
@@ -171,9 +176,9 @@ body {
 /*-------------------- 예약하기------------------- */
 #wrap .wrap {
 	float: left;
-	line-height: 600px; 
+	line-height: 600px;
 	}
-	
+
 #side1, #side2, #side3, #side4 {
 	width: 100px;
 	height: 400px;
@@ -190,10 +195,10 @@ body {
 }
 #seatHeader {
 	float: left;
-	width: 900px; 
+	width: 900px;
 	height: 50px;
 	font-size: 20px;
-	line-height: 50px; 
+	line-height: 50px;
 	background: #3c3c3c;
 	border: 1px solid black;
     box-sizing: border-box;
@@ -201,10 +206,10 @@ body {
 
 .num {
 	float: left;
-	width: 900px; 
+	width: 900px;
 	height: 50px;
 	font-size: 20px;
-	line-height: 50px; 
+	line-height: 50px;
 	background: #000000;
 	border: 1px solid black;
     box-sizing: border-box;
@@ -212,13 +217,13 @@ body {
 
 #SeatChoice {
 	float: left;
-	width: 900px; 
+	width: 900px;
 	height: 645px;
 	font-size: 20px;
-	line-height: 50px; 
+	line-height: 50px;
 	background: #400040;
 	border: 1px solid black;
-    box-sizing: border-box;    
+    box-sizing: border-box;
     align-items: center;
     text-align: center;
 }
@@ -230,15 +235,12 @@ body {
 	margin-left: 15px;
 	cursor: pointer;
 }
-#SeatChoice input[type="text"] {
-	border-radius: 5px;
-}
 .finalBtns{
 	display: flex;
 	align-items: center;
 	text-align: center;
 	justify-content: center;
-	
+	background: #181818;
 }
 .finalPrice {
 	margin-left: 80px;
@@ -246,18 +248,26 @@ body {
 	cursor: pointer;
 	padding: 10px 0;
 }
+#SeatChoice input.add{
+	background-color: #99CCCC;
+}
+.SeatChoice input[type="text"] {
+    border-radius: 5px;
+}
 .finalBtns input[type="text"] {
     font-size: 20px;
     text-align: right;
+    background: #fff;
+    color: #000;
+}
+#SeatChoice input[type="text"] {
+    border-radius: 5px;
 }
 .finalBtns input[type="button"] {
-	font-size: 20px;
+    font-size: 20px;
     padding: 5px 30px;
     color: #e0e0e0;
     background: #212121;
     cursor: pointer;
     margin-bottom: 10px;
-}
-#SeatChoice input.add{
-	background-color: #99CCCC;
 }

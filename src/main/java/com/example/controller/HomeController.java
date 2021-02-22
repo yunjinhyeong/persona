@@ -27,6 +27,7 @@ import lombok.extern.java.Log;
 @Log
 @Controller // Ŭ���� �ȿ��� @GetMapping ���� �ֳ����̼��� ��� ����
 //@RequestMapping("/")
+
 public class HomeController  {
 
 
@@ -60,7 +61,7 @@ private WatchMovieService watchMovieService;
 			movieList = movieService.getMoviesMImgForMain(0, pageSize);
 			log.info("movieList : " + movieList);
 		}
-		for(int i=0; i<10; i++ ) {
+		for(int i=0; i<5; i++ ) {
 			String mName = movieList.get(i).getMName();
 			log.info(mName);
 
@@ -147,7 +148,7 @@ private WatchMovieService watchMovieService;
 			movieList = movieService.getMoviesMImgForMain(0, pageSize);
 			log.info("movieList : " + movieList);
 		}
-		for(int i=0; i<movieList.size(); i++ ) {
+		for(int i=0; i<5; i++ ) {
 			String mName = movieList.get(i).getMName();
 			log.info(mName);
 
@@ -210,6 +211,8 @@ private WatchMovieService watchMovieService;
 
 		model.addAttribute("onlyNoticeList", onlyNoticeList);
 		log.info("onlyNoticeList: " + onlyNoticeList);
+
+
 
 		return "/index";
 		}

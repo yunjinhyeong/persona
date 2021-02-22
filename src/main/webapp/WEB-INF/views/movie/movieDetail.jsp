@@ -171,7 +171,7 @@ p.reply-toggle {
 										href="/upload/${ mImgTrailer.uploadpath }/${ mImgTrailer.uuid }_${ mImgTrailer.filename }">
 										<video
 											src="/upload/${ mImgTrailer.uploadpath }/${ mImgTrailer.uuid }_${ mImgTrailer.filename }"
-											width='200px'>비디오
+											width='200px' autoplay muted>비디오
 										</video>
 									</a>
 								</p>

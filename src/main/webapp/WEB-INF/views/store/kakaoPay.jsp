@@ -12,7 +12,7 @@
     <script>
     $(function(){
         var IMP = window.IMP;
-        IMP.init('imp94763488');
+        IMP.init('imp08563507');
         var msg;
 
         IMP.request_pay({

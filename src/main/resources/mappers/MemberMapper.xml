@@ -7,6 +7,10 @@
 	<select id="getMemberById" resultType="memberVo">
 		SELECT * FROM member WHERE id = #{id}
 	</select>
+	
+	<select id="getMemberGender" resultType="int">
+		SELECT count(gender) FROM member WHERE id = #{id}
+	</select>
 
 	<select id="getAllMembers" resultType="memberVo">
 		SELECT * FROM member ORDER BY id

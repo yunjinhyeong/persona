@@ -8,6 +8,9 @@
 <%-- head 영역 --%>
 <jsp:include page="/WEB-INF/views/include/head.jsp" />
 <link href="/css/event.css" rel="stylesheet">
+<!-- <link href="/css/bootstrap.css" rel="stylesheet" type="text/css"> -->
+<!-- <link href="/css/bootstrap-theme.css" rel="stylesheet" type="text/css"> -->
+<!-- <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"> -->
 </head>
 <body>
 	<%-- header 영역 --%>
@@ -19,7 +22,7 @@
 
 		<div class="sectionTitle">
 			<h2>영화</h2>
-			<a href="/eventNotice/main/listMovie">더보기 ></a>
+			<a href="/eventNotice/main/listMovie" class="btn btn-dark" style="height:30px">더보기 ></a>
 		</div>
 		<div class="items">
 			<c:choose>
@@ -28,12 +31,12 @@
 						<div class="oneItem">
 							<div class="imgParent">
 								<a href="/eventNotice/main/one?num=${movie.ENum}">
-									<img width='200' src="/upload/${ movie.uploadpath }/${ movie.uuid }_${ movie.filename }" >
+									<img style="border-radius:7px" width='200' src="/upload/${ movie.uploadpath }/${ movie.uuid }_${ movie.filename }" >
 								</a>
 							</div>
 							<div class="eventInfo">
-								<span>${ movie.ETitle }</span>
-								<span>${ movie.startDate } ~ ${ movie.endDate }</span>
+								<span class="text-info"><small>${ movie.ETitle }</small></span>
+								<span class="text-danger"><small>${ movie.startDate } ~ ${ movie.endDate }</small></span>
 							</div>
 						</div>
 					</c:forEach>
@@ -46,7 +49,7 @@
 
 		<div class="sectionTitle">
 			<h2>시사회/무대인사</h2>
-			<a href="/eventNotice/main/listPremiere">더보기 ></a>
+			<a href="/eventNotice/main/listPremiere" class="btn btn-dark" style="height:30px">더보기 ></a>
 		</div>
 		<div class="items">
 			<c:choose>
@@ -55,12 +58,12 @@
 						<div class="oneItem">
 							<div class="imgParent">
 								<a href="/eventNotice/main/one?num=${premiere.ENum}">
-									<img  width='200' src="/upload/${ premiere.uploadpath }/${ premiere.uuid }_${ premiere.filename }" >
+									<img style="border-radius:7px" width='200' src="/upload/${ premiere.uploadpath }/${ premiere.uuid }_${ premiere.filename }" >
 								</a>
 							</div>
 							<div class="eventInfo">
-								<span>${ premiere.ETitle }</span>
-								<span>${ premiere.startDate } ~ ${ premiere.endDate }</span>
+								<span class="text-info"><small>${ premiere.ETitle }</small></span>
+								<span class="text-danger"><small>${ premiere.startDate } ~ ${ premiere.endDate }</small></span>
 							</div>
 						</div>
 					</c:forEach>
@@ -73,7 +76,7 @@
 
 		<div class="sectionTitle">
 			<h2>HOT</h2>
-			<a href="/eventNotice/main/listHOT">더보기 ></a>
+			<a href="/eventNotice/main/listHOT" class="btn btn-dark" style="height:30px">더보기 ></a>
 		</div>
 		<div class="items">
 			<c:choose>
@@ -82,12 +85,12 @@
 						<div class="oneItem">
 							<div class="imgParent">
 								<a href="/eventNotice/main/one?num=${hot.ENum}">
-									<img  width='200' src="/upload/${ hot.uploadpath }/${ hot.uuid }_${ hot.filename }" >
+									<img style="border-radius:7px" width='200' src="/upload/${ hot.uploadpath }/${ hot.uuid }_${ hot.filename }" >
 								</a>
 							</div>
 							<div class="eventInfo">
-								<span>${ hot.ETitle }</span>
-								<span>${ hot.startDate } ~ ${ hot.endDate }</span>
+								<span class="text-info"><small>${ hot.ETitle }</small></span>
+								<span class="text-danger"><small>${ hot.startDate } ~ ${ hot.endDate }</small></span>
 							</div>
 						</div>
 					</c:forEach>
@@ -100,7 +103,7 @@
 
 		<div class="sectionTitle">
 			<h2>제휴할인</h2>
-			<a href="/eventNotice/main/listDiscount">더보기 ></a>
+			<a href="/eventNotice/main/listDiscount" class="btn btn-dark" style="height:30px">더보기 ></a>
 		</div>
 		<div class="items">
 			<c:choose>
@@ -109,12 +112,12 @@
 						<div class="oneItem">
 							<div class="imgParent">
 								<a href="/eventNotice/main/one?num=${discount.ENum}">
-									<img  width='200' src="/upload/${ discount.uploadpath }/${ discount.uuid }_${ discount.filename }">
+									<img style="border-radius:7px" width='200' src="/upload/${ discount.uploadpath }/${ discount.uuid }_${ discount.filename }">
 								</a>
 							</div>
 							<div class="eventInfo">
-								<span>${ discount.ETitle }</span>
-								<span>${ discount.startDate } ~ ${ discount.endDate }</span>
+								<span class="text-info"><small>${ discount.ETitle }</small></span>
+								<span class="text-danger"><small>${ discount.startDate } ~ ${ discount.endDate }</small></span>
 							</div>
 						</div>
 					</c:forEach>

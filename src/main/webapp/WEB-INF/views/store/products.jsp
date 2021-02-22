@@ -14,6 +14,8 @@
 
 <%-- head 영역 --%>
 <jsp:include page="/WEB-INF/views/include/head.jsp" />
+
+
 <link href="/css/mypage.css" rel="stylesheet">
 <link rel="stylesheet" href="/css/products.css" />
 </head>
@@ -32,7 +34,7 @@
 <!-- 		</ul> -->
 <!-- 	</div> -->
 
-<img alt="" src="/imgs/store.png">
+<img alt="" src="/imgs/store.png" style="margin-top: -81px ">
 
 	<div class="product">
 
@@ -44,10 +46,10 @@
 					<div>
 						<a href="/store/buyItem?num=${product.num}">
 							<img class="div1" src="/upload3/${product.uploadpath }/${product.uuid}_${product.filename}">
-						</a>						
+						</a>
 						<div class="div2">
 							<div class="div3"> ${product.name }</div>
-							<div class="div4"> ${product.content }</div>
+							<div class="div4 " style="font-size:10pt; color:gray"> ${product.content }</div>
 							<label class="input">${product.price }원</label>
 						</div>
 					</div>

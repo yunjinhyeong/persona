@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.example.domain.MemberVo;
 import com.example.domain.SattachVo;
 import com.example.mapper.SattachMapper;
 
@@ -24,6 +25,19 @@ public class SattachService {
 	public void deleteByName(String pname) {
 		sattachMapper.deleteByName(pname);
 	}
+
+
+
+	public SattachVo getSattachByPname(String pname) {
+		SattachVo sattachVo = sattachMapper.getSattachByPname(pname);
+		return sattachVo;
+	}
+
+	public SattachVo getSattachByNum(int num) {
+		SattachVo sattachVo = sattachMapper.getSattachByNum(num);
+		return sattachVo;
+	}
+
 
 
 }

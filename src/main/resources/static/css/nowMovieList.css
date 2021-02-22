@@ -29,6 +29,10 @@ header .logoParent img{
     width: 40px;
     margin-right: 7px;
 }
+.wrapper {
+	background:url(/imgs/movieSeat.jpg)no-repeat center center;
+	background-size: cover;
+}
 header .logo {
     position: relative;
     font-weight: 700;
@@ -43,21 +47,21 @@ header ul {
     position: relative;
     display: flex;
     justify-content: center;
-    align-items: center;    
+    align-items: center;
 }
 header ul li {
     position: relative;
     list-style: none;
-    
+
 }
-header ul li::after {    
+header ul li::after {
     content: "";
     display: block;
     position: relative;
     width: 30px;
     margin-top: 5px;
     border-bottom: 1px solid #808080;
-    left: 25%; 
+    left: 25%;
 }
 header ul li a{
     position: relative;
@@ -265,7 +269,23 @@ footer p {
     font-size: 30px;
 }
 .btn_open:hover {
-	
+
     background-color: gray;
     cursor: pointer;
+}
+A:link {
+	text-decoration:none;
+	color: white;
+}
+A:visited {
+	text-decoration:none;
+	color: white;
+}
+A:active {
+	text-decoration:none;
+	color: white;
+}
+A:hover {
+	text-decoration:none;
+	color: white;
 }

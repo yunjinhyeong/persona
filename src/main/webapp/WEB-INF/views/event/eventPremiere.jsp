@@ -24,7 +24,7 @@
 				       		<div>
 								<div class="imgParent">
 									<a href="/eventNotice/main/one?num=${premiere.ENum}">
-										<img width='200' src="/upload/${ premiere.uploadpath }/${ premiere.uuid }_${ premiere.filename }">
+										<img class="img-rounded" width='200' src="/upload/${ premiere.uploadpath }/${ premiere.uuid }_${ premiere.filename }">
 									</a>
 								</div>
 								<div class="eventInfo">

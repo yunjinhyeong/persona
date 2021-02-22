@@ -72,7 +72,7 @@ public class StoreService {
 
 		return list;
 	}
-	
+
 	public ProductImgVo getOneProduct(int num) {
 		ProductImgVo one = storeMapper.getOneProduct(num);
 		return one;
@@ -87,5 +87,24 @@ public class StoreService {
 		for(SattachVo sattachVo : sattachList) {
 			sattachMapper.insertSattach(sattachVo);
 		}
+	}
+
+	@Transactional
+	public void updateProductAndAddImg(ProductVo productVo, List<SattachVo> sattachList,List<Integer> delFileNums) {
+
+		log.info("ProductVotrans : " + productVo);
+		log.info("delFIleNums: " + delFileNums);
+
+		storeMapper.updateProduct(productVo);
+
+		for(SattachVo sattachVo : sattachList) {
+			sattachMapper.insertSattach(sattachVo);
+		}
+
+		if (delFileNums != null) {
+			sattachMapper.deleteByNums(delFileNums);
+		}
+
+
 	}
 }

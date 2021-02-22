@@ -24,7 +24,7 @@
 				       		<div>
 								<div class="imgParent">
 									<a href="/eventNotice/main/one?num=${hot.ENum}">
-										<img width='200' src="/upload/${ hot.uploadpath }/${ hot.uuid }_${ hot.filename }">
+										<img class="img-rounded" width='200' src="/upload/${ hot.uploadpath }/${ hot.uuid }_${ hot.filename }">
 									</a>
 								</div>
 								<div class="eventInfo">

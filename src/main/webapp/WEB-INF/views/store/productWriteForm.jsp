@@ -6,6 +6,8 @@
 <%-- head 영역 --%>
 <jsp:include page="/WEB-INF/views/include/head.jsp" />
 <link href="/css/fileWMR.css" rel="stylesheet">
+<link href="/css/bootstrap.css" rel="stylesheet" type="text/css">
+<link href="/css/bootstrap-theme.css" rel="stylesheet" type="text/css">
 </head>
 <body>
 	<%-- header 영역 --%>
@@ -26,7 +28,7 @@
 			</tr>
 			<tr>
 				<th class="borderTitle">구성 물품</th>
-				<td class="borderBottom"><textarea rows="13" cols="40" name="content"></textarea></td>
+				<td class="borderBottom"><textarea rows="13" cols="42" name="content"></textarea></td>
 			</tr>
 			<tr>
 				<th>가격</th>
@@ -35,7 +37,7 @@
 			<tr>
 				<th class="borderTitle">사진</th>
 				<td class="borderBottom">
-					<input type="button" value="첨부파일 추가" id="btnAddFile" class="btn">
+					<input type="button" value="첨부파일 추가" id="btnAddFile" class="btn btn-info pull-left" style="width : 400px">
 					<div id="fileBox">
 						<div>
 							<input type="file" name="filename">

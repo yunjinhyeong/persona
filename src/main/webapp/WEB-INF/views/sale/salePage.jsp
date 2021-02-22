@@ -10,7 +10,7 @@
 <jsp:include page="/WEB-INF/views/include/head.jsp" />
 <link href="/css/salePage.css" rel="stylesheet">
 </head>
-<body>
+<body style="background-color: white">
 	<%-- header 영역 --%>
 	<jsp:include page="/WEB-INF/views/include/navbar.jsp" />
 
@@ -36,9 +36,9 @@
 				        </li>
 				    </ul>
 				  </div>
-				
+
 				  <div class="card_area">
-				  
+
 				  	<c:set var="i" value="0" />
 					<c:set var="j" value="3" />
 					<%-- 메서드 자체가 초기 9개만 호출하는 메서드! --%>
@@ -48,10 +48,10 @@
 							<c:if test="${ i%j == 0 }">
 					       		<div class="card_content">
 					       	</c:if>
-							    <ul>
+							    <ul style="width: 400px">
 							    	<li>
 							    		<p><a>
-										<img width='300' src="/upload4/${ card.uploadpath }/${ card.uuid }_${ card.filename }" >
+										<img width='300px' style="border-radius:7px" src="/upload4/${ card.uploadpath }/${ card.uuid }_${ card.filename }" >
 										</a></p>
 									</li>
 									<li><a>${ card.CSale } ${ card.COnoff }</a></li>
@@ -70,11 +70,11 @@
 							</ul>
 						</c:otherwise>
 					</c:choose>
-				  
-				  
+
+
 				  </div>
-				
-				  
+
+
 					<div>
 <%-- 						<c:if test="${fn:length(cardList) eq 9 }"> --%>
 					    <div class="btn_open">
@@ -82,9 +82,10 @@
 					    </div>
 <%-- 					    </c:if> --%>
 				    </div>
-			     
 
+<img alt="" src="/imgs/eventImg.jpg">
 			</article>
+			<img alt="" src="/imgs/eventImg2.png">
 		</div>
 	</div>
 
@@ -114,7 +115,7 @@
                    		var resultList = response.resultList;
                    		// 기존변수에 총 갯수 갱신
                    		cardCnt = response.resultCnt;
-                   		
+
                    		cnt = cnt + 1;
 
                 		if(addCnt == 9) {
@@ -138,9 +139,9 @@
 	  	    });
 	}
 
-	// 2. 시작화면: SELECT한것 리스트로 풀기			  
-    function getMoreList(resultList) { 
-        
+	// 2. 시작화면: SELECT한것 리스트로 풀기
+    function getMoreList(resultList) {
+
     	var content = '';
         // 들어오는 카드 갯수(매개변수 길이)
     	var length = resultList.length;
@@ -154,10 +155,10 @@
 				<%-- 최대 9개만 넘어와서 그 후는 걱정안해도 됨! --%>
 				<%-- 0, 3, 6번째 영화는 새 div에서 시작해야하니까 --%>
 					content += `
-							    <ul>
+							    <ul style="width: 400px">
 							    	<li>
 							    		<p><a>
-							    		<img width='300' src="/upload4/\${ card.uploadpath }/\${ card.uuid }_\${ card.filename }" >
+							    		<img width='300' style="border-radius:7px" src="/upload4/\${ card.uploadpath }/\${ card.uuid }_\${ card.filename }" >
 										</a></p>
 									</li>
 									<li><a>\${ card.csale } \${ card.conoff }</a></li>
@@ -185,7 +186,7 @@
 
  	// 0. 메뉴화면: '메뉴버튼'클릭시 불러올 카드갯수별 if문 처리 (SELECT)
 	function btnClick(cKinds) {
-		
+
 		var content = '';
         var cardStart = 0;
         var cnt = 1;
@@ -201,14 +202,14 @@
                		var resultList = response.resultList;
                		var cnt = 1;
                		cnt = cnt + 1;
-               		
+
             		if(resultCnt == 9) {
             			// 추가된 카드가 9개 일때, 기존 버튼과 온클릭 속성을 제거하고 새로 값갱신
             			$(".btn_open").show();
             			$('.btn_open p').removeAttr("onclick");
             			$('.btn_open p').attr("onclick","moreSort('"+cKinds+"', "+cnt+")");
             			getMoreSort(resultList);	// 리스트 html 형식으로 추가
-            		} else if (resultCnt < 9 || resultCnt > 0) { 
+            		} else if (resultCnt < 9 || resultCnt > 0) {
             			$(".btn_open").hide();
             			getMoreSort(resultList);
                 	} else {
@@ -227,8 +228,8 @@
 		});
     }
 	// 1. 메뉴화면:  SELECT한것 리스트로 풀기 (초기칸에!)
-	function getMoreSort(resultList) { 
-        
+	function getMoreSort(resultList) {
+
     	var content = '';
         // 들어오는 카드 갯수(매개변수 길이)
     	var length = resultList.length;
@@ -242,10 +243,10 @@
 				<%-- 최대 9개만 넘어와서 그 후는 걱정안해도 됨! --%>
 				<%-- 0, 3, 6번째 영화는 새 div에서 시작해야하니까 --%>
 					content += `
-							    <ul>
+							    <ul style="width:400px">
 							    	<li>
 							    		<p><a>
-							    		<img width='300' src="/upload4/\${ card.uploadpath }/\${ card.uuid }_\${ card.filename }" >
+							    		<img style="border-radius:7px" width='300' src="/upload4/\${ card.uploadpath }/\${ card.uuid }_\${ card.filename }" >
 										</a></p>
 									</li>
 									<li><a>\${ card.csale } \${ card.conoff }</a></li>
@@ -271,7 +272,7 @@
 	}
 	// 2. 메뉴화면: '펼쳐보기'클릭시 불러올 카드갯수별 if문 처리 (SELECT)
 	function moreSort(cKinds, cnt) {
-		
+
 		var cardStart = 9 * (cnt - 1);
 		var cardCnt = (9 * cnt) - 1; // 뷰 총 카드수 = 9*cnt
 

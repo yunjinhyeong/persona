@@ -1,0 +1,59 @@
+@charset "UTF-8";
+
+.aaa {
+	margin-top: 200px;
+}
+
+.bbb{
+	width: 600px;
+	margin-left: 500px;
+}
+
+.btnUpdate{
+	margin-left: 200px;
+    color: white;
+    background-color: black;
+    width: 120px;
+    height: 33px;
+    font-size: 14pt;
+    border-radius: 10px;
+}
+
+.btnList{
+	 color: white;
+    background-color: black;
+    width: 120px;
+    height: 33px;
+    font-size: 14pt;
+    border-radius: 10px;
+}
+
+input[type="number"] {
+    width: 50px;
+}
+.product {
+	margin: 150px auto;
+}
+img {
+	width: 100%;
+}
+.orderProduct {
+	display: flex;
+	flex-direction: column;
+	margin: 15%;
+}
+
+.orderProduct h1::after {
+  content: "";
+  display: block;
+  width: 200px;
+  margin: 50px opx;
+  border-bottom: 1px solid #000;
+}
+td {
+    border: 1px solid;
+}
+table{
+    border: 1px solid;
+
+}

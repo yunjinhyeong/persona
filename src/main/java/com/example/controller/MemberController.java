@@ -90,10 +90,10 @@ public class MemberController {
 
 	@Autowired
 	private StoreService storeService;
-	
+
 	@Autowired
 	private MovieLikeService movieLikeService;
-	
+
 	@Autowired
 	private MovieService movieService;
 
@@ -165,9 +165,9 @@ public class MemberController {
 		System.out.println("#########" + code);
         String access_Token = memberService.getAccessToken(code);
         System.out.println("#########" + access_Token);
-        HashMap<String, Object> userInfo = memberService.getUserInfo(access_Token);
+        HashMap<String, Object> userInfo = memberService.getUserInfo(access_Token);        
         session.setAttribute("id", userInfo.get("name"));
-
+        
         return "index";
     }
 
@@ -452,21 +452,46 @@ public class MemberController {
 	}
 
 	@GetMapping("/mypage")
-	public String mypage(String id, Model model) {
+	public String mypage(String id, Model model, HttpServletResponse response) {
+		log.info("id : " + id);
+		int isMember = memberService.getMemberGender(id);
+		boolean soMember;
+		if(isMember==0) {
+			soMember = false;
+		} else {
+			soMember = true;
+		}
+		log.info("soMember : " + soMember);
+		log.info("isMember : " + isMember);
+		response.setContentType("text/html; charset=UTF-8");
+		PrintWriter out=null;
+		try {
+			out = response.getWriter();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 
+		if (!soMember) {
+			out.println("<script>alert('PERSONA에 공식적으로 가입하셔야됩니다.'); history.back();</script>");
+			out.flush();
+			
+		} else {}
+		
 		MemberVo memberVo = memberService.getMemberById(id);
+
 		List<PattachVo> pattachList = pattachService.getPattachById(id);
 
-		//List<PattachVo> pattachList = memberVo.getPattachList();
-		//int fileCount = pattachList.size();
 		List<ReservationSeatVo> rSeatList = watchMovieService.getReservationSeats(id);
+
 		List<OrderStoreVo> orderList = storeService.getOrderDateById(id);
 
 		log.info("memberVo : " + memberVo);
 		log.info("pattachList"+ pattachList);
 
-
 		String total = memberService.getTotalById(id);
+
+		log.info(total);
 
 		if(total == null){
 			total = "0";
@@ -475,6 +500,7 @@ public class MemberController {
 			log.info("to : " + to);
 
 			int totalsum = to;
+			log.info("totalsum : " + totalsum);
 
 			//total에 56000들어옴
 			if(totalsum >= 0 && totalsum<50000){
@@ -488,11 +514,30 @@ public class MemberController {
 			}
 		}
 
+		int to = Integer.parseInt(total);
+		log.info("total : " + total);
+		log.info("to : " + to);
+
+		int totalsum = to;
+		log.info("totalsum : " + totalsum);
+
+
+		//total에 56000들어옴
+		if(totalsum >= 0 && totalsum<50000){
+			memberVo.setGrade("bronze");
+		} else if( totalsum >= 50000 && totalsum < 100000){
+			memberVo.setGrade("silver");
+		} else if(totalsum >= 100000 && totalsum <150000) {
+			memberVo.setGrade("gold");
+		} else {
+			memberVo.setGrade("vip");
+		}
+
 		memberService.update(memberVo);
-		
+
 		List<MovieVo> mlist = movieService.getMovies(0, 100);
-		List<MovieVo> likedMovieList = new ArrayList();		
-		
+		List<MovieVo> likedMovieList = new ArrayList();
+
 		log.info("mlist : " + mlist);
 		for(MovieVo mVo : mlist)
 		{
@@ -505,7 +550,7 @@ public class MemberController {
 			    }
 			}
 		}
-		
+
 		model.addAttribute("likedMovieList", likedMovieList);
 		model.addAttribute("orderList", orderList);
 		model.addAttribute("memberVo", memberVo);
@@ -528,8 +573,6 @@ public class MemberController {
 
 		return "member/addProfile";
 	}
-
-
 
 	// 오늘 날짜 형식의 폴더 문자열 가져오기
 	private String getFolder() {
@@ -787,7 +830,7 @@ public class MemberController {
 
 		return "redirect:/";
 	}
-	
+
 	@RequestMapping(value="/like", method=RequestMethod.POST)
 	@ResponseBody
 	public void like(@RequestParam Map<String, Object> param, HttpServletRequest request, Model model){
@@ -795,7 +838,7 @@ public class MemberController {
 
 		int movieNum = Integer.parseInt((String) param.get("movieNum"));
 		String userId = (String) param.get("userId");
-		
+
 		movieLikeService.minusMovieLike(movieNum, userId);
 		movieService.minusLikesByNum(movieNum);
 

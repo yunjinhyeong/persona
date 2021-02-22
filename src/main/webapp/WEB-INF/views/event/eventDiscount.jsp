@@ -24,7 +24,7 @@
 				       		<div>
 								<div class="imgParent">
 									<a href="/eventNotice/main/one?num=${discount.ENum}">
-										<img width='200' src="/upload/${ discount.uploadpath }/${ discount.uuid }_${ discount.filename }">
+										<img class="img-rounded" width='200' src="/upload/${ discount.uploadpath }/${ discount.uuid }_${ discount.filename }">
 									</a>
 								</div>
 								<div class="eventInfo">

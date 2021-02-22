@@ -313,9 +313,9 @@ public class CSController {
 	}
 
 	@GetMapping("CSmtmDelete")
-	public String CSmtmDelete(int num, String pageNum, HttpServletRequest request) {
+	public String CSmtmDelete(int num, String pageNum, int reRef, HttpServletRequest request) {
 		// notice 게시글 삭제하기
-		csService.CSmtmDelete(num);
+		csService.CSmtmDelete(num, reRef);
 		return "redirect:/CS/CSmtm";
 	}
 

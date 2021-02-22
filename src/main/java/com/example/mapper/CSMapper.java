@@ -49,8 +49,8 @@ public interface CSMapper {
 	@Delete("DELETE FROM csnotice where num = #{num}")
 	void delete(int num);
 
-	@Delete("DELETE FROM csmtm where mnum = #{num}")
-	void CSmtmDelete(int num);
+	@Delete("DELETE FROM csmtm where reref = #{reRef}")
+	void CSmtmDelete(int num, int reRef);
 
 	@Select("SELECT * FROM csmtm where mid = #{id}")
 	void mtmSearch(String id);

@@ -1,5 +1,7 @@
 package com.example.domain;
 
+import java.util.List;
+
 import lombok.Data;
 
 @Data
@@ -11,4 +13,5 @@ public class SattachVo {
 	private String image;
 	private String pname;
 	//private String name;
+
 }

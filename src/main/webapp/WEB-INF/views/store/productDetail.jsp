@@ -27,7 +27,7 @@
                 <button type="button" onclick="javascript_:change(1);">+</button>   
             </div>
             <label for="total">총합계 : </label><input type="text" name="total" value="0" readonly><label for="total">원</label><br>
-            <input class="btn" type="submit" value="결제">
+            <input class="btn" type="button" id="subBtn" value="결제">
             <input class="btn" type="button" value="취소" onclick="history.back();">
         </div>
     </form>
@@ -84,8 +84,23 @@
 	<jsp:include page="/WEB-INF/views/include/footer.jsp" />
 <script src="/script/jquery-3.5.1.js"></script>
 <script src="/script/productDetail.js"></script>
-<script>  
-  
+<script>
+var userId = '${ sessionScope.id }';
+window.onload=function() {
+	document.querySelector('#subBtn').onclick = function() {
+		if(!userId) {
+			alert('로그인하십시오');
+			history.back();
+			return;			
+		}
+		let isSeat = confirm('이대로 결제하시겠습니까?');
+		if (isSeat) {
+			document.getElementById('getCount').submit();
+		}
+
+	}
+}
+
 
     function change(num) {        
         var x  = document.querySelector('form');

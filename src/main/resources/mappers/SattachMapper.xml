@@ -9,13 +9,13 @@
 		VALUES (#{uuid}, #{filename}, #{uploadpath}, #{image}, #{pname})
 	</insert>
 
-<!-- 	<delete id="deletePattachedByNums"> -->
-<!-- 		DELETE -->
-<!-- 		FROM pattach -->
-<!-- 		WHERE num IN -->
-<!-- 		<foreach collection="numList" item="num" open="(" separator="," close=")"> -->
-<!-- 			#{num} -->
-<!-- 		</foreach> -->
-<!-- 	</delete> -->
 
+<delete id="deleteByNums">
+		DELETE
+		FROM bisp.sattach
+		WHERE nnum IN
+		<foreach collection="numList" item="num" open="(" separator="," close=")">
+			#{num}
+		</foreach>
+	</delete>
   </mapper>

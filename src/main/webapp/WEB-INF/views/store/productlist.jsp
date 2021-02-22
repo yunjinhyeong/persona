@@ -40,7 +40,7 @@
 						<c:forEach var="store" items="${ storeList }">
 							<tr>
 								<td>${ store.num }</td>
-								<td><a href="/store/content?name=${store.name }">
+								<td><a href="/store/content?name=${store.name }&pageNum=${pageNum}">
 									${ store.name }
 									</a>
 								</td>
@@ -84,7 +84,7 @@
 					<c:if test="${ pageDto.count gt 0 }">
 						<%-- [이전] --%>
 						<c:if test="${ pageDto.startPage gt pageDto.pageBlock }">
-							<a href="/fileNotice/list?pageNum=${ pageDto.startPage - pageDto.pageBlock }&category=${ pageDto.category }&search=${ pageDto.search }">이전</a>
+							<a href="/store/list?pageNum=${ pageDto.startPage - pageDto.pageBlock }&category=${ pageDto.category }&search=${ pageDto.search }">이전</a>
 						</c:if>
 
 						<%-- 시작페이지 ~ 끝페이지 --%>
@@ -92,10 +92,10 @@
 
 							<c:choose>
 							<c:when test="${ i eq pageNum }">
-								<a href="/fileNotice/list?pageNum=${ i }&category=${ pageDto.category }&search=${ pageDto.search }" class="active">${ i }</a>
+								<a href="/store/list?pageNum=${ i }&category=${ pageDto.category }&search=${ pageDto.search }" class="active">${ i }</a>
 							</c:when>
 							<c:otherwise>
-								<a href="/fileNotice/list?pageNum=${ i }&category=${ pageDto.category }&search=${ pageDto.search }">${ i }</a>
+								<a href="/store/list?pageNum=${ i }&category=${ pageDto.category }&search=${ pageDto.search }">${ i }</a>
 							</c:otherwise>
 							</c:choose>
 
@@ -103,7 +103,7 @@
 
 						<%-- [다음] --%>
 						<c:if test="${ pageDto.endPage lt pageDto.pageCount }">
-							<a href="/fileNotice/list?pageNum=${ pageDto.startPage + pageDto.pageBlock }&category=${ pageDto.category }&search=${ pageDto.search }">다음</a>
+							<a href="/store/list?pageNum=${ pageDto.startPage + pageDto.pageBlock }&category=${ pageDto.category }&search=${ pageDto.search }">다음</a>
 						</c:if>
 					</c:if>
 				</div>

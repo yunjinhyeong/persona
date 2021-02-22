@@ -13,7 +13,7 @@
 <body>
 	<%-- header 영역 --%>
 	<jsp:include page="/WEB-INF/views/include/navbar.jsp" />
-	
+
 	<div class="wrapper">
 	<%-- sidebar 영역 --%>
 	<jsp:include page="/WEB-INF/views/include/sidebarForAdmin.jsp" />
@@ -40,26 +40,26 @@
                             <th><label for="mName">영화제목</label></th>
                             <td><input type="text" name="mName" value="${ movieVo.MName }" required></td>
                         </tr>
-                        
-                        
+
+
                         <tr>
 							<th><label for="mImgTrailer">포스트</label></th>
 							<td class="borderBottom">
 								<div id="oldFileBox">
-													
+
 									<c:forEach var="mImgTrailer" items="${ mImgTrailerList }">
 										<input type="hidden" name="oldfile" value="${ mImgTrailer.num }">
 										<div>
 											${ mImgTrailer.filename }
 											<span class="delete-oldfile">X</span>
-										</div>	
+										</div>
 									</c:forEach>
-									
+
 								</div>
 								<div id="newFileBox"></div>
 								<input type="button" id="btnAddFile" value="첨부파일 추가">
 							</td>
-						</tr>                                           
+						</tr>
                         <tr>
                             <th><label for="mGenre">영화장르</label></th>
                             <td><select name="mGenre" required>
@@ -94,7 +94,7 @@
                         </tr>
                     </tr>
                 </Table>
-            
+
                 <div class="btns">
                     <input type="submit" value="수정하기" class="btn">
                     <input type="reset" value="다시쓰기" class="btn">
@@ -117,7 +117,7 @@ $('#btnAddFile').click(function () {
 		alert('파일은 포스터 트레일러 각 최대 한개까지만 가능합니다.')
 		return;
 	}
-	
+
 	// 백틱 문자열 안에서 변수값을 표현할때는
 	// \${}로 표현함
 	var str = `
@@ -128,7 +128,7 @@ $('#btnAddFile').click(function () {
 	`;
 
 	$('div#newFileBox').append(str);
-	
+
 	fileCount++;
 });
 
@@ -144,7 +144,7 @@ $('div#newFileBox').on('click', 'span.delete-addfile', function () {
 
 // 정적 이벤트 바인딩. 기존 첨부파일에 삭제버튼을 눌렀을때
 $('span.delete-oldfile').on('click', function () {
-	// 현재 클릭한 요소의 직계부모(parent)의 앞(prev) 요소 
+	// 현재 클릭한 요소의 직계부모(parent)의 앞(prev) 요소
 	$(this).parent().prev().prop('name', 'delfile');
 	// 현재 클릭한 요소의 직계부모(parent)를 삭제. 현재요소안에 자식요소도 모두 삭제됨
 	$(this).parent().remove();
@@ -153,10 +153,9 @@ $('span.delete-oldfile').on('click', function () {
 
 </script>
 </body>
-</html>   
+</html>
 
 
 
 
 
-    

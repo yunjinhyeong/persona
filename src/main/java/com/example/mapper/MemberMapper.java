@@ -18,6 +18,8 @@ public interface MemberMapper {
 
 	//@Select("SELECT * FROM member WHERE id = #{id}")
 	MemberVo getMemberById(String id);
+	
+	int getMemberGender(String id);
 
 	@Select("SELECT sum(price) from bookmovie where id = #{id}")
 	String getTotalById(String id);

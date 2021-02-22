@@ -32,13 +32,13 @@
 					       	</c:if>
 							    <ul>
 							    	<li>
-							    		<p><a href="/upload/${ movie.uploadpath }/${ movie.uuid }_${ movie.filename }">
+							    		<p><a href="/movieNotice/detail?num=${ movie.MNum }&pageNum=${ pageNum }&movieName=${movie.MName}">
 										<img width='200' height='200' src="/upload/${ movie.uploadpath }/${ movie.uuid }_${ movie.filename }" >
 										</a></p>
 									</li>
-									<input type="hidden" ${movie.MName } />
-							    	<li><a href="/movieNotice/detail?num=${ movie.MNum }&pageNum=${ pageNum }&movieName=${movie.MName}">${ movie.MName }</a></li>
-							    	<li>예매율 <a>${ movie.MRate }%</a>| ⭐ ${ movie.MScore }</li>
+									<input  type="hidden" ${movie.MName } />
+							    	<li style="font-size: 20px"><a href="/movieNotice/detail?num=${ movie.MNum }&pageNum=${ pageNum }&movieName=${movie.MName}">${ movie.MName }</a></li>
+							    	<li style="font-size: 15px">예매율 <a>${ movie.MRate }%</a>| ⭐ ${ movie.MScore }</li>
 						    	</ul>
 					    	<c:if test="${ i%j == j-1 }">
 					    		</div>
@@ -154,8 +154,8 @@
 										<img width='200' src="/upload/\${ movie.uploadpath }/\${ movie.uuid }_\${ movie.filename }" >
 										</a></p>
 									</li>
-							    	<li><a href="/movieNotice/content?num=${ movie.MNum }&pageNum=${ pageNum }">\${ movie.mname }</a></li>
-							    	<li>예매율 <a>\${ movie.mrate }%</a>| ⭐ \${ movie.mscore }</li>
+							    	<li style="font-size: 20px"><a href="/movieNotice/content?num=${ movie.MNum }&pageNum=${ pageNum }">\${ movie.mname }</a></li>
+							    	<li style="font-size: 10px">예매율 <a>\${ movie.mrate }%</a>| ⭐ \${ movie.mscore }</li>
 						    	</ul>
 						    	`
 					    	<%-- 나머지가 4인 애들은 끝에 문닫아 줘야지 --%>

@@ -161,7 +161,9 @@ public class MovieService {
 
 	@Transactional
 	public void updateMovieAndAddMImgTrailersAndDeleteMImgTrailers(MovieVo movieVo, List<MImgTrailerVo> mImgTrailers, List<Integer> delFileNums) {
+
 		movieMapper.updateMovie(movieVo);
+		log.info("delFIleNums: " + delFileNums);
 
 		for (MImgTrailerVo mImgTrailerVo : mImgTrailers) {
 			mImgTrailerMapper.insertMImgTrailer(mImgTrailerVo);

@@ -94,7 +94,7 @@
 		<if test="category == 'subject'">
 			WHERE cssubject LIKE CONCAT('%', #{search}, '%')
 		</if>
-		<if test="category == 'contents'">
+		<if test="category == 'content'">
 			WHERE cscontents LIKE CONCAT('%', #{search}, '%')
 		</if>
 		ORDER BY rank ASC
@@ -110,8 +110,8 @@
 		<if test="category == 'contents'">
 			WHERE mcontents LIKE CONCAT('%', #{search}, '%')
 		</if>
-		WHERE questioner =#{id} 
-		ORDER BY mnum ASC
+		WHERE questioner = #{id} 
+		ORDER BY reref DESC, reseq ASC
 		LIMIT #{startRow}, #{pageSize}
 	</select>
 
@@ -125,7 +125,7 @@
 			WHERE mcontents LIKE CONCAT('%', #{search}, '%')
 		</if>
 
-		ORDER BY mquestion ASC
+		ORDER BY reref DESC, reseq ASC
 		LIMIT #{startRow}, #{pageSize}
 	</select>
 

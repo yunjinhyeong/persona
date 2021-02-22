@@ -91,8 +91,8 @@ public class CSService {
 		csMapper.delete(num);
 	}
 
-	public void CSmtmDelete(int num) {
-		csMapper.CSmtmDelete(num);
+	public void CSmtmDelete(int num, int reRef) {
+		csMapper.CSmtmDelete(num, reRef);
 	}
 
 

@@ -14,11 +14,10 @@ import lombok.ToString;
 @ToString
 public class ProductVo {
 
-	private Integer num;
+	private int num;
 	private String name;
 	private String content;
 	private String id;
-	private Integer price;
-	private Timestamp regDate;
+	private String price;
 
 }

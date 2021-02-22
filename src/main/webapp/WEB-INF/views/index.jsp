@@ -16,34 +16,58 @@
 <body>
 	<%-- header 영역 --%>
 	<jsp:include page="/WEB-INF/views/include/navbar.jsp" />
-	
+
 <!-- 	메인 사진 세장만 추가 가능함 -->
 	<section class="section">
 	<input type="radio" name="slide" id="slide01" checked>
 	<input type="radio" name="slide" id="slide02">
 	<input type="radio" name="slide" id="slide03">
+	<input type="radio" name="slide" id="slide04">
+	<input type="radio" name="slide" id="slide05">
+	<input type="radio" name="slide" id="slide06">
+	<input type="radio" name="slide" id="slide07">
 	<div class="slidewrap">
 		<ul class="slidelist">
 			<li>
 				<a>
-					<img width="1000px" src="/imgs/인터스텔라(1270).jpg">
+					<img src="/imgs/인터스텔라(1270).jpg">
 				</a>
 			</li>
 			<li>
 				<a>
-					<img width="1000px" src="/imgs/포드머스탱(1270).jpg">
+					<img width="1000px" src="/imgs/남산의 부장들.jpg">
 				</a>
 			</li>
 			<li>
 				<a>
-					<img width="1000px" src="/imgs/코딩의습격(1270).jpg">
+					<img width="1000px" src="/imgs/골든슬럼버.jpg">
+				</a>
+			</li>
+			<li>
+				<a>
+					<img width="1000px" src="/imgs/램페이지.jpg">
+				</a>
+			</li>
+			<li>
+				<a>
+					<img width="1000px" src="/imgs/말레피센트.jpg">
+				</a>
+			</li>
+			<li>
+				<a>
+					<img width="1000px" src="/imgs/알라딘.jpg">
+				</a>
+			</li>
+			<li>
+				<a>
+					<img width="1000px" src="/imgs/역린.png">
 				</a>
 			</li>
 		</ul>
 
 		<div class="slide-control">
 			<div class="control01">
-				<label for="slide03" class="left"></label>
+				<label for="slide07" class="left"></label>
 				<label for="slide02" class="right"></label>
 			</div>
 			<div class="control02">
@@ -52,17 +76,36 @@
 			</div>
 			<div class="control03">
 				<label for="slide02" class="left"></label>
+				<label for="slide04" class="right"></label>
+			</div>
+			<div class="control04">
+				<label for="slide03" class="left"></label>
+				<label for="slide05" class="right"></label>
+			</div>
+			<div class="control05">
+				<label for="slide04" class="left"></label>
+				<label for="slide06" class="right"></label>
+			</div>
+			<div class="control06">
+				<label for="slide05" class="left"></label>
+				<label for="slide07" class="right"></label>
+			</div>
+			<div class="control07">
+				<label for="slide06" class="left"></label>
 				<label for="slide01" class="right"></label>
 			</div>
 		</div>
 	</div>
 	</section>
-	
+
 	<div class="main_content">
 			<article class="article1">
 
 			<div class="movie_box">
+			<div class="sectionTitle">
 			<h1>예매율 순위</h1>
+			<a href="/movieNotice/nowList">더보기 ></a>
+			</div>
 			<hr>
 				<c:set var="i" value="0" />
 				<c:set var="j" value="5" />
@@ -106,16 +149,17 @@
 					</div>
 					</article>
 			</div>
-	
+
 	<article class="article2">
-		
+
 		<h1>전체 이벤트</h1>
 		<hr>
-		
+		<hr>
 		<div class="sectionTitle">
 			<h2>영화</h2>
 			<a href="/eventNotice/main/listMovie">더보기 ></a>
 		</div>
+		<hr>
 		<div class="items">
 			<c:choose>
 				<c:when test="${ not empty eventMovieList }">
@@ -138,11 +182,12 @@
 				</c:otherwise>
 			</c:choose>
 		</div>
-		
+
 		<div class="sectionTitle">
 			<h2>시사회/무대인사</h2>
 			<a href="/eventNotice/main/listPremiere">더보기 ></a>
 		</div>
+		<hr>
 		<div class="items">
 			<c:choose>
 				<c:when test="${ not empty eventPremiereList }">
@@ -150,7 +195,7 @@
 						<div class="oneItem">
 							<div class="imgParent">
 								<a href="/eventNotice/main/one?num=${premiere.ENum}">
-									<img  width='200' height='110' src="/upload/${ premiere.uploadpath }/s_${ premiere.uuid }_${ premiere.filename }" width="600px">
+									<img  width='200' height='110' src="/upload/${ premiere.uploadpath }/${ premiere.uuid }_${ premiere.filename }" width="600px">
 								</a>
 							</div>
 							<div class="eventInfo">
@@ -165,11 +210,12 @@
 				</c:otherwise>
 			</c:choose>
 		</div>
-		
+
 		<div class="sectionTitle">
 			<h2>HOT</h2>
 			<a href="/eventNotice/main/listHOT">더보기 ></a>
 		</div>
+		<hr>
 		<div class="items">
 			<c:choose>
 				<c:when test="${ not empty eventHOTList }">
@@ -177,7 +223,7 @@
 						<div class="oneItem">
 							<div class="imgParent">
 								<a href="/eventNotice/main/one?num=${hot.ENum}">
-									<img  width='200' height='110' src="/upload/${ hot.uploadpath }/s_${ hot.uuid }_${ hot.filename }" width="600px">
+									<img  width='200px' height='110px' src="/upload/${ hot.uploadpath }/${ hot.uuid }_${ hot.filename }" width="600px">
 								</a>
 							</div>
 							<div class="eventInfo">
@@ -192,11 +238,12 @@
 				</c:otherwise>
 			</c:choose>
 		</div>
-		
+
 		<div class="sectionTitle">
 			<h2>제휴할인</h2>
 			<a href="/eventNotice/main/listDiscount">더보기 ></a>
 		</div>
+		<hr>
 		<div class="items">
 			<c:choose>
 				<c:when test="${ not empty eventDiscountList }">
@@ -204,7 +251,7 @@
 						<div class="oneItem">
 							<div class="imgParent">
 								<a href="/eventNotice/main/one?num=${discount.ENum}">
-									<img  width='200' height='110' src="/upload/${ discount.uploadpath }/s_${ discount.uuid }_${ discount.filename }" width="600px">
+									<img  width='200px' height='110px' src="/upload/${ discount.uploadpath }/${ discount.uuid }_${ discount.filename }" width="600px">
 								</a>
 							</div>
 							<div class="eventInfo">
@@ -220,16 +267,14 @@
 			</c:choose>
 		</div>
 		<%-- 이벤트 --%>
-		
-<!-- 	<div class="clear"></div> -->
-<!--     <div id="main_img"> -->
-		<!--  s3Slider -->
+
 		<div class="noticeWrap">
-		<h1><img alt="#" src="/imgs/확성기.png" width="50" height="37">
-		공지사항</h1>
+		<div id="mainNotice">
+		<h1><img alt="#" src="/imgs/확성기.png" width="50" height="37">공지사항</h1>
+		<div id="more"><a id="more" href="/CS/CustomerNotice">더보기></a></div>
+		</div>
 		<hr>
 		<div class="notice">
-<!-- 		<img alt="#" src="/imgs/main_img.jpg" width="971" height="282"> -->
 		<c:choose>
 			<c:when test="${ not empty onlyNoticeList }">
 				<ul class="rolling">
@@ -242,28 +287,27 @@
 					</c:forEach>
 				</ul>
 					</c:when>
-					
+
 				<c:otherwise>
 					<div>공지사항 없음</div>
 				</c:otherwise>
 			</c:choose>
-				
+
 		</div>
 		<%--  공지사항 롤링 --%>
 		</div>
 
-		
-		<img alt="" src="/imgs/eventImg.jpg">		
-		
-		
-	</article>
-	
-	<img alt="" src="/imgs/eventImg2.png">
+		<img id="ad1" alt="" src="/imgs/eventImg.jpg">
 
+	</article>
+
+
+
+		<img alt="" src="/imgs/eventImg2.png">
 
 	<%-- footer 영역 --%>
 	<jsp:include page="/WEB-INF/views/include/footer.jsp" />
-	
+
 <script>
 $(document).ready(function(){
 	var height =  $(".notice").height();
@@ -288,9 +332,8 @@ $(document).ready(function(){
 	$(".rolling_start").click(function(){
 		noticeRollingOff = setInterval(noticeRolling,1000);
 	});
-});		
+});
 </script>
 </body>
-</html>   
+</html>
 
-    

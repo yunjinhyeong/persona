@@ -13,10 +13,10 @@
 		INSERT INTO orderstore (name, price, content, count, total, id)
 		VALUES (#{name}, #{price}, #{content}, #{count}, #{total}, #{id})
 	</insert>
-	
+
 	<select id="getOrderDate" resultType="OrderStoreVo">
-		SELECT * 
-		FROM orderstore 
+		SELECT *
+		FROM orderstore
 		WHERE num = #{num}
 	</select>
 
@@ -42,7 +42,7 @@
 			WHERE id LIKE CONCAT('%', #{search}, '%')
 		</if>
 	</select>
-	
+
 	<select id="getOrderDateById" resultType="OrderStoreVo">
 		Select *
 		FROM orderstore
@@ -58,7 +58,7 @@
 		ORDER BY n.num DESC
 		LIMIT 0, #{pageSize}
 	</select>
-	
+
 	<select id="getOneProduct" resultType="ProductImgVo">
 		Select n.num, n.name, n.content, n.id, n.price,
 			   a.nnum as annum, a.uuid, a.filename, a.uploadpath, a.image, a.pname
@@ -82,4 +82,11 @@
 		ORDER BY num DESC
 		LIMIT #{startRow}, #{pageSize}
 	</select>
+
+	<update id="updateProduct">
+		UPDATE bisp.product
+		SET name = #{name}, content=#{content}, id=#{id}, price=#{price}
+		WHERE num = #{num}
+	</update>
+
 </mapper>

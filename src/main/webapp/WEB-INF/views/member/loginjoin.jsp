@@ -35,7 +35,7 @@
                     </form>
                     <h2>소셜로그인</h2>
                     <ul class="sci">
-                        <li><a href="https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=나의레스트풀API&redirect_uri=http://localhost:8082/member/kalogin"><img alt="" src="/imgs/kakaoIcon.png"></a></li>
+                        <li><a href="https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=eac72a49a12f71733a11b03a516913df&redirect_uri=http://localhost:8082/member/kalogin"><img alt="" src="/imgs/kakaoIcon.png"></a></li>
                     </ul>
                 </div>
             </div>
@@ -52,15 +52,15 @@
                         <input type="email" name="email" placeholder="이메일" required>
                         <span id="msgEmail"></span>
                         <input type="button" class="sendMail" value="이메일인증하기">
-                        <input type="text" class="compare" placeholder="이메일 인증번호입력">
+                        <input type="text" class="compare" placeholder="이메일 인증번호입력" required>
                         <span class="compare-text"></span>
                         <div class="postAddr">
-                        	<input type="text" id="postcode" name="postcode" class="compare" placeholder="우편번호">
+                        	<input type="text" id="postcode" name="postcode" class="compare" placeholder="우편번호" required>
                         	<input type="button" class="compare" onclick="getPostAddress()" value="우편번호 찾기">
                         </div>   
                         <div class="postAddr">
-                        	<input type="text" id="address" name="address" placeholder="주소">
-                        	<input type="text" id="address2" name="address2" placeholder="상세주소">
+                        	<input type="text" id="address" name="address" placeholder="주소" required>
+                        	<input type="text" id="address2" name="address2" placeholder="상세주소" required>
                         </div>                        
                         <div class="userBrith">                            
                             <div class="userYear">
@@ -71,8 +71,7 @@
 
                             <div class="userMonth">
                                 <span class="box">
-                                    <select id="mm" name="mm">
-                                        <option>월</option>
+                                    <select id="mm" name="mm" required>
                                         <option value="01">1</option>
                                         <option value="02">2</option>
                                         <option value="03">3</option>
@@ -94,8 +93,7 @@
                                 </span>
                             </div>
                         </div>
-                        <select class="genderSelect" name="gender">
-                            <option>-- 성별 --</option>
+                        <select class="genderSelect" name="gender" required>
                             <option value="남자" id="man">남자</option>
                             <option value="여자" id="female">여자</option>
                         </select>

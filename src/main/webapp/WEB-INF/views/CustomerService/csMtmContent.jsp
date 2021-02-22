@@ -72,12 +72,23 @@
 					<input type="button" value="확인" 	class="btn" id="confirm"   onclick="location.href='/CS/CSmtm?pageNum=${ pageNum }'">
 					<c:if test="${ id eq 'admin' }">
 						<input type="button" value="답글쓰기" class="btn" onclick="location.href='/CS/mtmReplyWrite?num=${ csMtmVo.mnum }&questioner=${ csMtmVo.questioner }&reRef=${ csMtmVo.reRef }&reLev=${ csMtmVo.reLev }&reSeq=${ csMtmVo.reSeq }&pageNum=${ pageNum }'" >
+						<input type="button" value="목록보기" class="btn" onclick="location.href='/CS/mtmNotice?id=${ id }&pageNum=${ pageNum }'" >
 					</c:if>
+					<c:if test="${ id ne 'admin' }">
+					<input type="button" value="목록보기" class="btn" onclick="location.href='/CS/NoticeById?id=${ id }&pageNum=${ pageNum }'" >
+					</c:if>
+					
 				</div>
 			</c:if>
 			<c:if test="${ sessionScope.id ne csMtmVo.mid }">
 			<div class="btns">
 				<input type="button" value="확인" 	class="btn" id="confirm"   onclick="location.href='/CS/CSmtm?pageNum=${ pageNum }'">
+				<c:if test="${ id ne 'admin' }">
+				<input type="button" value="목록보기" class="btn" onclick="location.href='/CS/NoticeById?id=${ id }&pageNum=${ pageNum }'" >
+				</c:if>
+				<c:if test="${ id eq 'admin' }">
+				<input type="button" value="목록보기" class="btn" onclick="location.href='/CS/mtmNotice?id=${ id }&pageNum=${ pageNum }'" >
+				</c:if>
 				<c:if test="${ id eq 'admin' }">
 					<input type="button" value="답글쓰기" class="btn" onclick="location.href='/CS/mtmReplyWrite?num=${ csMtmVo.mnum }&questioner=${ csMtmVo.questioner }&reRef=${ csMtmVo.reRef }&reLev=${ csMtmVo.reLev }&reSeq=${ csMtmVo.reSeq }&pageNum=${ pageNum }'" >
 				</c:if>
@@ -103,7 +114,7 @@
 		function remove() {
 			let isDelete = confirm('현재 글을 삭제하시겠습니까?(현재 내용은 저장되지 않습니다)');
 			if (isDelete) {
-				location.href = '/CS/CSmtmDelete?num=${ csMtmVo.mnum }&pageNum=${ pageNum }';
+				location.href = '/CS/CSmtmDelete?num=${ csMtmVo.mnum }&reRef=${ csMtmVo.reRef }&pageNum=${ pageNum }';
 			}
 		}
 	</script>

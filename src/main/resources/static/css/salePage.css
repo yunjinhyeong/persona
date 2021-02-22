@@ -43,21 +43,21 @@ header ul {
     position: relative;
     display: flex;
     justify-content: center;
-    align-items: center;    
+    align-items: center;
 }
 header ul li {
     position: relative;
     list-style: none;
-    
+
 }
-header ul li::after {    
+header ul li::after {
     content: "";
     display: block;
     position: relative;
     width: 30px;
     margin-top: 5px;
     border-bottom: 1px solid #808080;
-    left: 25%; 
+    left: 25%;
 }
 header ul li a{
     position: relative;
@@ -288,7 +288,7 @@ a:focus { text-decoration: none; }
 a:hover, a:active { text-decoration: none; }
 /* a태그 설정 */
 a {
-    color: gray; 
+    color: gray;
 }
 .article {
 	width: 1040px;
@@ -307,7 +307,7 @@ a {
     border-color: black;
     border-top: 1px solid rgb(184, 184, 184);
     border-bottom: 1px solid rgb(184, 184, 184);
-    
+
     /* 화면 가운데 정렬 */
     position: relative;
 	top: 50%;

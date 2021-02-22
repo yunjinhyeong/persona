@@ -22,7 +22,7 @@
 				       		<div>
 								<div class="imgDetail">
 									<a href="/upload/${ eventByNum.uploadpath }/${ eventByNum.uuid }_${ eventByNum.filename }">
-										<img width='200' src="/upload/${ eventByNum.uploadpath }/${ eventByNum.uuid }_${ eventByNum.filename }">
+										<img class="img-rounded" width='200' src="/upload/${ eventByNum.uploadpath }/${ eventByNum.uuid }_${ eventByNum.filename }">
 									</a>
 								</div>
 							</div>
