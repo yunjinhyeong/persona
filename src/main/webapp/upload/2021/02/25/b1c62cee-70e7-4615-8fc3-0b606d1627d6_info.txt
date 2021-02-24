@@ -1,0 +1,12 @@
+imp08563507
+https://admin.iamport.kr/
+
+eac72a49a12f71733a11b03a516913df
+
+spring.mail.username=yun123test@gmail.com
+spring.mail.password=yunTest123!
+
+https://www.aladin.co.kr/shop/wproduct.aspx?ItemId=29524294#8998756420_MyReview
+
+http://localhost:8082/member/kalogin
+http://localhost:8082/member/kalogin/
