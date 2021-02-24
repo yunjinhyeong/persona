@@ -2,6 +2,8 @@
   <img src="./imgs/PERSONAtitle.png" alt="PERSONA Project Title"/>
 </p>
 
+<br><br><br>
+
 ## [PERSONA 사이트](https://gyu4.herokuapp.com/)
 
 ## [PERSONA 시연영상](https://www.youtube.com/watch?v=O26-Y83OE08)<br><br><br>
@@ -21,11 +23,11 @@
 ![main](./imgs/main.png)
 
 # 회원가입
-![login](./imgs/mailcheck1.png)
-![login](./imgs/unmailcheck.png)
-![login](./imgs/yesmailcheck.png)
-![login](./imgs/post.png)
-![login](./imgs/welcome.png)
+![mailcheck1](./imgs/mailcheck1.png)
+![unmailcheck](./imgs/unmailcheck.png)
+![yesmailcheck](./imgs/yesmailcheck.png)
+![post](./imgs/post.png)
+![welcome](./imgs/welcome.png)
 
 # 로그인(아이디찾기, 비밀번호찾기, 카카오로그인)
 
@@ -41,107 +43,107 @@
 
 - 카카오 로그인
 
-![findpw1](./imgs/kakao.png)
+![kakao](./imgs/kakao.png)
 
 # 게시판(목록, 상세보기/댓글쓰기/삭제하기/좋아요, 글쓰기/수정하기)
 
 - 목록
 
-![findpw1](./imgs/filenotice.png)
+![filenotice](./imgs/filenotice.png)
 
 - 상세보기/댓글쓰기/삭제하기/좋아요
 
-![findpw1](./imgs/filecontent.png)
+![filecontent](./imgs/filecontent.png)
 
 - 글쓰기/수정하기
 
-![findpw1](./imgs/write.png)
+![write](./imgs/write.png)
 
 # 영화(목록, 상세보기/좋아요, 댓글쓰기/수정하기/삭제하기)
 
 - 목록
 
-![findpw1](./imgs/movie.png)
+![movie](./imgs/movie.png)
 
 - 상세보기/좋아요
 
-![findpw1](./imgs/moviedetail.png)
+![moviedetail](./imgs/moviedetail.png)
 
 - 댓글쓰기/수정하기/삭제하기
 
-![findpw1](./imgs/moviedetail2.png)
+![moviedetail2](./imgs/moviedetail2.png)
 
 # 예매하기
 
 - 좌석/영화/날짜 예매하기
 
-![findpw1](./imgs/selectmovie.png)
+![selectmovie](./imgs/selectmovie.png)
 
 - 좌석/영화/날짜 예매하기
 
-![findpw1](./imgs/selectseat1.png)![findpw1](./imgs/selectseat2.png)
+![selectseat1](./imgs/selectseat1.png)![selectseat2](./imgs/selectseat2.png)
 
 - 결제하기
 
-![findpw1](./imgs/cash.png)
+![cash](./imgs/cash.png)
 
 # 마이페이지
-![taskflow](./imgs/mypage.png)
+![mypage](./imgs/mypage.png)
 
 # 스토어
-![taskflow](./imgs/store.png)
+![store](./imgs/store.png)
 
 # 할인카드
-![taskflow](./imgs/discount.png)
+![discount](./imgs/discount.png)
 
 # 이벤트
-![taskflow](./imgs/event.png)
+![event](./imgs/event.png)
 
 # 고객센터(FAQ, 공지사항, 1:1문의)
-![taskflow](./imgs/customer.png)
+![customer](./imgs/customer.png)
 
 # 채팅
-![taskflow](./imgs/chat.png)
+![chat](./imgs/chat.png)
 
 # 관리자 기능
 
 - 영화등록
 
-![taskflow](./imgs/addmovie.png)
+![addmovie](./imgs/addmovie.png)
 
 - 예매등록
 
-![taskflow](./imgs/addwatch.png)
+![addwatch](./imgs/addwatch.png)
 
 - 할인카드등록
 
-![taskflow](./imgs/adddiscount.png)
+![adddiscount](./imgs/adddiscount.png)
 
 - 이벤트등록
 
-![taskflow](./imgs/addevent.png)
+![addevent](./imgs/addevent.png)
 
 - 스토어등록
 
-![taskflow](./imgs/addstore.png)
+![addstore](./imgs/addstore.png)
 
 - 회원관리
 
-![taskflow](./imgs/member.png)
+![member](./imgs/member.png)
 
 - 분석차트
 
-![taskflow](./imgs/chart.png)
+![chart](./imgs/chart.png)
 
 # ER Diagram
-![taskflow](./imgs/ERDiagram1.png)
-![taskflow](./imgs/ERDiagram2.png)
-![taskflow](./imgs/ERDiagram3.png)
+![ERDiagram1](./imgs/ERDiagram1.png)
+![ERDiagram2](./imgs/ERDiagram2.png)
+![ERDiagram3](./imgs/ERDiagram3.png)
 
 # 구현 기능
-![taskflow](./imgs/function1.png)
-![taskflow](./imgs/function2.png)
-![taskflow](./imgs/function3.png)
+![function1](./imgs/function1.png)
+![function2](./imgs/function2.png)
+![function3](./imgs/function3.png)
 
 # 테스크 플로우(회원, 관리자)
 
