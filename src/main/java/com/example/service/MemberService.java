@@ -66,7 +66,7 @@ public class MemberService {
             StringBuilder sb = new StringBuilder();
             sb.append("grant_type=authorization_code");
             sb.append("&code=" + authorize_code);
-            sb.append("&client_id=eac72a49a12f71733a11b03a516913df&");  //본인이 발급받은 key
+            sb.append("&client_id=자신의API&");  //본인이 발급받은 key
             sb.append("redirect_uri=http://localhost:8082/member/kalogin");     // 본인이 설정해 놓은 경로
             bw.write(sb.toString());
             bw.flush();

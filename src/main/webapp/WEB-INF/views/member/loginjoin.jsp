@@ -35,7 +35,7 @@
                     </form>
                     <h2>소셜로그인</h2>
                     <ul class="sci">
-                        <li><a href="https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=eac72a49a12f71733a11b03a516913df&redirect_uri=http://localhost:8082/member/kalogin"><img alt="" src="/imgs/kakaoIcon.png"></a></li>
+                        <li><a href="https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=자신의API&redirect_uri=http://localhost:8082/member/kalogin"><img alt="" src="/imgs/kakaoIcon.png"></a></li>
                     </ul>
                 </div>
             </div>

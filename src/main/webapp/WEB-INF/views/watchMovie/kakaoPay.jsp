@@ -13,7 +13,7 @@
     <script>
     $(function(){
         var IMP = window.IMP;
-        IMP.init('imp08563507');
+        IMP.init('자신의API');
         var msg;
 
         IMP.request_pay({
